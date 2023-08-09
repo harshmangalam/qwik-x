@@ -5,7 +5,8 @@ export default component$(() => {
   return (
     <div class="relative container max-w-7xl mx-auto">
       <Sidebar />
-      <main>
+
+      <main class="bg-primary min-h-screen ml-64">
         <Slot />
       </main>
     </div>
