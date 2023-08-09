@@ -8,6 +8,7 @@ import {
   NotificationOutlineIcon,
 } from "~/icons/notification";
 import { MessageIcon, MessageOutlineIcon } from "~/icons/message";
+import { ListIcon, ListOulineIcon } from "~/icons/list";
 
 export const Sidebar = component$(() => {
   const links = [
@@ -35,14 +36,20 @@ export const Sidebar = component$(() => {
       icon: MessageOutlineIcon,
       activeIcon: MessageIcon,
     },
+    {
+      name: "Lists",
+      href: "/lists/",
+      icon: ListOulineIcon,
+      activeIcon: ListIcon,
+    },
   ];
   return (
-    <aside class="fixed">
+    <aside>
       <Logo />
-      <ul class="menu menu-vertical">
+      <ul class="menu menu-vertical menu-lg">
         {links.map(({ name, activeIcon: ActiveIcon, href, icon: Icon }) => (
           <li key={name}>
-            <Link href={href} class="flex items-center gap-4">
+            <Link href={href} class="flex items-center gap-4 rounded-full">
               <Icon />
               <span class="text-lg">{name}</span>
             </Link>
