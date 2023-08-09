@@ -7,6 +7,7 @@ import {
   NotificationIcon,
   NotificationOutlineIcon,
 } from "~/icons/notification";
+import { MessageIcon, MessageOutlineIcon } from "~/icons/message";
 
 export const Sidebar = component$(() => {
   const links = [
@@ -27,6 +28,12 @@ export const Sidebar = component$(() => {
       href: "/notifications/",
       icon: NotificationOutlineIcon,
       activeIcon: NotificationIcon,
+    },
+    {
+      name: "Messages",
+      href: "/messages/",
+      icon: MessageOutlineIcon,
+      activeIcon: MessageIcon,
     },
   ];
   return (
