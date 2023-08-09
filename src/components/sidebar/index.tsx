@@ -9,6 +9,7 @@ import {
 } from "~/icons/notification";
 import { MessageIcon, MessageOutlineIcon } from "~/icons/message";
 import { ListIcon, ListOulineIcon } from "~/icons/list";
+import { CommunityIcon, CommunityOutlineIcon } from "~/icons/community";
 
 export const Sidebar = component$(() => {
   const links = [
@@ -41,6 +42,12 @@ export const Sidebar = component$(() => {
       href: "/lists/",
       icon: ListOulineIcon,
       activeIcon: ListIcon,
+    },
+    {
+      name: "Communities",
+      href: "/communities/",
+      icon: CommunityOutlineIcon,
+      activeIcon: CommunityIcon,
     },
   ];
   return (
