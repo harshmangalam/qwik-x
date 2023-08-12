@@ -1,4 +1,5 @@
 import { component$, Slot } from "@builder.io/qwik";
+import { MetaSidebar } from "~/components/meta-sidebar";
 import { Sidebar } from "~/components/sidebar";
 
 export default component$(() => {
@@ -7,7 +8,14 @@ export default component$(() => {
       <Sidebar />
 
       <main class="min-h-screen ml-64">
-        <Slot />
+        <div class="grid grid-cols-12 divide-x">
+          <div class="col-span-7">
+            <Slot />
+          </div>
+          <div class="col-span-5">
+            <MetaSidebar />
+          </div>
+        </div>
       </main>
     </div>
   );
