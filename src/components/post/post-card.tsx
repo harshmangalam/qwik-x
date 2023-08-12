@@ -1,8 +1,9 @@
 import { component$ } from "@builder.io/qwik";
+import { Comment } from "./comment";
 
 export const PostCard = component$(() => {
   return (
-    <article class="card card-bordered rounded-none">
+    <article class="card rounded-none">
       <div class="card-body">
         <div class="flex items-center gap-3">
           <div class="avatar">
@@ -36,6 +37,9 @@ export const PostCard = component$(() => {
             class="w-full rounded-2xl"
           />
         </figure>
+        <div class="card-actions">
+          <Comment />
+        </div>
       </div>
     </article>
   );

@@ -5,9 +5,9 @@ import { PostCard } from "~/components/post/post-card";
 export default component$(() => {
   return (
     <div>
-      <div class="grid grid-cols-12">
+      <div class="grid grid-cols-12 divide-x">
         <section class="col-span-7">
-          <div class="grid grid-cols-1 gap-4">
+          <div class="grid grid-cols-1 gap-4 divide-y">
             {[...new Array(10)].map((_, i) => (
               <PostCard key={i} />
             ))}
