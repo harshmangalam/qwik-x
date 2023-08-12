@@ -2,11 +2,12 @@ import { component$ } from "@builder.io/qwik";
 import { Comment } from "./comment";
 import { Retweet } from "./retweet";
 import { Stat } from "./stat";
+import { Share } from "./share";
 
 export const PostCard = component$(() => {
   return (
     <article class="card rounded-none">
-      <div class="card-body">
+      <div class="card-body pb-2">
         <div class="flex items-center gap-3">
           <div class="avatar">
             <div class="w-11 h-11 rounded-full">
@@ -39,10 +40,11 @@ export const PostCard = component$(() => {
             class="w-full rounded-2xl"
           />
         </figure>
-        <div class="card-actions">
+        <div class="card-actions justify-between pt-3">
           <Comment />
           <Retweet />
           <Stat />
+          <Share />
         </div>
       </div>
     </article>
