@@ -22,8 +22,8 @@ export const Sidebar = component$(() => {
       activeIcon: HomeIcon,
     },
     {
-      name: "Search",
-      href: "/search/",
+      name: "Explore",
+      href: "/explore/",
       icon: SearchOutlineIcon,
       activeIcon: SearchIcon,
     },
@@ -59,9 +59,9 @@ export const Sidebar = component$(() => {
     },
   ];
   return (
-    <aside class="fixed top-0 bottom-0 flex flex-col gap-4 items-stretch w-64  overflow-y-auto justify-between">
+    <aside class="fixed top-0 bottom-0 flex flex-col gap-4 items-stretch w-64  overflow-y-auto justify-between py-2">
       <div>
-        <div class="px-2 pt-1">
+        <div class="px-2">
           <Logo />
         </div>
         <ul class="menu menu-vertical menu-lg w-full">

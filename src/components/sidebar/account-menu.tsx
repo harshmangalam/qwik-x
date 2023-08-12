@@ -2,7 +2,7 @@ import { component$ } from "@builder.io/qwik";
 
 export const AccountMenu = component$(() => {
   return (
-    <div class="dropdown dropdown-top dropdown-hover">
+    <div class="dropdown dropdown-top">
       <label
         tabIndex={0}
         class="flex items-center gap-3  btn btn-lg btn-ghost px-3 py-2 btn-block"
