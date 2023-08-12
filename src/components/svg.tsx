@@ -8,7 +8,13 @@ type Props = {
 export const Svg = component$<Props>((props) => {
   const { height = 24, width = 24, viewBox = "0 0 24 24" } = props;
   return (
-    <svg viewBox={viewBox} aria-hidden="true" width={width} height={height}>
+    <svg
+      viewBox={viewBox}
+      aria-hidden="true"
+      width={width}
+      height={height}
+      fill="currentColor"
+    >
       <Slot />
     </svg>
   );

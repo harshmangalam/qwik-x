@@ -12,6 +12,7 @@ import { ListIcon, ListOulineIcon } from "~/icons/list";
 import { CommunityIcon, CommunityOutlineIcon } from "~/icons/community";
 import { ProfileIcon, ProfileOutlineIcon } from "~/icons/profile";
 import { AccountMenu } from "./account-menu";
+import { MenuItem } from "./menu-item";
 
 export const Sidebar = component$(() => {
   const links = [
@@ -64,14 +65,9 @@ export const Sidebar = component$(() => {
         <div class="px-2">
           <Logo />
         </div>
-        <ul class="menu menu-vertical menu-lg w-full">
-          {links.map(({ name, activeIcon: ActiveIcon, href, icon: Icon }) => (
-            <li key={name}>
-              <Link href={href} class="flex items-center gap-4 px-3">
-                <Icon />
-                <span class="text-lg">{name}</span>
-              </Link>
-            </li>
+        <ul class="menu menu-vertical menu-lg w-full gap-y-1">
+          {links.map((link) => (
+            <MenuItem key={link.name} {...link} />
           ))}
         </ul>
         <div class="w-full px-2">
