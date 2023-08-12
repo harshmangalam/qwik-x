@@ -7,8 +7,8 @@ export default component$(() => {
     <div class="relative container max-w-7xl mx-auto">
       <Sidebar />
 
-      <main class="min-h-screen ml-64">
-        <div class="grid grid-cols-12 divide-x">
+      <main class="ml-64">
+        <div class="grid grid-cols-12 divide-x min-h-screen h-full">
           <div class="col-span-7">
             <Slot />
           </div>
