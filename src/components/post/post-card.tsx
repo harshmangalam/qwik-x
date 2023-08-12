@@ -1,5 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import { Comment } from "./comment";
+import { Retweet } from "./retweet";
 
 export const PostCard = component$(() => {
   return (
@@ -39,6 +40,7 @@ export const PostCard = component$(() => {
         </figure>
         <div class="card-actions">
           <Comment />
+          <Retweet />
         </div>
       </div>
     </article>
