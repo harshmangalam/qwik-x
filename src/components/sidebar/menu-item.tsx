@@ -15,7 +15,7 @@ export const MenuItem = component$<Props>((props) => {
       <Link
         href={href}
         class={[
-          "flex items-center gap-4 px-3",
+          "flex items-center gap-4",
           {
             active: location.url.pathname === href,
           },

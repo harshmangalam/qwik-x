@@ -62,7 +62,7 @@ export const Sidebar = component$(() => {
   return (
     <aside class="fixed top-0 bottom-0 flex flex-col gap-4 items-stretch w-64  overflow-y-auto justify-between py-2 border-r">
       <div>
-        <div class="px-2">
+        <div class="px-4">
           <Logo />
         </div>
         <ul class="menu menu-vertical menu-lg w-full gap-y-1">
