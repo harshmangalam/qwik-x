@@ -1,7 +1,8 @@
 import { Slot, component$ } from "@builder.io/qwik";
 import { Link, routeLoader$, useLocation } from "@builder.io/qwik-city";
-import { ArrowLeftIcon } from "~/icons/arrow";
 import { TabLink } from "./tab-link";
+import { ProfileInfo } from "./profile-info";
+import { Header } from "./header";
 
 export const useProfile = routeLoader$(({ params }) => {
   return {
@@ -11,26 +12,84 @@ export const useProfile = routeLoader$(({ params }) => {
 export default component$(() => {
   const location = useLocation();
   const profileSig = useProfile();
+  const showTopTab =
+    location.url.pathname.includes("followers") ||
+    location.url.pathname.includes("following");
+
+  const profileTabs = [
+    {
+      name: "Posts",
+      href: `/${profileSig.value.username}/`,
+    },
+    {
+      name: "Replies",
+      href: `/${profileSig.value.username}/with-replies/`,
+    },
+    {
+      name: "Media",
+      href: `/${profileSig.value.username}/media/`,
+    },
+    {
+      name: "Likes",
+      href: `/${profileSig.value.username}/likes/`,
+    },
+  ];
+
   return (
     <div>
-      <header class="flex items-center h-14 px-4 gap-4">
-        <Link
-          href={
-            location.url.pathname === `/${profileSig.value.username}/`
-              ? "/"
-              : `/${profileSig.value.username}`
-          }
-          class="btn btn-circle btn-ghost btn-sm"
-        >
-          <ArrowLeftIcon />
-        </Link>
+      <Header />
+      {!showTopTab && (
         <div>
-          <h2 class="text-xl font-bold">Harsh Mangalam</h2>
-          <p class="text-sm">12 posts</p>
+          <section class="h-52 relative bg-gradient-to-r from-cyan-500 to-blue-500">
+            <div class="absolute -bottom-16 left-6">
+              <div class="avatar">
+                <div class="w-36 rounded-full ring ring-base-100 ring-offset-2">
+                  <img
+                    src="https://avatars.githubusercontent.com/u/57381638?v=4"
+                    width={144}
+                    height={144}
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="py-3 px-4">
+            <div class="flex justify-end">
+              <Link href="/settings/profile" class="btn rounded-full">
+                Edit Profile
+              </Link>
+            </div>
+            <div class="mt-4">
+              <h3 class="text-xl font-bold ">Harsh Mangalam</h3>
+              <p class="opacity-70">@HarshMangalam6</p>
+            </div>
+            <p class="mt-4">Open source developer, blogger and student</p>
+
+            <div class="mt-4">
+              <ProfileInfo />
+            </div>
+
+            <div class="mt-4 flex items-center gap-6">
+              <Link
+                href={`/${profileSig.value.username}/following`}
+                class="hover:link"
+              >
+                <span class="font-bold">170 </span>
+                <span class="opacity-70">Following</span>
+              </Link>
+              <Link
+                href={`/${profileSig.value.username}/followers`}
+                class="hover:link"
+              >
+                <span class="font-bold">19 </span>
+                <span class="opacity-70">Followers</span>
+              </Link>
+            </div>
+          </section>
         </div>
-      </header>
-      {(location.url.pathname.includes("followers") ||
-        location.url.pathname.includes("following")) && (
+      )}
+      {showTopTab && (
         <div class="tabs bg-base-100 grid grid-cols-2">
           <TabLink href={`/${profileSig.value.username}/followers/`}>
             Followers
@@ -38,6 +97,15 @@ export default component$(() => {
           <TabLink href={`/${profileSig.value.username}/following/`}>
             Following
           </TabLink>
+        </div>
+      )}
+      {!showTopTab && (
+        <div class="tabs bg-base-100 grid grid-cols-4">
+          {profileTabs.map(({ name, href }) => (
+            <TabLink key={name} href={href}>
+              {name}
+            </TabLink>
+          ))}
         </div>
       )}
       <Slot />
