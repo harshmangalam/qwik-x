@@ -1,12 +1,27 @@
 import { Slot, component$ } from "@builder.io/qwik";
-import { Link } from "@builder.io/qwik-city";
+import { Link, routeLoader$, useLocation } from "@builder.io/qwik-city";
 import { ArrowLeftIcon } from "~/icons/arrow";
+import { TabLink } from "./tab-link";
 
+export const useProfile = routeLoader$(({ params }) => {
+  return {
+    username: params.username,
+  };
+});
 export default component$(() => {
+  const location = useLocation();
+  const profileSig = useProfile();
   return (
     <div>
       <header class="flex items-center h-14 px-4 gap-4">
-        <Link href="/" class="btn btn-circle btn-ghost btn-sm">
+        <Link
+          href={
+            location.url.pathname === `/${profileSig.value.username}/`
+              ? "/"
+              : `/${profileSig.value.username}`
+          }
+          class="btn btn-circle btn-ghost btn-sm"
+        >
           <ArrowLeftIcon />
         </Link>
         <div>
@@ -14,6 +29,17 @@ export default component$(() => {
           <p class="text-sm">12 posts</p>
         </div>
       </header>
+      {(location.url.pathname.includes("followers") ||
+        location.url.pathname.includes("following")) && (
+        <div class="tabs tabs-boxed">
+          <TabLink href={`/${profileSig.value.username}/followers/`}>
+            Followers
+          </TabLink>
+          <TabLink href={`/${profileSig.value.username}/following/`}>
+            Following
+          </TabLink>
+        </div>
+      )}
       <Slot />
     </div>
   );
