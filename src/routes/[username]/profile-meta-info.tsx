@@ -4,41 +4,35 @@ import { CalendarOutlineIcon } from "~/icons/calendar";
 import { EducationIcon } from "~/icons/category";
 import { LinkOutlineIcon } from "~/icons/link";
 import { LocationOutlineIcon } from "~/icons/location";
+import { useProfile } from "./layout";
 
-type Props = {
-  category: string;
-  location: string;
-  link: string;
-  birthday: string;
-  createdAt: string;
-};
-export const ProfileMetaInfo = component$<Props>((props) => {
-  const { birthday, category, createdAt, link, location } = props;
+export const ProfileMetaInfo = component$(() => {
+  const profileSig = useProfile();
   return (
     <div class="grid grid-cols-1 md:grid-cols-2 gap-1 mt-4">
       <div class="flex items-center opacity-70 gap-2">
         <EducationIcon />
-        <span>{category}</span>
+        <span>{profileSig.value.category}</span>
       </div>
       <div class="flex items-center opacity-70 gap-2">
         <LocationOutlineIcon />
-        <span>{location}</span>
+        <span>{profileSig.value.location}</span>
       </div>
       <a
         target="_blank"
-        href={link}
+        href={profileSig.value.link}
         class="flex items-center opacity-70 gap-2 hover:link"
       >
         <LinkOutlineIcon />
-        <span>{link}</span>
+        <span>{profileSig.value.link}</span>
       </a>
       <div class="flex items-center opacity-70 gap-2">
         <BirthdayOutlineIcon />
-        <span>{birthday}</span>
+        <span>{profileSig.value.birthday}</span>
       </div>
       <div class="flex items-center opacity-70 gap-2">
         <CalendarOutlineIcon />
-        <span>{createdAt}</span>
+        <span>{profileSig.value.createdAt}</span>
       </div>
     </div>
   );

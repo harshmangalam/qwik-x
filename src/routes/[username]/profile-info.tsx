@@ -1,17 +1,13 @@
 import { component$ } from "@builder.io/qwik";
+import { useProfile } from "./layout";
 
-type Props = {
-  name: string;
-  username: string;
-  bio?: string;
-};
-export const ProfileInfo = component$<Props>((props) => {
-  const { name, username, bio } = props;
+export const ProfileInfo = component$(() => {
+  const profileSig = useProfile();
   return (
     <div class="mt-4">
-      <h3 class="text-xl font-bold ">{name}</h3>
-      <p class="opacity-70">{username}</p>
-      <p class="mt-4">{bio}</p>
+      <h3 class="text-xl font-bold ">{profileSig.value.name}</h3>
+      <p class="opacity-70">{profileSig.value.username}</p>
+      <p class="mt-4">{profileSig.value.bio}</p>
     </div>
   );
 });

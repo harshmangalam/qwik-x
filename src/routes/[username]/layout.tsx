@@ -18,11 +18,13 @@ export const useProfile = routeLoader$(({ params }) => {
     link: "github.com/harshmangalam",
     birthday: "Born December 22, 2002",
     createdAt: "Joined February 2021",
+    cover:
+      "https://images.unsplash.com/photo-1678524493115-cc22b4789d24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1537&q=80",
+    avatar: "https://avatars.githubusercontent.com/u/57381638?v=4",
   };
 });
 export default component$(() => {
   const location = useLocation();
-  const profileSig = useProfile();
   const showTopTab =
     location.url.pathname.includes("followers") ||
     location.url.pathname.includes("following");
@@ -38,19 +40,8 @@ export default component$(() => {
                 Edit Profile
               </Link>
             </div>
-            <ProfileInfo
-              name={profileSig.value.name}
-              username={profileSig.value.username}
-              bio={profileSig.value.bio}
-            />
-
-            <ProfileMetaInfo
-              birthday={profileSig.value.birthday}
-              category={profileSig.value.category}
-              location={profileSig.value.location}
-              link={profileSig.value.link}
-              createdAt={profileSig.value.createdAt}
-            />
+            <ProfileInfo />
+            <ProfileMetaInfo />
             <FollowLinks />
           </section>
         </div>
