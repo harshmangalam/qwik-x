@@ -29,7 +29,7 @@ export default component$(() => {
 
           <div class="mt-4 text-center">
             <span class="opacity-80">Have an account already </span>
-            <Link class="link font-medium opacity-100" href="/signup">
+            <Link class="link font-medium opacity-100" href="/login">
               Log in
             </Link>
           </div>

@@ -16,7 +16,7 @@ export default component$(() => {
             </Link>
             <h2 class="text-3xl font-bold text-center">Sign in to qwik-X</h2>
           </div>
-          <Form class="mb-6">
+          <Form>
             <TextInput
               label="Email or Username"
               id="username"
@@ -29,8 +29,9 @@ export default component$(() => {
               </Button>
             </div>
           </Form>
+          <div class="divider">OR</div>
           <LoginWithGithub />
-          <div class="mt-8 text-center">
+          <div class="mt-4 text-center">
             <span class="opacity-80">Don’t have an account? </span>
             <Link class="link font-medium opacity-100" href="/signup">
               Sign up
