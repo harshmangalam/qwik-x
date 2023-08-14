@@ -6,7 +6,12 @@ export const TabLink = component$(({ href }: { href: string }) => {
   return (
     <Link
       href={href}
-      class={["tab", { "tab-active": location.url.pathname === href }]}
+      class={[
+        "btn btn-ghost rounded-none",
+        {
+          "tab-active": location.url.pathname === href,
+        },
+      ]}
     >
       <Slot />
     </Link>

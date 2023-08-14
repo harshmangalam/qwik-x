@@ -31,7 +31,7 @@ export default component$(() => {
       </header>
       {(location.url.pathname.includes("followers") ||
         location.url.pathname.includes("following")) && (
-        <div class="tabs tabs-boxed">
+        <div class="tabs tabs-boxed bg-base-100 rounded-none grid grid-cols-2 px-0">
           <TabLink href={`/${profileSig.value.username}/followers/`}>
             Followers
           </TabLink>
