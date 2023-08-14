@@ -14,12 +14,7 @@ type Props = QwikIntrinsicElements["button"] & {
     | "btn-error";
 };
 export const Button = component$((props: Props) => {
-  const {
-    loading,
-    fullWidth = false,
-    colorScheme = "btn-primary",
-    ...rest
-  } = props;
+  const { loading, fullWidth = false, colorScheme = "", ...rest } = props;
   return (
     <button
       disabled={loading}

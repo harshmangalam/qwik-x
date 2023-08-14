@@ -31,6 +31,7 @@ export const TextInput = component$((props: Props) => {
         </label>
       )}
       <input
+        id={id}
         class={["input w-full", { "input-bordered": bordered }, colorScheme]}
         {...rest}
       />
