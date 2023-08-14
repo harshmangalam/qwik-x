@@ -5,7 +5,7 @@ export default component$(() => {
   return (
     <div class="menu p-0">
       {[...new Array(10)].map((_, i) => (
-        <User key={i} />
+        <User key={i} showBio isFollowing />
       ))}
     </div>
   );
