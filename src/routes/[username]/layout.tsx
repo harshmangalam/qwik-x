@@ -3,6 +3,7 @@ import { Link, routeLoader$, useLocation } from "@builder.io/qwik-city";
 import { TabLink } from "./tab-link";
 import { ProfileInfo } from "./profile-info";
 import { Header } from "./header";
+import { ProfileTabs } from "./profile-tabs";
 
 export const useProfile = routeLoader$(({ params }) => {
   return {
@@ -15,26 +16,6 @@ export default component$(() => {
   const showTopTab =
     location.url.pathname.includes("followers") ||
     location.url.pathname.includes("following");
-
-  const profileTabs = [
-    {
-      name: "Posts",
-      href: `/${profileSig.value.username}/`,
-    },
-    {
-      name: "Replies",
-      href: `/${profileSig.value.username}/with-replies/`,
-    },
-    {
-      name: "Media",
-      href: `/${profileSig.value.username}/media/`,
-    },
-    {
-      name: "Likes",
-      href: `/${profileSig.value.username}/likes/`,
-    },
-  ];
-
   return (
     <div>
       <Header />
@@ -99,15 +80,7 @@ export default component$(() => {
           </TabLink>
         </div>
       )}
-      {!showTopTab && (
-        <div class="tabs bg-base-100 grid grid-cols-4">
-          {profileTabs.map(({ name, href }) => (
-            <TabLink key={name} href={href}>
-              {name}
-            </TabLink>
-          ))}
-        </div>
-      )}
+      {!showTopTab && <ProfileTabs />}
       <Slot />
     </div>
   );
