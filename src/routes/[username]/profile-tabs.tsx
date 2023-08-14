@@ -1,5 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import { useProfile } from "./layout";
+import { TabLink } from "./tab-link";
 
 export const ProfileTabs = component$(() => {
   const profileSig = useProfile();
