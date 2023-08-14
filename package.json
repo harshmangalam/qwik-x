@@ -18,7 +18,9 @@
     "lint": "eslint \"src/**/*.ts*\"",
     "preview": "qwik build preview && vite preview --open",
     "start": "vite --open --mode ssr",
-    "qwik": "qwik"
+    "qwik": "qwik",
+    "migration:push": "drizzle-kit push:sqlite",
+    "migration:generate": "drizzle-kit generate:sqlite"
   },
   "devDependencies": {
     "@builder.io/qwik": "^1.2.6",
@@ -41,7 +43,8 @@
     "vite-tsconfig-paths": "4.2.0"
   },
   "dependencies": {
-    "@libsql/client": "^0.3.1",
-    "drizzle-orm": "^0.28.2"
+    "dotenv": "^16.3.1",
+    "drizzle-orm": "^0.28.2",
+    "postgres": "^3.3.5"
   }
 }
