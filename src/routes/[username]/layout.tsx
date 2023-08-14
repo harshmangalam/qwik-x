@@ -4,6 +4,7 @@ import { TabLink } from "./tab-link";
 import { ProfileInfo } from "./profile-info";
 import { Header } from "./header";
 import { ProfileTabs } from "./profile-tabs";
+import { FollowTabs } from "./follow-tabs";
 
 export const useProfile = routeLoader$(({ params }) => {
   return {
@@ -70,17 +71,8 @@ export default component$(() => {
           </section>
         </div>
       )}
-      {showTopTab && (
-        <div class="tabs bg-base-100 grid grid-cols-2">
-          <TabLink href={`/${profileSig.value.username}/followers/`}>
-            Followers
-          </TabLink>
-          <TabLink href={`/${profileSig.value.username}/following/`}>
-            Following
-          </TabLink>
-        </div>
-      )}
-      {!showTopTab && <ProfileTabs />}
+      {showTopTab ? <FollowTabs /> : <ProfileTabs />}
+
       <Slot />
     </div>
   );
