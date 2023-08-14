@@ -15,12 +15,11 @@ export default component$(() => {
             </Link>
             <h2 class="text-3xl font-bold text-center">Sign in to qwik-X</h2>
           </div>
-
           <Form class="mb-6">
+            <TextInput />
             <TextInput />
           </Form>
           <LoginWithGithub />
-
           <div class="mt-8 text-center">
             <span class="opacity-80">Don’t have an account? </span>
             <Link class="link font-medium opacity-100" href="/signup">
