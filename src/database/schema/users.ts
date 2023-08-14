@@ -1,14 +1,23 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import {
+  boolean,
+  pgEnum,
+  pgTable,
+  serial,
+  timestamp,
+  varchar,
+} from "drizzle-orm/pg-core";
 import { type InferModel } from "drizzle-orm";
-export const users = sqliteTable("users", {
-  id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-  name: text("name", { length: 50 }).notNull(),
-  username: text("username", { length: 15 }).notNull(),
-  email: text("email", { length: 255 }).notNull(),
-  password: text("password", { length: 255 }).notNull(),
-  online: integer("online", { mode: "boolean" }).default(false).notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }).default(new Date()),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).default(new Date()),
+export const usersRole = pgEnum("users_role", ["User", "Admin"]);
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 50 }).notNull(),
+  username: varchar("username", { length: 15 }).notNull().unique(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  password: varchar("password", { length: 255 }).notNull(),
+  online: boolean("online").default(false).notNull(),
+  role: usersRole("role").default("User").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export type User = InferModel<typeof users, "select">;
