@@ -3,6 +3,7 @@ import { LoginWithGithub } from "./login-with-github";
 import { LogoIcon } from "~/icons/logo";
 import { Form, Link } from "@builder.io/qwik-city";
 import { TextInput } from "~/components/ui/text-input";
+import { Button } from "~/components/ui/button";
 
 export default component$(() => {
   return (
@@ -16,8 +17,17 @@ export default component$(() => {
             <h2 class="text-3xl font-bold text-center">Sign in to qwik-X</h2>
           </div>
           <Form class="mb-6">
-            <TextInput />
-            <TextInput />
+            <TextInput
+              label="Email or Username"
+              id="username"
+              name="username"
+            />
+            <TextInput label="Password" id="password" name="password" />
+            <div class="mt-4">
+              <Button colorScheme="btn-primary" fullWidth>
+                Log in
+              </Button>
+            </div>
           </Form>
           <LoginWithGithub />
           <div class="mt-8 text-center">

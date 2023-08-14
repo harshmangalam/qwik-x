@@ -1,13 +1,14 @@
 import { component$ } from "@builder.io/qwik";
+import { Button } from "~/components/ui/button";
 import { GithubIcon } from "~/icons/socials";
 
 export const LoginWithGithub = component$(() => {
   return (
     <div>
-      <button class="btn btn-block">
+      <Button fullWidth colorScheme="btn-neutral">
         <GithubIcon />
         Login with Github
-      </button>
+      </Button>
     </div>
   );
 });
