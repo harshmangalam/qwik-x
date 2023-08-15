@@ -6,8 +6,8 @@ import { Button } from "~/components/ui/button";
 import { handleSignup } from "~/utils/auth";
 
 export const useSignup = routeAction$(
-  (formData, requestEvent) => {
-    handleSignup(formData, requestEvent);
+  async (formData, requestEvent) => {
+    return handleSignup(formData, requestEvent);
   },
   zod$({
     name: z.string().nonempty("Enter value for name field"),
@@ -37,20 +37,25 @@ export default component$(() => {
               id="name"
               name="name"
               error={actionSig.value?.fieldErrors?.name?.[0]}
+              value={actionSig.formData?.get("name") ?? ""}
             />
             <TextInput
+              type="email"
               label="Email"
               id="email"
               name="email"
               error={actionSig.value?.fieldErrors?.email?.[0]}
+              value={actionSig.formData?.get("email") ?? ""}
             />
             <TextInput
               label="Username"
               id="username"
               name="username"
               error={actionSig.value?.fieldErrors?.username?.[0]}
+              value={actionSig.formData?.get("username") ?? ""}
             />
             <TextInput
+              type="password"
               label="Password"
               id="password"
               name="password"
