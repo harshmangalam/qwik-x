@@ -4,6 +4,7 @@ import { Form, Link, routeAction$, z, zod$ } from "@builder.io/qwik-city";
 import { TextInput } from "~/components/ui/text-input";
 import { Button } from "~/components/ui/button";
 import { handleSignup } from "~/utils/auth";
+import { Alert } from "~/components/ui/alert";
 
 export const useSignup = routeAction$(
   async (formData, requestEvent) => {
@@ -31,6 +32,9 @@ export default component$(() => {
             </Link>
             <h2 class="text-3xl font-bold text-center">Join qwik-X today</h2>
           </div>
+          {actionSig.value?.error && (
+            <Alert text={actionSig.value.error} status="alert-error" />
+          )}
           <Form action={actionSig}>
             <TextInput
               label="Name"
