@@ -19,8 +19,8 @@
     "preview": "qwik build preview && vite preview --open",
     "start": "vite --open --mode ssr",
     "qwik": "qwik",
-    "migration:push": "drizzle-kit push:sqlite",
-    "migration:generate": "drizzle-kit generate:sqlite"
+    "migration:push": "drizzle-kit push:pg",
+    "migration:generate": "drizzle-kit generate:pg"
   },
   "devDependencies": {
     "@builder.io/qwik": "^1.2.6",
