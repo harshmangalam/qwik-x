@@ -52,6 +52,25 @@ async function findUserById(id: number) {
     where: eq(users.id, id),
   });
 }
+
+async function findUserForAuthorization(id: number) {
+  return db.query.users.findFirst({
+    where: eq(users.id, id),
+    with: {
+      profile: {
+        columns: {
+          avatar: true,
+        },
+      },
+    },
+    columns: {
+      name: true,
+      username: true,
+      id: true,
+      role: true,
+    },
+  });
+}
 export {
   createUser,
   isEmailExists,
@@ -59,4 +78,5 @@ export {
   findUserForLogin,
   updateUser,
   findUserById,
+  findUserForAuthorization,
 };
