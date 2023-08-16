@@ -56,18 +56,12 @@ async function findUserById(id: number) {
 async function findUserForAuthorization(id: number) {
   return db.query.users.findFirst({
     where: eq(users.id, id),
-    with: {
-      profile: {
-        columns: {
-          avatar: true,
-        },
-      },
-    },
     columns: {
       name: true,
       username: true,
       id: true,
       role: true,
+      avatar: true,
     },
   });
 }
