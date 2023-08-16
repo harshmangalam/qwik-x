@@ -1,7 +1,13 @@
 import { component$, Slot } from "@builder.io/qwik";
 import { MetaSidebar } from "~/components/meta-sidebar";
 import { Sidebar } from "~/components/sidebar";
+import type { RequestHandler } from "@builder.io/qwik-city";
+import { handleTokenVerification } from "~/utils/auth";
 
+export const onRequest: RequestHandler = async (requestEvent) => {
+  await handleTokenVerification(requestEvent);
+  await requestEvent.next();
+};
 export default component$(() => {
   return (
     <div class="relative container max-w-7xl mx-auto">

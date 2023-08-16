@@ -1,15 +1,19 @@
-import { type RequestEventAction } from "@builder.io/qwik-city";
+import {
+  type RequestEvent,
+  type RequestEventAction,
+} from "@builder.io/qwik-city";
 import { type NewUser } from "~/database/schema";
 import { comparePassword, generateProfileImage, hashPassword } from "./hash";
 import {
   createUser,
+  findUserById,
   findUserForLogin,
   isEmailExists,
   isUsernameExists,
   updateUser,
 } from "./users";
 import { createProfile } from "./profile";
-import { signToken } from "./jwt";
+import { signToken, verifyToken } from "./jwt";
 
 type Login = {
   username: string;
@@ -93,4 +97,19 @@ async function handleLogin(
   throw redirect(302, "/");
 }
 
-export { handleSignup, handleLogin };
+async function handleTokenVerification({
+  cookie,
+  error,
+  sharedMap,
+}: RequestEvent) {
+  const token = await cookie.get("accessToken");
+  if (token?.value) {
+    const userId = await verifyToken(token.value);
+    if (!userId) throw error(401, "Unauthenticated");
+    const user = await findUserById(userId);
+    if (!user) throw error(401, "Unauthenticated");
+    sharedMap.set("user", user);
+  }
+}
+
+export { handleSignup, handleLogin, handleTokenVerification };

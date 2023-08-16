@@ -17,9 +17,10 @@ const signToken = async (data: any) => {
 const verifyToken = async (jwt: string) => {
   try {
     const data = await jose.jwtVerify(jwt, secret);
-    return data.payload.id as string;
+    return data.payload.userId as number;
   } catch (error) {
     console.log("JWT verification error");
+    throw error;
   }
 };
 export { signToken, verifyToken };
