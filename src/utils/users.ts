@@ -46,10 +46,17 @@ async function updateUser(id: number, user: Partial<NewUser>) {
 
   return data[0];
 }
+
+async function findUserById(id: number) {
+  return db.query.users.findFirst({
+    where: eq(users.id, id),
+  });
+}
 export {
   createUser,
   isEmailExists,
   isUsernameExists,
   findUserForLogin,
   updateUser,
+  findUserById,
 };
