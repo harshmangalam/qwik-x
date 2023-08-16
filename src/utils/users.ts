@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 import { db } from "~/database/connection";
 import { type NewUser, users } from "~/database/schema";
 
@@ -29,5 +29,12 @@ async function isUsernameExists(username: string) {
   if (data) return true;
   return false;
 }
+async function findUserForLogin(username: string) {
+  const data = await db.query.users.findFirst({
+    where: or(eq(users.username, username), eq(users.email, username)),
+  });
 
-export { createUser, isEmailExists, isUsernameExists };
+  return data;
+}
+
+export { createUser, isEmailExists, isUsernameExists, findUserForLogin };

@@ -1,9 +1,18 @@
 import { type RequestEventAction } from "@builder.io/qwik-city";
 import { type NewUser } from "~/database/schema";
-import { generateProfileImage, hashPassword } from "./hash";
-import { createUser, isEmailExists, isUsernameExists } from "./users";
+import { comparePassword, generateProfileImage, hashPassword } from "./hash";
+import {
+  createUser,
+  findUserForLogin,
+  isEmailExists,
+  isUsernameExists,
+} from "./users";
 import { createProfile } from "./profile";
 
+type Login = {
+  username: string;
+  password: string;
+};
 async function handleSignup(
   { email, name, password, username }: NewUser,
   { fail, redirect }: RequestEventAction
@@ -46,6 +55,25 @@ async function handleSignup(
     },
   });
   throw redirect(302, "/login");
+}
+
+async function handleLogin(
+  { password, username }: Login,
+  { fail }: RequestEventAction
+) {
+  // check user exists
+  const user = await findUserForLogin(username);
+  if (!user)
+    return fail(400, {
+      error: "Invalid credentials",
+    });
+
+  // verify user password
+  const passwordMatch = await comparePassword(password, user.password);
+  if (!passwordMatch)
+    return fail(400, {
+      error: "Invalid credentials",
+    });
 }
 
 export { handleSignup };
