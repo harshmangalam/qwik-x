@@ -1,6 +1,11 @@
 import { component$ } from "@builder.io/qwik";
-
-export const AccountMenu = component$(() => {
+type Props = {
+  avatar: string;
+  name: string;
+  username: string;
+};
+export const AccountMenu = component$<Props>((props) => {
+  const { avatar, name, username } = props;
   return (
     <div class="dropdown dropdown-top">
       <label
@@ -9,16 +14,12 @@ export const AccountMenu = component$(() => {
       >
         <div class="avatar">
           <div class="w-11 mask mask-squircle">
-            <img
-              src="https://avatars.githubusercontent.com/u/57381638?v=4"
-              width={44}
-              height={44}
-            />
+            <img src={avatar} width={44} height={44} alt={name} />
           </div>
         </div>
         <div>
-          <div class="font-semibold text-start">Harsh Mangalam</div>
-          <div class="font-normal text-sm text-start">@HarshMangalam6</div>
+          <div class="font-semibold text-start">{name}</div>
+          <div class="font-normal text-sm text-start">{username}</div>
         </div>
       </label>
       <ul

@@ -13,8 +13,10 @@ import { CommunityIcon, CommunityOutlineIcon } from "~/icons/community";
 import { ProfileIcon, ProfileOutlineIcon } from "~/icons/profile";
 import { AccountMenu } from "./account-menu";
 import { MenuItem } from "./menu-item";
+import { useCurrentUser } from "~/routes/(app)/layout";
 
 export const Sidebar = component$(() => {
+  const userSig = useCurrentUser();
   const links = [
     {
       name: "Home",
@@ -77,9 +79,15 @@ export const Sidebar = component$(() => {
         </div>
       </div>
 
-      <div class="mx-2">
-        <AccountMenu />
-      </div>
+      {userSig.value && (
+        <div class="mx-2">
+          <AccountMenu
+            avatar={userSig.value.avatar.url}
+            username={userSig.value.username}
+            name={userSig.value.name}
+          />
+        </div>
+      )}
     </aside>
   );
 });

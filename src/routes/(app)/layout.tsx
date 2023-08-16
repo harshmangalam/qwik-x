@@ -2,10 +2,10 @@ import { component$, Slot } from "@builder.io/qwik";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import { MetaSidebar } from "~/components/meta-sidebar";
 import { Sidebar } from "~/components/sidebar";
-import type { User } from "~/database/schema";
+import type { AuthUser } from "~/types";
 
 export const useCurrentUser = routeLoader$(({ sharedMap }) => {
-  const user = sharedMap.get("user") as User;
+  const user = sharedMap.get("user") as AuthUser | undefined;
   return user;
 });
 export default component$(() => {
