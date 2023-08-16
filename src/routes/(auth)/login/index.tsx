@@ -17,7 +17,7 @@ export const useLogin = routeAction$(
   })
 );
 export default component$(() => {
-  const loginSig = useLogin();
+  const actionSig = useLogin();
   return (
     <div class="min-h-screen grid place-items-center">
       <article class="card card-bordered shadow max-w-md mx-auto w-full">
@@ -28,26 +28,26 @@ export default component$(() => {
             </Link>
             <h2 class="text-3xl font-bold text-center">Sign in to qwik-X</h2>
           </div>
-          {loginSig.value?.error && (
-            <Alert text={loginSig.value.error} status="alert-error" />
+          {actionSig.value?.error && (
+            <Alert text={actionSig.value.error} status="alert-error" />
           )}
-          <Form action={loginSig}>
+          <Form action={actionSig}>
             <TextInput
               label="Email or Username"
               id="username"
               name="username"
-              value={loginSig.formData?.get("username") ?? ""}
-              error={loginSig.value?.fieldErrors?.username?.[0]}
+              value={actionSig.formData?.get("username") ?? ""}
+              error={actionSig.value?.fieldErrors?.username?.[0]}
             />
             <TextInput
               label="Password"
               id="password"
               name="password"
-              error={loginSig.value?.fieldErrors?.password?.[0]}
+              error={actionSig.value?.fieldErrors?.password?.[0]}
             />
             <div class="mt-4">
               <Button
-                loading={loginSig.isRunning}
+                loading={actionSig.isRunning}
                 colorScheme="btn-primary"
                 fullWidth
               >
