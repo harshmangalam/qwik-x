@@ -6,4 +6,9 @@ async function createProfile(values: NewProfile) {
   return data[0];
 }
 
-export { createProfile };
+async function updateProfile(values: Partial<NewProfile>) {
+  const data = await db.update(profile).set(values).returning();
+  return data[0];
+}
+
+export { createProfile, updateProfile };
