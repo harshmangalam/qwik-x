@@ -6,7 +6,7 @@ import { type NewUser } from "~/database/schema";
 import { comparePassword, generateProfileImage, hashPassword } from "./hash";
 import {
   createUser,
-  findUserById,
+  findUserForAuthorization,
   findUserForLogin,
   isEmailExists,
   isUsernameExists,
@@ -14,11 +14,8 @@ import {
 } from "./users";
 import { createProfile } from "./profile";
 import { signToken, verifyToken } from "./jwt";
+import type { LoginSchema } from "~/types";
 
-type Login = {
-  username: string;
-  password: string;
-};
 async function handleSignup(
   { email, name, password, username }: NewUser,
   { fail, redirect }: RequestEventAction
@@ -50,21 +47,21 @@ async function handleSignup(
     username,
     password: hash,
     role: "User",
+    avatar: {
+      url: avatarUrl,
+    },
     online: false,
   });
 
   // create new user profile and save in db
   await createProfile({
     userId: newUser.id,
-    avatar: {
-      url: avatarUrl,
-    },
   });
   throw redirect(302, "/login");
 }
 
 async function handleLogin(
-  { password, username }: Login,
+  { password, username }: LoginSchema,
   { fail, cookie, redirect }: RequestEventAction
 ) {
   // check user exists
@@ -106,7 +103,7 @@ async function handleTokenVerification({
   if (token?.value) {
     const userId = await verifyToken(token.value);
     if (!userId) throw error(401, "Unauthenticated");
-    const user = await findUserById(userId);
+    const user = await findUserForAuthorization(userId);
     if (!user) throw error(401, "Unauthenticated");
     sharedMap.set("user", user);
   }
