@@ -1,4 +1,5 @@
 import {
+  boolean,
   integer,
   json,
   pgTable,
@@ -16,12 +17,14 @@ export const profile = pgTable("profile", {
     .references(() => users.id)
     .notNull(),
   bio: varchar("bio", { length: 160 }),
-  avatar: json("avatar").notNull(),
   cover: json("cover"),
   category: text("category"),
   location: varchar("location", { length: 280 }),
+  online: boolean("online").default(false).notNull(),
   dob: timestamp("dob"),
   link: text("link"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export type Profile = InferModel<typeof profile, "select">;

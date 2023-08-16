@@ -1,11 +1,4 @@
-import {
-  boolean,
-  pgEnum,
-  pgTable,
-  serial,
-  timestamp,
-  varchar,
-} from "drizzle-orm/pg-core";
+import { json, pgEnum, pgTable, serial, varchar } from "drizzle-orm/pg-core";
 import { relations, type InferModel } from "drizzle-orm";
 import { profile } from "./profile";
 export const usersRole = pgEnum("users_role", ["User", "Admin"]);
@@ -15,10 +8,8 @@ export const users = pgTable("users", {
   username: varchar("username", { length: 15 }).notNull().unique(),
   email: varchar("email", { length: 255 }).notNull().unique(),
   password: varchar("password", { length: 255 }).notNull(),
-  online: boolean("online").default(false).notNull(),
+  avatar: json("avatar").notNull(),
   role: usersRole("role").default("User").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const usersRelations = relations(users, ({ one }) => ({
