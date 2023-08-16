@@ -23,42 +23,49 @@ export const Sidebar = component$(() => {
       href: "/",
       icon: HomeOutlineIcon,
       activeIcon: HomeIcon,
+      show: true,
     },
     {
       name: "Explore",
       href: "/explore/",
       icon: SearchOutlineIcon,
       activeIcon: SearchIcon,
+      show: true,
     },
     {
       name: "Notifications",
       href: "/notifications/",
       icon: NotificationOutlineIcon,
       activeIcon: NotificationIcon,
+      show: !!userSig.value,
     },
     {
       name: "Messages",
       href: "/messages/",
       icon: MessageOutlineIcon,
       activeIcon: MessageIcon,
+      show: !!userSig.value,
     },
     {
       name: "Lists",
       href: "/lists/",
       icon: ListOulineIcon,
       activeIcon: ListIcon,
+      show: true,
     },
     {
       name: "Communities",
       href: "/communities/",
       icon: CommunityOutlineIcon,
       activeIcon: CommunityIcon,
+      show: true,
     },
     {
       name: "Profile",
       href: "/profile/",
       icon: ProfileOutlineIcon,
       activeIcon: ProfileIcon,
+      show: !!userSig.value,
     },
   ];
   return (
@@ -68,9 +75,9 @@ export const Sidebar = component$(() => {
           <Logo />
         </div>
         <ul class="menu menu-vertical menu-lg w-full gap-y-1">
-          {links.map((link) => (
-            <MenuItem key={link.name} {...link} />
-          ))}
+          {links.map(
+            (link) => link.show && <MenuItem key={link.name} {...link} />
+          )}
         </ul>
         <div class="w-full px-2">
           <Link href="/compose/tweet" class="btn btn-lg btn-primary btn-block">
