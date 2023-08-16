@@ -1,5 +1,4 @@
 import {
-  boolean,
   integer,
   json,
   pgTable,
@@ -20,7 +19,6 @@ export const profile = pgTable("profile", {
   cover: json("cover"),
   category: text("category"),
   location: varchar("location", { length: 280 }),
-  online: boolean("online").default(false).notNull(),
   dob: timestamp("dob"),
   link: text("link"),
   createdAt: timestamp("created_at").defaultNow(),

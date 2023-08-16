@@ -1,4 +1,11 @@
-import { json, pgEnum, pgTable, serial, varchar } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  json,
+  pgEnum,
+  pgTable,
+  serial,
+  varchar,
+} from "drizzle-orm/pg-core";
 import { relations, type InferModel } from "drizzle-orm";
 import { profile } from "./profile";
 export const usersRole = pgEnum("users_role", ["User", "Admin"]);
@@ -10,6 +17,7 @@ export const users = pgTable("users", {
   password: varchar("password", { length: 255 }).notNull(),
   avatar: json("avatar").notNull(),
   role: usersRole("role").default("User").notNull(),
+  online: boolean("online").default(false).notNull(),
 });
 
 export const usersRelations = relations(users, ({ one }) => ({
