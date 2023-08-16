@@ -102,9 +102,15 @@ async function handleTokenVerification({
   const token = await cookie.get("accessToken");
   if (token?.value) {
     const userId = await verifyToken(token.value);
-    if (!userId) throw error(401, "Unauthenticated");
+    if (!userId) {
+      cookie.delete("accessToken");
+      throw error(401, "Unauthenticated");
+    }
     const user = await findUserForAuthorization(userId);
-    if (!user) throw error(401, "Unauthenticated");
+    if (!user) {
+      cookie.delete("accessToken");
+      throw error(401, "Unauthenticated");
+    }
     sharedMap.set("user", user);
   }
 }
