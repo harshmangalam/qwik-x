@@ -6,8 +6,10 @@ import {
   findUserForLogin,
   isEmailExists,
   isUsernameExists,
+  updateUser,
 } from "./users";
 import { createProfile } from "./profile";
+import { signToken } from "./jwt";
 
 type Login = {
   username: string;
@@ -59,7 +61,7 @@ async function handleSignup(
 
 async function handleLogin(
   { password, username }: Login,
-  { fail }: RequestEventAction
+  { fail, cookie, redirect }: RequestEventAction
 ) {
   // check user exists
   const user = await findUserForLogin(username);
@@ -74,6 +76,21 @@ async function handleLogin(
     return fail(400, {
       error: "Invalid credentials",
     });
+
+  // set online status to active
+  await updateUser(user.id, {
+    online: true,
+  });
+
+  // generate jwt token
+  const accessToken = await signToken({ userId: user.id });
+  const now = new Date();
+  const expiration = new Date(now.getTime() + 2 * 3600000);
+  cookie.set("accessToken", accessToken, {
+    path: "/",
+    expires: expiration,
+  });
+  throw redirect(302, "/");
 }
 
-export { handleSignup };
+export { handleSignup, handleLogin };
