@@ -36,7 +36,7 @@ export const User = component$<Props>((props) => {
                 onClick$={handleFollow}
                 class={[
                   "btn btn-sm rounded-full",
-                  { "btn-primary": !isFollowing },
+                  { "btn-neutral": !isFollowing },
                   { "btn-outline btn-error": isFollowing },
                 ]}
               >
