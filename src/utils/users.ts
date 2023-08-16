@@ -37,4 +37,19 @@ async function findUserForLogin(username: string) {
   return data;
 }
 
-export { createUser, isEmailExists, isUsernameExists, findUserForLogin };
+async function updateUser(id: number, user: Partial<NewUser>) {
+  const data = await db
+    .update(users)
+    .set(user)
+    .where(eq(users.id, id))
+    .returning();
+
+  return data[0];
+}
+export {
+  createUser,
+  isEmailExists,
+  isUsernameExists,
+  findUserForLogin,
+  updateUser,
+};
