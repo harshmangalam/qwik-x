@@ -3,7 +3,7 @@ import { Svg } from "~/components/ui/svg";
 
 export const ThemeOutlineIcon = component$(() => {
   return (
-    <Svg>
+    <Svg fill="none" viewBox="0 0 24 24" svgClass="stroke-current">
       <path
         stroke-linecap="round"
         stroke-linejoin="round"

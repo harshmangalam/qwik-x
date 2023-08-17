@@ -81,17 +81,15 @@ export const Sidebar = component$(() => {
         <div class="px-4">
           <Logo />
         </div>
-        <ul class="menu menu-vertical menu-lg w-full gap-y-1">
+        <ul class="menu menu-vertical w-full gap-y-1">
           {links.map(
             (link) => link.show && <MenuItem key={link.name} {...link} />
           )}
         </ul>
+
         {!!userSig.value && (
           <div class="w-full px-2">
-            <Link
-              href="/compose/tweet"
-              class="btn btn-lg btn-primary btn-block"
-            >
+            <Link href="/compose/tweet" class="btn btn-primary btn-block">
               Post
             </Link>
           </div>
