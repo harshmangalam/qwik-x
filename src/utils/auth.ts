@@ -2,7 +2,7 @@ import {
   type RequestEvent,
   type RequestEventAction,
 } from "@builder.io/qwik-city";
-import { type NewUser } from "~/database/schema";
+
 import { comparePassword, generateProfileImage, hashPassword } from "./hash";
 import {
   createUser,
@@ -14,10 +14,10 @@ import {
 } from "./users";
 import { createProfile } from "./profile";
 import { signToken, verifyToken } from "./jwt";
-import type { LoginSchema } from "~/types";
+import type { LoginSchema, SignupSchema } from "~/types";
 
 async function handleSignup(
-  { email, name, password, username }: NewUser,
+  { email, name, password, username }: SignupSchema,
   { fail, redirect }: RequestEventAction
 ) {
   // verify email duplication

@@ -77,7 +77,7 @@ export default component$(() => {
           </Form>
 
           <div class="mt-4 text-center">
-            <span class="opacity-80">Have an account already </span>
+            <span class="opacity-80">Already have an account? </span>
             <Link class="link font-medium opacity-100" href="/login">
               Log in
             </Link>
