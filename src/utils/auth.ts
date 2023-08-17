@@ -14,7 +14,7 @@ import {
 } from "./users";
 import { createProfile } from "./profile";
 import { signToken, verifyToken } from "./jwt";
-import type { LoginSchema, SignupSchema } from "~/types";
+import type { AuthUser, LoginSchema, SignupSchema } from "~/types";
 
 async function handleSignup(
   { email, name, password, username }: SignupSchema,
@@ -94,6 +94,25 @@ async function handleLogin(
   throw redirect(302, "/");
 }
 
+async function handleLogout({
+  redirect,
+  cookie,
+  sharedMap,
+  error,
+}: RequestEventAction) {
+  const user = sharedMap.get("user") as AuthUser | undefined;
+  if (!user) return error(403, "Unauthorized");
+  // change user online status and add last seen datetime
+  await updateUser(user.id, {
+    online: false,
+    lastSeen: new Date(),
+  });
+
+  // remove cookie from browser
+  cookie.delete("accessToken");
+  throw redirect(302, "/");
+}
+
 async function handleTokenVerification({
   cookie,
   error,
@@ -115,4 +134,4 @@ async function handleTokenVerification({
   }
 }
 
-export { handleSignup, handleLogin, handleTokenVerification };
+export { handleSignup, handleLogin, handleTokenVerification, handleLogout };
