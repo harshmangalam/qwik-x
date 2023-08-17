@@ -1,12 +1,17 @@
 import { component$, Slot } from "@builder.io/qwik";
-import { routeLoader$ } from "@builder.io/qwik-city";
+import { globalAction$, routeLoader$ } from "@builder.io/qwik-city";
 import { MetaSidebar } from "~/components/meta-sidebar";
 import { Sidebar } from "~/components/sidebar";
 import type { AuthUser } from "~/types";
+import { handleLogout } from "~/utils/auth";
 
 export const useCurrentUser = routeLoader$(({ sharedMap }) => {
   const user = sharedMap.get("user") as AuthUser | undefined;
   return user;
+});
+
+export const useLogout = globalAction$(async (_, requestEvent) => {
+  return handleLogout(requestEvent);
 });
 export default component$(() => {
   return (
