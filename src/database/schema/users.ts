@@ -4,6 +4,7 @@ import {
   pgEnum,
   pgTable,
   serial,
+  timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
 import { relations, type InferModel } from "drizzle-orm";
@@ -18,6 +19,7 @@ export const users = pgTable("users", {
   avatar: json("avatar").notNull(),
   role: usersRole("role").default("User").notNull(),
   online: boolean("online").default(false).notNull(),
+  lastSeen: timestamp("last_seen").defaultNow(),
 });
 
 export const usersRelations = relations(users, ({ one }) => ({
