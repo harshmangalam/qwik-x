@@ -40,6 +40,7 @@ export default component$(() => {
               error={actionSig.value?.fieldErrors?.username?.[0]}
             />
             <TextInput
+              type="password"
               label="Password"
               id="password"
               name="password"

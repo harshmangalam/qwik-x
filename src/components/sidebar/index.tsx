@@ -26,6 +26,13 @@ export const Sidebar = component$(() => {
       show: true,
     },
     {
+      name: "Login",
+      href: "/login/",
+      icon: CommunityOutlineIcon,
+      activeIcon: CommunityIcon,
+      show: !userSig.value,
+    },
+    {
       name: "Explore",
       href: "/explore/",
       icon: SearchOutlineIcon,
@@ -62,7 +69,7 @@ export const Sidebar = component$(() => {
     },
     {
       name: "Profile",
-      href: "/profile/",
+      href: `/${userSig.value?.username}/`,
       icon: ProfileOutlineIcon,
       activeIcon: ProfileIcon,
       show: !!userSig.value,
@@ -79,11 +86,16 @@ export const Sidebar = component$(() => {
             (link) => link.show && <MenuItem key={link.name} {...link} />
           )}
         </ul>
-        <div class="w-full px-2">
-          <Link href="/compose/tweet" class="btn btn-lg btn-primary btn-block">
-            Post
-          </Link>
-        </div>
+        {!!userSig.value && (
+          <div class="w-full px-2">
+            <Link
+              href="/compose/tweet"
+              class="btn btn-lg btn-primary btn-block"
+            >
+              Post
+            </Link>
+          </div>
+        )}
       </div>
 
       {userSig.value && (
