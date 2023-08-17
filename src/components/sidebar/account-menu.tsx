@@ -1,4 +1,7 @@
-import { component$ } from "@builder.io/qwik";
+import { $, component$ } from "@builder.io/qwik";
+import { Button } from "../ui/button";
+import { useLogout } from "~/routes/(app)/layout";
+import { Form } from "@builder.io/qwik-city";
 type Props = {
   avatar: string;
   name: string;
@@ -6,6 +9,8 @@ type Props = {
 };
 export const AccountMenu = component$<Props>((props) => {
   const { avatar, name, username } = props;
+  const logoutSig = useLogout();
+
   return (
     <div class="dropdown dropdown-top">
       <label
@@ -26,9 +31,18 @@ export const AccountMenu = component$<Props>((props) => {
         tabIndex={0}
         class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
       >
-        <li>
-          <a>Logout</a>
-        </li>
+        <Form action={logoutSig}>
+          <li>
+            <Button
+              size="btn-sm"
+              fullWidth
+              colorScheme="btn-ghost"
+              type="submit"
+            >
+              Logout
+            </Button>
+          </li>
+        </Form>
       </ul>
     </div>
   );
