@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import { Svg } from "~/components/svg";
+import { Svg } from "~/components/ui/svg";
 
 export const LogoIcon = component$(() => (
   <Svg viewBox="0 0 44 53" height={44} width={44}>

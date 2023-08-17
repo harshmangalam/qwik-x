@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import { Svg } from "~/components/svg";
+import { Svg } from "~/components/ui/svg";
 
 export const ShareOutlineIcon = component$(() => {
   return (
