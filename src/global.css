@@ -4,5 +4,5 @@
 
 
 .btn {
-    @apply normal-case
+    @apply normal-case no-animation
 }

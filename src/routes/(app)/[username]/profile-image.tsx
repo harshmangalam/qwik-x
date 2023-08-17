@@ -5,7 +5,7 @@ export const ProfileImage = component$(() => {
   const profileSig = useProfile();
   return (
     <section
-      class={`h-52 w-full relative bg-[url('${profileSig.value.cover}')] bg-no-repeat bg-cover bg-center`}
+      class={`h-52 w-full relative bg-[url('${profileSig.value.cover}')] bg-no-repeat bg-cover bg-center bg-gradient-to-r from-info to-accent`}
     >
       <div class="absolute -bottom-16 left-6">
         <div class="avatar">
