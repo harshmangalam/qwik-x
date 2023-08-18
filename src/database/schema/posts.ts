@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   integer,
   json,
@@ -7,6 +8,7 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
+import { users } from "./users";
 
 export const visibilityEnum = pgEnum("post_visibility", ["Everyone", "Circle"]);
 export const replyPrivacyEnum = pgEnum("post_reply_privacy", [
@@ -25,3 +27,10 @@ export const posts = pgTable("posts", {
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
+
+export const postsRelations = relations(posts, ({ one }) => ({
+  author: one(users, {
+    fields: [posts.authorId],
+    references: [users.id],
+  }),
+}));

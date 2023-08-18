@@ -9,6 +9,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { relations, type InferModel } from "drizzle-orm";
 import { profile } from "./profile";
+import { posts } from "./posts";
 export const usersRole = pgEnum("users_role", ["User", "Admin"]);
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -22,11 +23,12 @@ export const users = pgTable("users", {
   lastSeen: timestamp("last_seen").defaultNow(),
 });
 
-export const usersRelations = relations(users, ({ one }) => ({
+export const usersRelations = relations(users, ({ one, many }) => ({
   profile: one(profile, {
     fields: [users.id],
     references: [profile.userId],
   }),
+  posts: many(posts),
 }));
 
 export type User = InferModel<typeof users, "select">;
