@@ -1,4 +1,7 @@
-import { type RequestEventAction } from "@builder.io/qwik-city";
+import {
+  type RequestEventLoader,
+  type RequestEventAction,
+} from "@builder.io/qwik-city";
 import { db } from "~/database/connection";
 import { type NewPost, posts } from "~/database/schema/posts";
 import type { AuthUser, CreatePostSchema } from "~/types";
@@ -23,4 +26,21 @@ async function createPost(values: NewPost) {
   return data[0];
 }
 
-export { handleCreatePost, createPost };
+async function handlePostFeeds(_: RequestEventLoader) {
+  const posts = await db.query.posts.findMany({
+    with: {
+      author: {
+        columns: {
+          avatar: true,
+          id: true,
+          username: true,
+          name: true,
+        },
+      },
+    },
+  });
+
+  return posts;
+}
+
+export { handleCreatePost, createPost, handlePostFeeds };

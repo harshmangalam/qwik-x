@@ -1,7 +1,11 @@
 import { component$ } from "@builder.io/qwik";
-import type { DocumentHead } from "@builder.io/qwik-city";
+import { routeLoader$, type DocumentHead } from "@builder.io/qwik-city";
 import { PostCard } from "~/components/post/post-card";
+import { handlePostFeeds } from "~/utils/posts";
 
+export const usePostFeeds = routeLoader$(async (requestEvent) => {
+  return handlePostFeeds(requestEvent);
+});
 export default component$(() => {
   return (
     <div>
