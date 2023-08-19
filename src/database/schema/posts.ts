@@ -32,6 +32,7 @@ export const postsRelations = relations(posts, ({ one }) => ({
   author: one(users, {
     fields: [posts.authorId],
     references: [users.id],
+    relationName: "authorToPosts",
   }),
 }));
 
