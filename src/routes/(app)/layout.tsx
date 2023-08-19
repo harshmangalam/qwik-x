@@ -1,9 +1,10 @@
 import { component$, Slot } from "@builder.io/qwik";
-import { globalAction$, routeLoader$ } from "@builder.io/qwik-city";
+import { globalAction$, routeLoader$, z, zod$ } from "@builder.io/qwik-city";
 import { MetaSidebar } from "~/components/meta-sidebar";
 import { Sidebar } from "~/components/sidebar";
 import type { AuthUser } from "~/types";
 import { handleLogout } from "~/utils/auth";
+import { handleCreatePost } from "~/utils/posts";
 
 export const useCurrentUser = routeLoader$(({ sharedMap }) => {
   const user = sharedMap.get("user") as AuthUser | undefined;
@@ -13,6 +14,18 @@ export const useCurrentUser = routeLoader$(({ sharedMap }) => {
 export const useLogout = globalAction$(async (_, requestEvent) => {
   return handleLogout(requestEvent);
 });
+
+export const useCreatePost = globalAction$(
+  async (formData, requestEvent) => {
+    console.log(formData);
+    return handleCreatePost(formData, requestEvent);
+  },
+  zod$({
+    text: z.string().optional(),
+    visibility: z.string().optional(),
+    replyPrivacy: z.string().optional(),
+  })
+);
 export default component$(() => {
   return (
     <div class="relative container max-w-7xl mx-auto">
