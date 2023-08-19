@@ -1,4 +1,4 @@
-import { QRL, component$ } from "@builder.io/qwik";
+import { type QRL, component$ } from "@builder.io/qwik";
 import { Visibility } from "./visibility";
 import { ReplyPrivacy } from "./reply-privacy";
 import {
