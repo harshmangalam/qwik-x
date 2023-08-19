@@ -1,8 +1,10 @@
 import {
   boolean,
+  integer,
   json,
   pgEnum,
   pgTable,
+  primaryKey,
   serial,
   timestamp,
   varchar,
@@ -29,7 +31,23 @@ export const usersRelations = relations(users, ({ one, many }) => ({
     references: [profile.userId],
   }),
   posts: many(posts),
+  followers: many(followers),
 }));
+
+export const followers = pgTable(
+  "followers",
+  {
+    by: integer("by")
+      .notNull()
+      .references(() => users.id),
+    to: integer("to")
+      .notNull()
+      .references(() => users.id),
+  },
+  (t) => ({
+    pk: primaryKey(t.by, t.to),
+  })
+);
 
 export type User = InferModel<typeof users, "select">;
 export type NewUser = InferModel<typeof users, "insert">;
