@@ -1,6 +1,8 @@
-import { eq, or } from "drizzle-orm";
+import { type RequestEventAction } from "@builder.io/qwik-city";
+import { and, eq, or } from "drizzle-orm";
 import { db } from "~/database/connection";
-import { type NewUser, users } from "~/database/schema";
+import { type NewUser, users, followers } from "~/database/schema";
+import type { AuthUser } from "~/types";
 
 async function createUser(user: NewUser) {
   const data = await db.insert(users).values(user).returning();
@@ -65,6 +67,26 @@ async function findUserForAuthorization(id: number) {
     },
   });
 }
+
+async function handleFollowUnfollowUser(
+  { userId }: { userId: number },
+  { redirect, url, sharedMap, error }: RequestEventAction
+) {
+  const user = sharedMap.get("user") as AuthUser | undefined;
+  if (!user) throw error(403, "Unauthorized");
+  const by = user.id;
+  const alreadyFollowing = await db.query.followers.findFirst({
+    where: and(eq(followers.by, by), eq(followers.to, userId)),
+  });
+  if (alreadyFollowing) {
+    await db
+      .delete(followers)
+      .where(and(eq(followers.by, by), eq(followers.to, userId)));
+  } else {
+    await db.insert(followers).values({ by, to: userId });
+  }
+  throw redirect(302, url.pathname);
+}
 export {
   createUser,
   isEmailExists,
@@ -73,4 +95,5 @@ export {
   updateUser,
   findUserById,
   findUserForAuthorization,
+  handleFollowUnfollowUser,
 };
