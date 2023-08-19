@@ -24,8 +24,8 @@ export const posts = pgTable("posts", {
   visibility: visibilityEnum("visibility").default("Everyone"),
   replyPrivacy: replyPrivacyEnum("reply_privacy").default("Everyone"),
   authorId: integer("author_id").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 export const postsRelations = relations(posts, ({ one }) => ({
