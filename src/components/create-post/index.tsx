@@ -12,9 +12,9 @@ export const CreatePost = component$(() => {
         Post
       </button>
       <dialog ref={dialogSig} class="modal">
-        <form method="dialog" class="modal-box">
-          <PostForm />
-        </form>
+        <div class="modal-box">
+          <PostForm onComplete$={() => dialogSig.value?.close()} />
+        </div>
         <form method="dialog" class="modal-backdrop">
           <button>close</button>
         </form>
