@@ -5,6 +5,7 @@ import {
 import { db } from "~/database/connection";
 import { type NewPost, posts } from "~/database/schema/posts";
 import type { AuthUser, CreatePostSchema } from "~/types";
+import { formatDistanceToNowStrict } from "date-fns";
 
 async function handleCreatePost(
   { replyPrivacy, text, visibility }: CreatePostSchema,
@@ -38,9 +39,16 @@ async function handlePostFeeds(_: RequestEventLoader) {
         },
       },
     },
+
+    orderBy({ createdAt }, { desc }) {
+      return desc(createdAt);
+    },
   });
 
-  return posts;
+  return posts.map((post) => ({
+    ...post,
+    createdAt: formatDistanceToNowStrict(post.createdAt),
+  }));
 }
 
 export { handleCreatePost, createPost, handlePostFeeds };

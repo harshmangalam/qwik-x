@@ -22,7 +22,7 @@ export const PostCard = component$((props: Props) => {
             <div class="leading-4 text-sm">
               <span> @{author.username}</span>
               <span> · </span>
-              <span> {createdAt.toLocaleDateString()} </span>
+              <span> {createdAt} </span>
             </div>
           </div>
         </div>
