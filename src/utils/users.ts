@@ -2,9 +2,9 @@ import {
   type RequestEventLoader,
   type RequestEventAction,
 } from "@builder.io/qwik-city";
-import { and, eq, not, or } from "drizzle-orm";
+import { eq, not, or } from "drizzle-orm";
 import { db } from "~/database/connection";
-import { type NewUser, users, followers } from "~/database/schema";
+import { type NewUser, users } from "~/database/schema";
 import type { AuthUser } from "~/types";
 
 async function createUser(user: NewUser) {
@@ -73,26 +73,22 @@ async function handleFollowUnfollowUser(
 ) {
   const user = sharedMap.get("user") as AuthUser | undefined;
   if (!user) throw error(403, "Unauthorized");
-  const by = user.id;
-  const alreadyFollowing = await db.query.followers.findFirst({
-    where: and(eq(followers.by, by), eq(followers.to, userId)),
-  });
+  const alreadyFollowing = null;
   if (alreadyFollowing) {
-    await db
-      .delete(followers)
-      .where(and(eq(followers.by, by), eq(followers.to, userId)));
+    // handle unfollow user
   } else {
-    await db.insert(followers).values({ by, to: userId });
+    // follow user
   }
   throw redirect(302, url.pathname);
 }
-
 async function getUserSuggestions({ sharedMap }: RequestEventLoader) {
   const user = sharedMap.get("user") as AuthUser | undefined;
   if (!user) return [];
   return db.query.users.findMany({
     limit: 6,
-
+    where(users, { eq }) {
+      return not(eq(users.id, user.id));
+    },
     columns: {
       id: true,
       username: true,

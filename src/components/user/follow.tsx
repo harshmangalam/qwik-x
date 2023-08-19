@@ -11,7 +11,7 @@ export const FollowUnfollow = component$((props: Props) => {
   return (
     <Button
       onClick$={() => actionSig.submit({ userId: 3 })}
-      type="submit"
+      type="button"
       preventdefault:click
       btnClass={"rounded-full"}
       colorScheme={isFollowing ? "btn-error" : "btn-neutral"}

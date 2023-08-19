@@ -13,20 +13,15 @@ export const MetaSidebar = component$(() => {
     <aside class="pl-12 py-6 sticky top-0">
       {!userSig.value && <AuthCard />}
       {userSig.value && (
-        <ul class="menu bg-base-200 w-full rounded-box p-0">
-          <li class="menu-title text-xl text-base-content py-4">
-            Who to follow
-          </li>
+        <ul class="rounded-box flex flex-col bg-base-200">
+          <li class="text-xl font-bold py-3 px-4">Who to follow</li>
           {usersSig.value.map((user) => (
-            <User {...user} key={user.id} />
+            <li key={user.id} class="hover:bg-base-300 py-2 px-4">
+              <User {...user} />
+            </li>
           ))}
-          <li>
-            <Link
-              href="/suggestions"
-              class="rounded-t-none py-4 font-medium text-md rounded-b-box"
-            >
-              Show more
-            </Link>
+          <li class="p-4 font-medium text-md text-info">
+            <Link href="/suggestions">Show more</Link>
           </li>
         </ul>
       )}
