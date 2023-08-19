@@ -1,5 +1,6 @@
-import { $, type QwikMouseEvent, component$ } from "@builder.io/qwik";
+import { component$ } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
+import { FollowUnfollow } from "./follow";
 
 type Props = {
   showBio?: boolean;
@@ -7,9 +8,6 @@ type Props = {
 };
 export const User = component$<Props>((props) => {
   const { showBio = false, isFollowing = false } = props;
-  const handleFollow = $((ev: QwikMouseEvent) => {
-    ev.stopPropagation();
-  });
   return (
     <li>
       <Link href="/" class="rounded-none w-full block">
@@ -31,17 +29,7 @@ export const User = component$<Props>((props) => {
                 <div class="font-bold">Khushboo Verma</div>
                 <div class="leading-4 text-sm opacity-60">@khushbooverma_</div>
               </div>
-              <button
-                preventdefault:click
-                onClick$={handleFollow}
-                class={[
-                  "btn btn-sm rounded-full",
-                  { "btn-neutral": !isFollowing },
-                  { "btn-outline btn-error": isFollowing },
-                ]}
-              >
-                {isFollowing ? "Unfollow" : "Follow"}
-              </button>
+              <FollowUnfollow isFollowing={isFollowing} />
             </div>
             {showBio && (
               <p class="mt-2">
