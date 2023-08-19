@@ -14,6 +14,7 @@ import { ProfileIcon, ProfileOutlineIcon } from "~/icons/profile";
 import { AccountMenu } from "./account-menu";
 import { MenuItem } from "./menu-item";
 import { useCurrentUser } from "~/routes/(app)/layout";
+import { CreatePost } from "../create-post";
 
 export const Sidebar = component$(() => {
   const userSig = useCurrentUser();
@@ -89,9 +90,7 @@ export const Sidebar = component$(() => {
 
         {!!userSig.value && (
           <div class="w-full px-2">
-            <Link href="/compose/tweet" class="btn btn-primary btn-block">
-              Post
-            </Link>
+            <CreatePost />
           </div>
         )}
       </div>
