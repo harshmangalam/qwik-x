@@ -4,6 +4,7 @@ type Props = QwikIntrinsicElements["button"] & {
   loading?: boolean;
   fullWidth?: boolean;
   size?: "btn-xs" | "btn-sm" | "btn-md" | "btn-lg";
+  btnClass?: any;
   colorScheme?:
     | "btn-neutral"
     | "btn-primary"
@@ -11,9 +12,7 @@ type Props = QwikIntrinsicElements["button"] & {
     | "btn-error"
     | "btn-success"
     | "btn-info"
-    | "btn-warning"
-    | "btn-error"
-    | "btn-ghost";
+    | "btn-warning";
 };
 export const Button = component$((props: Props) => {
   const {
@@ -21,12 +20,14 @@ export const Button = component$((props: Props) => {
     fullWidth = false,
     colorScheme = "",
     size = "btn-md",
+    btnClass = null,
+
     ...rest
   } = props;
   return (
     <button
       disabled={loading}
-      class={["btn", colorScheme, size, { "btn-block": fullWidth }]}
+      class={["btn", colorScheme, size, btnClass, { "btn-block": fullWidth }]}
       {...rest}
     >
       {loading && <span class={`loading loading-spinner`}></span>}
