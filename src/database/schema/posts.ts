@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { InferModel, relations } from "drizzle-orm";
 import {
   integer,
   json,
@@ -34,3 +34,6 @@ export const postsRelations = relations(posts, ({ one }) => ({
     references: [users.id],
   }),
 }));
+
+export type Post = InferModel<typeof posts, "select">;
+export type NewPost = InferModel<typeof posts, "insert">;
