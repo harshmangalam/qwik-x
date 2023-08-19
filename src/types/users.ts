@@ -7,3 +7,11 @@ export type AuthUser = {
     url: string;
   };
 };
+
+export type UserSuggestionType = {
+  id: number;
+  name: string;
+  username: string;
+  avatar: any;
+  bio?: string;
+};

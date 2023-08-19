@@ -5,7 +5,7 @@ import { Sidebar } from "~/components/sidebar";
 import type { AuthUser } from "~/types";
 import { handleLogout } from "~/utils/auth";
 import { handleCreatePost } from "~/utils/posts";
-import { handleFollowUnfollowUser } from "~/utils/users";
+import { getUserSuggestions, handleFollowUnfollowUser } from "~/utils/users";
 
 export const useCurrentUser = routeLoader$(({ sharedMap }) => {
   const user = sharedMap.get("user") as AuthUser | undefined;
@@ -35,6 +35,10 @@ export const useCreatePost = globalAction$(
     replyPrivacy: z.string().optional(),
   })
 );
+
+export const useUserSuggesions = routeLoader$(async (requestEvent) => {
+  return getUserSuggestions(requestEvent);
+});
 export default component$(() => {
   return (
     <div class="relative container max-w-7xl mx-auto">

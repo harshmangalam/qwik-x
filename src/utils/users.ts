@@ -1,5 +1,8 @@
-import { type RequestEventAction } from "@builder.io/qwik-city";
-import { and, eq, or } from "drizzle-orm";
+import {
+  type RequestEventLoader,
+  type RequestEventAction,
+} from "@builder.io/qwik-city";
+import { and, eq, not, or } from "drizzle-orm";
 import { db } from "~/database/connection";
 import { type NewUser, users, followers } from "~/database/schema";
 import type { AuthUser } from "~/types";
@@ -8,7 +11,6 @@ async function createUser(user: NewUser) {
   const data = await db.insert(users).values(user).returning();
   return data[0];
 }
-
 async function isEmailExists(email: string) {
   const data = await db.query.users.findFirst({
     where: eq(users.email, email),
@@ -48,13 +50,11 @@ async function updateUser(id: number, user: Partial<NewUser>) {
 
   return data[0];
 }
-
 async function findUserById(id: number) {
   return db.query.users.findFirst({
     where: eq(users.id, id),
   });
 }
-
 async function findUserForAuthorization(id: number) {
   return db.query.users.findFirst({
     where: eq(users.id, id),
@@ -67,7 +67,6 @@ async function findUserForAuthorization(id: number) {
     },
   });
 }
-
 async function handleFollowUnfollowUser(
   { userId }: { userId: number },
   { redirect, url, sharedMap, error }: RequestEventAction
@@ -87,6 +86,21 @@ async function handleFollowUnfollowUser(
   }
   throw redirect(302, url.pathname);
 }
+
+async function getUserSuggestions({ sharedMap }: RequestEventLoader) {
+  const user = sharedMap.get("user") as AuthUser | undefined;
+  if (!user) return [];
+  return db.query.users.findMany({
+    limit: 6,
+
+    columns: {
+      id: true,
+      username: true,
+      name: true,
+      avatar: true,
+    },
+  });
+}
 export {
   createUser,
   isEmailExists,
@@ -96,4 +110,5 @@ export {
   findUserById,
   findUserForAuthorization,
   handleFollowUnfollowUser,
+  getUserSuggestions,
 };

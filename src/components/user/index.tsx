@@ -1,43 +1,30 @@
 import { component$ } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
 import { FollowUnfollow } from "./follow";
+import type { UserSuggestionType } from "~/types";
 
-type Props = {
-  showBio?: boolean;
-  isFollowing?: boolean;
-};
-export const User = component$<Props>((props) => {
-  const { showBio = false, isFollowing = false } = props;
+export const User = component$((props: UserSuggestionType) => {
+  const { avatar, name, username, bio } = props;
   return (
     <li>
-      <Link href="/" class="rounded-none w-full block">
+      <Link href={`/${username}/`} class="rounded-none w-full block">
         <div class="flex gap-4">
           <div class="flex-none">
             <div class="avatar flex-none">
               <div class="w-11 h-11 rounded-full">
-                <img
-                  src="https://pbs.twimg.com/profile_images/1650752290641547264/sb1RZ0Dj_400x400.jpg"
-                  width={44}
-                  height={44}
-                />
+                <img src={avatar.url} width={44} height={44} />
               </div>
             </div>
           </div>
           <div class="flex-1">
             <div class="flex justify-between">
               <div>
-                <div class="font-bold">Khushboo Verma</div>
-                <div class="leading-4 text-sm opacity-60">@khushbooverma_</div>
+                <div class="font-bold">{name}</div>
+                <div class="leading-4 text-sm opacity-60">@{username}</div>
               </div>
-              <FollowUnfollow isFollowing={isFollowing} />
+              <FollowUnfollow isFollowing={false} />
             </div>
-            {showBio && (
-              <p class="mt-2">
-                Revolutionising how video is built. Create, edit and distribute
-                thousands of bespoke, data driven videos in minutes with
-                Shotstack.
-              </p>
-            )}
+            {bio && <p class="mt-2">{bio}</p>}
           </div>
         </div>
       </Link>
