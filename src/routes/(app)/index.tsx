@@ -7,11 +7,12 @@ export const usePostFeeds = routeLoader$(async (requestEvent) => {
   return handlePostFeeds(requestEvent);
 });
 export default component$(() => {
+  const postFeedsSig = usePostFeeds();
   return (
     <div>
       <div class="grid grid-cols-1 gap-4 divide-y">
-        {[...new Array(10)].map((_, i) => (
-          <PostCard key={i} />
+        {postFeedsSig.value.map((post) => (
+          <PostCard key={post.id} {...post} />
         ))}
       </div>
     </div>
