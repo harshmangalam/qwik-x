@@ -5,13 +5,13 @@ export type CreatePostSchema = {
 };
 
 export type PostWithAuthor = {
-  text: string;
+  text: string | null;
   media: any;
   author: {
     avatar: any;
-    id: string;
+    id: number;
     name: string;
     username: string;
   };
-  createdAt: Date;
+  createdAt: string;
 };
