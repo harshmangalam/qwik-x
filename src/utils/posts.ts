@@ -1,15 +1,20 @@
 import { type RequestEventAction } from "@builder.io/qwik-city";
 import { db } from "~/database/connection";
 import { type NewPost, posts } from "~/database/schema/posts";
-import type { AuthUser } from "~/types";
+import type { AuthUser, CreatePostSchema } from "~/types";
 
 async function handleCreatePost(
-  data: NewPost,
+  { replyPrivacy, text, visibility }: CreatePostSchema,
   { sharedMap, redirect, error }: RequestEventAction
 ) {
   const user = sharedMap.get("user") as AuthUser | undefined;
   if (!user) throw error(403, "Unauthorized");
-  await createPost(data);
+  await createPost({
+    authorId: user.id,
+    replyPrivacy: replyPrivacy as any,
+    visibility: visibility as any,
+    text,
+  });
   throw redirect(302, "/");
 }
 
