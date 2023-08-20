@@ -7,21 +7,10 @@ import { FollowTabs } from "./follow-tabs";
 import { FollowLinks } from "./follow-links";
 import { ProfileImage } from "./profile-image";
 import { ProfileInfo } from "./profile-info";
+import { fetchUserProfile } from "~/utils/profile";
 
-export const useProfile = routeLoader$(({ params }) => {
-  return {
-    username: params.username,
-    name: "Harsh Mangalam",
-    bio: "Open source developer, blogger and student",
-    category: "Education",
-    location: "Bhagalpur",
-    link: "github.com/harshmangalam",
-    birthday: "Born December 22, 2002",
-    createdAt: "Joined February 2021",
-    cover:
-      "https://images.unsplash.com/photo-1678524493115-cc22b4789d24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1537&q=80",
-    avatar: "https://avatars.githubusercontent.com/u/57381638?v=4",
-  };
+export const useProfile = routeLoader$((requestEvent) => {
+  return fetchUserProfile(requestEvent);
 });
 export default component$(() => {
   const location = useLocation();
