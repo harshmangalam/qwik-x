@@ -30,14 +30,7 @@ async function createPost(values: NewPost) {
 async function handlePostFeeds(_: RequestEventLoader) {
   const posts = await db.query.posts.findMany({
     with: {
-      author: {
-        columns: {
-          avatar: true,
-          id: true,
-          username: true,
-          name: true,
-        },
-      },
+      author: true,
     },
 
     orderBy({ createdAt }, { desc }) {
@@ -51,18 +44,26 @@ async function handlePostFeeds(_: RequestEventLoader) {
   }));
 }
 
-async function getProfilePosts({ params, error }: RequestEventLoader) {
+async function fetchProfilePosts({ params, error }: RequestEventLoader) {
   const user = await db.query.users.findFirst({
     where(users, { eq }) {
       return eq(users.username, params.username);
     },
   });
   if (!user) throw error(404, "User not found");
-  return db.query.posts.findMany({
+  const posts = await db.query.posts.findMany({
     where(posts, { eq }) {
       return eq(posts.authorId, user.id);
     },
+    with: {
+      author: true,
+    },
   });
+
+  return posts.map((post) => ({
+    ...post,
+    createdAt: formatDistanceToNowStrict(post.createdAt),
+  }));
 }
 
-export { handleCreatePost, createPost, handlePostFeeds, getProfilePosts };
+export { handleCreatePost, createPost, handlePostFeeds, fetchProfilePosts };
