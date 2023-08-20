@@ -51,4 +51,18 @@ async function handlePostFeeds(_: RequestEventLoader) {
   }));
 }
 
-export { handleCreatePost, createPost, handlePostFeeds };
+async function getProfilePosts({ params, error }: RequestEventLoader) {
+  const user = await db.query.users.findFirst({
+    where(users, { eq }) {
+      return eq(users.username, params.username);
+    },
+  });
+  if (!user) throw error(404, "User not found");
+  return db.query.posts.findMany({
+    where(posts, { eq }) {
+      return eq(posts.authorId, user.id);
+    },
+  });
+}
+
+export { handleCreatePost, createPost, handlePostFeeds, getProfilePosts };
