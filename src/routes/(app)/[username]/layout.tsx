@@ -8,9 +8,13 @@ import { FollowLinks } from "./follow-links";
 import { ProfileImage } from "./profile-image";
 import { ProfileInfo } from "./profile-info";
 import { fetchUserProfile } from "~/utils/profile";
+import { fetchProfilePostsCount } from "~/utils/posts";
 
 export const useProfile = routeLoader$((requestEvent) => {
   return fetchUserProfile(requestEvent);
+});
+export const useProfilePostsCount = routeLoader$((requestEvent) => {
+  return fetchProfilePostsCount(requestEvent);
 });
 export default component$(() => {
   const location = useLocation();

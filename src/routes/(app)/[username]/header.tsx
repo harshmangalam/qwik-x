@@ -1,11 +1,12 @@
 import { component$ } from "@builder.io/qwik";
 import { Link, useLocation } from "@builder.io/qwik-city";
-import { useProfile } from "./layout";
+import { useProfile, useProfilePostsCount } from "./layout";
 import { ArrowLeftIcon } from "~/icons/arrow";
 
 export const Header = component$(() => {
   const location = useLocation();
   const profileSig = useProfile();
+  const postsCountSig = useProfilePostsCount();
   return (
     <header class="flex items-center h-14 px-4 gap-4">
       <Link
@@ -19,8 +20,8 @@ export const Header = component$(() => {
         <ArrowLeftIcon />
       </Link>
       <div>
-        <h2 class="text-xl font-bold">Harsh Mangalam</h2>
-        <p class="text-sm">12 posts</p>
+        <h2 class="text-xl font-bold">{profileSig.value.name}</h2>
+        <p class="text-sm">{postsCountSig.value.count} posts</p>
       </div>
     </header>
   );

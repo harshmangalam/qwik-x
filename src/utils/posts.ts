@@ -6,6 +6,7 @@ import { db } from "~/database/connection";
 import { type NewPost, posts } from "~/database/schema/posts";
 import type { AuthUser, CreatePostSchema } from "~/types";
 import { formatDistanceToNowStrict } from "date-fns";
+import { eq, sql } from "drizzle-orm";
 
 async function handleCreatePost(
   { replyPrivacy, text, visibility }: CreatePostSchema,
@@ -66,4 +67,25 @@ async function fetchProfilePosts({ params, error }: RequestEventLoader) {
   }));
 }
 
-export { handleCreatePost, createPost, handlePostFeeds, fetchProfilePosts };
+async function fetchProfilePostsCount({ error, params }: RequestEventLoader) {
+  const user = await db.query.users.findFirst({
+    where(users, { eq }) {
+      return eq(users.username, params.username);
+    },
+  });
+  if (!user) throw error(404, "User not found");
+  const data = await db
+    .select({ count: sql<number>`count(*)`.mapWith(Number) })
+    .from(posts)
+    .where(eq(posts.authorId, user.id));
+
+  return data[0];
+}
+
+export {
+  handleCreatePost,
+  createPost,
+  handlePostFeeds,
+  fetchProfilePosts,
+  fetchProfilePostsCount,
+};
