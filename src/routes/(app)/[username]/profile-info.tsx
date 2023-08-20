@@ -7,7 +7,7 @@ export const ProfileInfo = component$(() => {
     <div class="mt-4">
       <h3 class="text-xl font-bold ">{profileSig.value.name}</h3>
       <p class="opacity-70">{profileSig.value.username}</p>
-      <p class="mt-4">{profileSig.value.bio}</p>
+      <p class="mt-4">{profileSig.value.profile.bio}</p>
     </div>
   );
 });

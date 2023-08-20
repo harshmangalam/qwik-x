@@ -33,7 +33,8 @@ async function fetchUserProfile({ error, params }: RequestEventLoader) {
     ...data,
     profile: {
       ...data.profile,
-      createdAt: format(data.profile.createdAt, "MMMM, yyyy"),
+      createdAt: format(data.profile.createdAt, "MMMM yyyy"),
+      dob: data.profile.dob ? format(data.profile.dob, "MMMM d, yyyy") : null,
     },
   };
 }
