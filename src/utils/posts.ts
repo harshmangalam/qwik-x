@@ -10,7 +10,7 @@ import { eq, sql } from "drizzle-orm";
 
 async function handleCreatePost(
   { replyPrivacy, text, visibility }: CreatePostSchema,
-  { sharedMap, redirect, error }: RequestEventAction
+  { sharedMap, redirect, error, url }: RequestEventAction
 ) {
   const user = sharedMap.get("user") as AuthUser | undefined;
   if (!user) throw error(403, "Unauthorized");
@@ -20,7 +20,7 @@ async function handleCreatePost(
     visibility: visibility as any,
     text,
   });
-  throw redirect(302, "/");
+  throw redirect(302, url.pathname);
 }
 
 async function createPost(values: NewPost) {
@@ -58,6 +58,9 @@ async function fetchProfilePosts({ params, error }: RequestEventLoader) {
     },
     with: {
       author: true,
+    },
+    orderBy({ createdAt }, { desc }) {
+      return desc(createdAt);
     },
   });
 
