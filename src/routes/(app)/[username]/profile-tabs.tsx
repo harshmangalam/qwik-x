@@ -10,10 +10,6 @@ export const ProfileTabs = component$(() => {
       href: `/${profileSig.value.username}/`,
     },
     {
-      name: "Replies",
-      href: `/${profileSig.value.username}/with-replies/`,
-    },
-    {
       name: "Media",
       href: `/${profileSig.value.username}/media/`,
     },
@@ -23,7 +19,7 @@ export const ProfileTabs = component$(() => {
     },
   ];
   return (
-    <div class="tabs bg-base-100 grid grid-cols-4">
+    <div class="tabs bg-base-100 grid grid-cols-3">
       {profileTabs.map(({ name, href }) => (
         <TabLink key={name} href={href}>
           {name}
