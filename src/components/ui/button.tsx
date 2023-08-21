@@ -12,7 +12,8 @@ type Props = QwikIntrinsicElements["button"] & {
     | "btn-error"
     | "btn-success"
     | "btn-info"
-    | "btn-warning";
+    | "btn-warning"
+    | "btn-ghost";
 };
 export const Button = component$((props: Props) => {
   const {

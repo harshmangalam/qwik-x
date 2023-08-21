@@ -4,7 +4,7 @@ import { MetaSidebar } from "~/components/meta-sidebar";
 import { Sidebar } from "~/components/sidebar";
 import type { AuthUser } from "~/types";
 import { handleLogout } from "~/utils/auth";
-import { handleCreatePost } from "~/utils/posts";
+import { handleCreatePost, toggleLikePosts } from "~/utils/posts";
 import { getUserSuggestions, handleFollowUnfollowUser } from "~/utils/users";
 
 export const useCurrentUser = routeLoader$(({ sharedMap }) => {
@@ -36,6 +36,14 @@ export const useCreatePost = globalAction$(
   })
 );
 
+export const useTogglePostsLikes = globalAction$(
+  ({ postId }, requestEvent) => {
+    return toggleLikePosts(+postId, requestEvent);
+  },
+  zod$({
+    postId: z.string().nonempty(),
+  })
+);
 export const useUserSuggesions = routeLoader$(async (requestEvent) => {
   return getUserSuggestions(requestEvent);
 });

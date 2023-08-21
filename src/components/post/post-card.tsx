@@ -1,13 +1,13 @@
 import { component$ } from "@builder.io/qwik";
 import { Comment } from "./comment";
-import { Retweet } from "./retweet";
 import { Stat } from "./stat";
 import { Share } from "./share";
 import type { PostWithAuthor } from "~/types";
+import { Like } from "./like";
 
 export type Props = PostWithAuthor & {};
 export const PostCard = component$((props: Props) => {
-  const { author, media, text, createdAt } = props;
+  const { author, media, text, createdAt, id, isLiked } = props;
   return (
     <article class="card rounded-none">
       <div class="card-body pb-2">
@@ -41,7 +41,7 @@ export const PostCard = component$((props: Props) => {
         )}
         <div class="card-actions justify-between pt-3">
           <Comment />
-          <Retweet />
+          <Like postId={id} isLiked={isLiked} count={10} />
           <Stat />
           <Share />
         </div>

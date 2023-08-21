@@ -16,7 +16,8 @@ async function findPostById(id: number) {
     },
   });
 }
-async function isPostAlreadyLiked(postId: number, userId: number) {
+async function isPostAlreadyLiked(postId: number, userId?: number) {
+  if (!userId) return false;
   const data = await db
     .select()
     .from(postsLikes)
@@ -54,7 +55,8 @@ async function createPost(values: NewPost) {
   return data[0];
 }
 
-async function handlePostFeeds(_: RequestEventLoader) {
+async function handlePostFeeds({ sharedMap }: RequestEventLoader) {
+  const user = sharedMap.get("user") as AuthUser | undefined;
   const posts = await db.query.posts.findMany({
     with: {
       author: true,
@@ -65,13 +67,25 @@ async function handlePostFeeds(_: RequestEventLoader) {
     },
   });
 
-  return posts.map((post) => ({
-    ...post,
-    createdAt: formatDistanceToNowStrict(post.createdAt),
-  }));
+  const formattedPosts = [];
+
+  for (const post of posts) {
+    formattedPosts.push({
+      ...post,
+      isLiked: await isPostAlreadyLiked(post.id, user?.id),
+      createdAt: formatDistanceToNowStrict(post.createdAt),
+    });
+  }
+
+  return formattedPosts;
 }
 
-async function fetchProfilePosts({ params, error }: RequestEventLoader) {
+async function fetchProfilePosts({
+  params,
+  error,
+  sharedMap,
+}: RequestEventLoader) {
+  const currentUser = sharedMap.get("user");
   const user = await db.query.users.findFirst({
     where(users, { eq }) {
       return eq(users.username, params.username);
@@ -90,10 +104,15 @@ async function fetchProfilePosts({ params, error }: RequestEventLoader) {
     },
   });
 
-  return posts.map((post) => ({
-    ...post,
-    createdAt: formatDistanceToNowStrict(post.createdAt),
-  }));
+  const formattedPosts = [];
+  for (const post of posts) {
+    formattedPosts.push({
+      ...post,
+      isLiked: await isPostAlreadyLiked(post.id, currentUser?.id),
+      createdAt: formatDistanceToNowStrict(post.createdAt),
+    });
+  }
+  return formattedPosts;
 }
 
 async function fetchProfilePostsCount({ error, params }: RequestEventLoader) {

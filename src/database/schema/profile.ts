@@ -21,8 +21,12 @@ export const profile = pgTable("profile", {
   location: varchar("location", { length: 280 }),
   dob: timestamp("dob"),
   link: text("link"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
 });
 
 export type Profile = InferModel<typeof profile, "select">;

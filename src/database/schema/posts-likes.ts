@@ -1,4 +1,4 @@
-import { integer, pgTable, primaryKey } from "drizzle-orm/pg-core";
+import { integer, pgTable, primaryKey, timestamp } from "drizzle-orm/pg-core";
 import { users } from "./users";
 import { posts } from "./posts";
 import { relations } from "drizzle-orm";
@@ -12,6 +12,9 @@ export const postsLikes = pgTable(
     postId: integer("post_id")
       .notNull()
       .references(() => posts.id),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
   },
   (t) => ({
     pk: primaryKey(t.userId, t.postId),
