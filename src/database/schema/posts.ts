@@ -9,6 +9,7 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 import { users } from "./users";
+import { postsLikes } from "./posts-likes";
 
 export const visibilityEnum = pgEnum("post_visibility", ["Everyone", "Circle"]);
 export const replyPrivacyEnum = pgEnum("post_reply_privacy", [
@@ -28,12 +29,13 @@ export const posts = pgTable("posts", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-export const postsRelations = relations(posts, ({ one }) => ({
+export const postsRelations = relations(posts, ({ one, many }) => ({
   author: one(users, {
     fields: [posts.authorId],
     references: [users.id],
     relationName: "authorToPosts",
   }),
+  postsLikes: many(postsLikes),
 }));
 
 export type Post = InferModel<typeof posts, "select">;
