@@ -38,4 +38,5 @@ async function fetchUserProfile({ error, params }: RequestEventLoader) {
     },
   };
 }
+
 export { createProfile, updateProfile, fetchUserProfile };

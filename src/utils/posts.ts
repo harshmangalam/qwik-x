@@ -144,6 +144,44 @@ async function toggleLikePosts(
   }
   throw redirect(302, url.pathname);
 }
+async function fetchProfilePostsLikes({
+  error,
+  params,
+  sharedMap,
+}: RequestEventLoader) {
+  const currentUser = sharedMap.get("user");
+  const user = await db.query.users.findFirst({
+    where(users, { eq }) {
+      return eq(users.username, params.username);
+    },
+  });
+  if (!user) throw error(404, "User not found");
+  const postsLikes = await db.query.postsLikes.findMany({
+    where(fields, { eq }) {
+      return eq(fields.userId, user.id);
+    },
+    with: {
+      post: {
+        with: {
+          author: true,
+        },
+      },
+    },
+    orderBy({ createdAt }, { desc }) {
+      return desc(createdAt);
+    },
+  });
+
+  const formattedPosts = [];
+  for (const postLike of postsLikes) {
+    formattedPosts.push({
+      ...postLike.post,
+      isLiked: await isPostAlreadyLiked(postLike.post.id, currentUser?.id),
+      createdAt: formatDistanceToNowStrict(postLike.post.createdAt),
+    });
+  }
+  return formattedPosts;
+}
 export {
   handleCreatePost,
   createPost,
@@ -151,4 +189,5 @@ export {
   fetchProfilePosts,
   fetchProfilePostsCount,
   toggleLikePosts,
+  fetchProfilePostsLikes,
 };
