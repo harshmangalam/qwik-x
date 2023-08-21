@@ -1,4 +1,4 @@
-import { InferModel, relations } from "drizzle-orm";
+import { type InferModel, relations } from "drizzle-orm";
 import {
   integer,
   json,
