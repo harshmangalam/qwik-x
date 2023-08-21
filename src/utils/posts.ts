@@ -6,7 +6,34 @@ import { db } from "~/database/connection";
 import { type NewPost, posts } from "~/database/schema/posts";
 import type { AuthUser, CreatePostSchema } from "~/types";
 import { formatDistanceToNowStrict } from "date-fns";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
+import { postsLikes } from "~/database/schema/posts-likes";
+
+async function findPostById(id: number) {
+  return db.query.posts.findFirst({
+    where(posts, { eq }) {
+      return eq(posts.id, id);
+    },
+  });
+}
+async function isPostAlreadyLiked(postId: number, userId: number) {
+  const data = await db
+    .select()
+    .from(postsLikes)
+    .where(and(eq(postsLikes.postId, postId), eq(postsLikes.userId, userId)));
+
+  if (data.length) return true;
+  return false;
+}
+
+async function createPostsLikes(postId: number, userId: number) {
+  return db.insert(postsLikes).values({ postId, userId: userId });
+}
+async function deletePostsLikes(postId: number, userId: number) {
+  return db
+    .delete(postsLikes)
+    .where(and(eq(postsLikes.postId, postId), eq(postsLikes.userId, userId)));
+}
 
 async function handleCreatePost(
   { replyPrivacy, text, visibility }: CreatePostSchema,
@@ -22,7 +49,6 @@ async function handleCreatePost(
   });
   throw redirect(302, url.pathname);
 }
-
 async function createPost(values: NewPost) {
   const data = await db.insert(posts).values(values).returning();
   return data[0];
@@ -85,10 +111,33 @@ async function fetchProfilePostsCount({ error, params }: RequestEventLoader) {
   return data[0];
 }
 
+async function toggleLikePosts(
+  postId: number,
+  { error, redirect, url, sharedMap }: RequestEventAction
+) {
+  const user = sharedMap.get("user") as AuthUser | undefined;
+  if (!user) throw error(403, "unauthorized");
+  const post = await findPostById(postId);
+  if (!post) throw error(404, "Post not found");
+
+  // check user already like the post
+  const alreadyLike = await isPostAlreadyLiked(postId, user.id);
+  console.log(alreadyLike);
+  if (alreadyLike) {
+    // unlike post
+    await deletePostsLikes(postId, user.id);
+  } else {
+    // like post
+    await createPostsLikes(postId, user.id);
+  }
+  throw redirect(302, url.pathname);
+}
+
 export {
   handleCreatePost,
   createPost,
   handlePostFeeds,
   fetchProfilePosts,
   fetchProfilePostsCount,
+  toggleLikePosts,
 };
