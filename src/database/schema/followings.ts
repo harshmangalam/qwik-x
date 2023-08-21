@@ -2,8 +2,8 @@ import { integer, pgTable, primaryKey, timestamp } from "drizzle-orm/pg-core";
 import { users } from "./users";
 import { relations } from "drizzle-orm";
 
-export const followers = pgTable(
-  "followers",
+export const followings = pgTable(
+  "followings",
   {
     userId: integer("user_id")
       .notNull()
@@ -20,10 +20,10 @@ export const followers = pgTable(
   })
 );
 
-export const followersRelations = relations(followers, ({ one }) => ({
+export const followingsRelations = relations(followings, ({ one }) => ({
   user: one(users, {
-    fields: [followers.userId],
+    fields: [followings.userId],
     references: [users.id],
-    relationName: "usersToFollowers",
+    relationName: "usersToFollowings",
   }),
 }));

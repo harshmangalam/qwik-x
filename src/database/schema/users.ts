@@ -11,6 +11,8 @@ import { relations, type InferModel } from "drizzle-orm";
 import { profile } from "./profile";
 import { posts } from "./posts";
 import { postsLikes } from "./posts-likes";
+import { followers } from "./followers";
+import { followings } from "./followings";
 export const usersRole = pgEnum("users_role", ["User", "Admin"]);
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -34,6 +36,12 @@ export const usersRelations = relations(users, ({ one, many }) => ({
     relationName: "authorToPosts",
   }),
   postsLikes: many(postsLikes),
+  followers: many(followers, {
+    relationName: "usersToFollowers",
+  }),
+  followings: many(followings, {
+    relationName: "usersToFollowings",
+  }),
 }));
 
 export type User = InferModel<typeof users, "select">;
