@@ -4,13 +4,14 @@ import { Button } from "../ui/button";
 
 type Props = {
   isFollowing: boolean;
+  otherUserId: number;
 };
 export const FollowUnfollow = component$((props: Props) => {
-  const { isFollowing } = props;
+  const { isFollowing, otherUserId } = props;
   const actionSig = useFollowUnfollow();
   return (
     <Button
-      onClick$={() => actionSig.submit({ userId: 3 })}
+      onClick$={() => actionSig.submit({ otherUserId })}
       type="button"
       preventdefault:click
       btnClass={"rounded-full"}

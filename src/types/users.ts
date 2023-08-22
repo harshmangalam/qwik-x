@@ -3,9 +3,7 @@ export type AuthUser = {
   name: string;
   username: string;
   role: "User" | "Admin";
-  avatar: {
-    url: string;
-  };
+  avatar: any;
 };
 
 export type UserSuggestionType = {
@@ -14,4 +12,5 @@ export type UserSuggestionType = {
   username: string;
   avatar: any;
   bio?: string;
+  isFollowing: boolean;
 };

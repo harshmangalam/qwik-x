@@ -57,7 +57,7 @@ async function followUser(userId: number, otherUserId: number) {
 }
 
 async function handleFollowUnfollow(
-  { otherUserId }: { otherUserId: number },
+  otherUserId: number,
   { redirect, url, sharedMap, error }: RequestEventAction
 ) {
   const user = sharedMap.get("user") as AuthUser | undefined;
@@ -73,4 +73,4 @@ async function handleFollowUnfollow(
   throw redirect(302, url.pathname);
 }
 
-export { handleFollowUnfollow };
+export { handleFollowUnfollow, alreadyFollow };

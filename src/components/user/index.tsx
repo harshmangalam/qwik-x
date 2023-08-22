@@ -4,7 +4,7 @@ import { FollowUnfollow } from "./follow";
 import type { UserSuggestionType } from "~/types";
 
 export const User = component$((props: UserSuggestionType) => {
-  const { avatar, name, username, bio } = props;
+  const { avatar, name, username, bio, isFollowing, id } = props;
   return (
     <div class="flex gap-4 rounded-none">
       <div class="flex-none">
@@ -22,7 +22,7 @@ export const User = component$((props: UserSuggestionType) => {
             </div>
             <div class="leading-4 text-sm opacity-60">@{username}</div>
           </div>
-          <FollowUnfollow isFollowing={false} />
+          <FollowUnfollow otherUserId={id} isFollowing={isFollowing} />
         </div>
         {bio && <p class="mt-2">{bio}</p>}
       </div>

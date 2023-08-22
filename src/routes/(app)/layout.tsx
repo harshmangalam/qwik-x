@@ -5,7 +5,8 @@ import { Sidebar } from "~/components/sidebar";
 import type { AuthUser } from "~/types";
 import { handleLogout } from "~/utils/auth";
 import { handleCreatePost, toggleLikePosts } from "~/utils/posts";
-import { getUserSuggestions, handleFollowUnfollowUser } from "~/utils/users";
+import { getUserSuggestions } from "~/utils/users";
+import { handleFollowUnfollow } from "~/utils/follow";
 
 export const useCurrentUser = routeLoader$(({ sharedMap }) => {
   const user = sharedMap.get("user") as AuthUser | undefined;
@@ -16,11 +17,11 @@ export const useLogout = globalAction$(async (_, requestEvent) => {
   return handleLogout(requestEvent);
 });
 export const useFollowUnfollow = globalAction$(
-  async (formData, requestEvent) => {
-    return handleFollowUnfollowUser(formData, requestEvent);
+  async ({ otherUserId }, requestEvent) => {
+    return handleFollowUnfollow(otherUserId, requestEvent);
   },
   zod$({
-    userId: z.number(),
+    otherUserId: z.number(),
   })
 );
 

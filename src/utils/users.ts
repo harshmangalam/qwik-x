@@ -3,6 +3,7 @@ import { eq, not, or } from "drizzle-orm";
 import { db } from "~/database/connection";
 import { type NewUser, users } from "~/database/schema";
 import type { AuthUser } from "~/types";
+import { alreadyFollow } from "./follow";
 
 async function createUser(user: NewUser) {
   const data = await db.insert(users).values(user).returning();
@@ -68,10 +69,10 @@ async function findUserForAuthorization(id: number) {
 async function getUserSuggestions({ sharedMap }: RequestEventLoader) {
   const user = sharedMap.get("user") as AuthUser | undefined;
   if (!user) return [];
-  return db.query.users.findMany({
+  const users = await db.query.users.findMany({
     limit: 6,
-    where(users, { eq }) {
-      return not(eq(users.id, user.id));
+    where(fields, { eq }) {
+      return not(eq(fields.id, user.id));
     },
     columns: {
       id: true,
@@ -80,6 +81,17 @@ async function getUserSuggestions({ sharedMap }: RequestEventLoader) {
       avatar: true,
     },
   });
+
+  const results = [];
+
+  for (const otherUser of users) {
+    const isFollowing = await alreadyFollow(user.id, otherUser.id);
+    results.push({
+      ...otherUser,
+      isFollowing,
+    });
+  }
+  return results;
 }
 export {
   createUser,
