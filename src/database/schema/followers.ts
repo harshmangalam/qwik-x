@@ -22,7 +22,7 @@ export const followers = pgTable(
 
 export const followersRelations = relations(followers, ({ one }) => ({
   user: one(users, {
-    fields: [followers.userId],
+    fields: [followers.otherUserId],
     references: [users.id],
     relationName: "usersToFollowers",
   }),

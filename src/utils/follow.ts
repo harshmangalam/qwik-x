@@ -93,17 +93,10 @@ async function fetchFollowCount(userId: number) {
   };
 }
 
-async function fetchFollowers({
-  params,
-  error,
-  sharedMap,
-}: RequestEventLoader) {
-  const currentUser = sharedMap.get("user");
-  const user = await findUserByUsername(params.username);
-  if (!user) throw error(404, "User not found");
-  const followers = await db.query.followers.findMany({
+async function fetchFollowers(userId: number) {
+  return db.query.followers.findMany({
     where(fields, { eq }) {
-      return eq(fields.userId, user.id);
+      return eq(fields.userId, userId);
     },
     with: {
       user: {
@@ -116,7 +109,17 @@ async function fetchFollowers({
       },
     },
   });
+}
 
+async function fetchProfileFollowers({
+  params,
+  error,
+  sharedMap,
+}: RequestEventLoader) {
+  const currentUser = sharedMap.get("user");
+  const user = await findUserByUsername(params.username);
+  if (!user) throw error(404, "User not found");
+  const followers = await fetchFollowers(user.id);
   const results = [];
 
   for (const follower of followers) {
@@ -135,5 +138,5 @@ export {
   handleFollowUnfollow,
   alreadyFollow,
   fetchFollowCount,
-  fetchFollowers,
+  fetchProfileFollowers,
 };
