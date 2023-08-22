@@ -8,7 +8,7 @@ import { FollowLinks } from "./follow-links";
 import { ProfileImage } from "./profile-image";
 import { ProfileInfo } from "./profile-info";
 import { fetchProfileFollowCount, fetchUserProfile } from "~/utils/profile";
-import { fetchProfilePostsCount } from "~/utils/posts";
+import { fetchProfilePostsCount } from "~/utils/profile";
 
 export const useProfile = routeLoader$((requestEvent) => {
   return fetchUserProfile(requestEvent);

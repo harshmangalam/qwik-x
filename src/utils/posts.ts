@@ -52,7 +52,16 @@ async function createPost(values: NewPost) {
   const data = await db.insert(posts).values(values).returning();
   return data[0];
 }
-async function handlePostFeeds({ sharedMap }: RequestEventLoader) {
+
+async function fetchPostsLikes(postId: number) {
+  const [result] = await db
+    .select({ count: sql<number>`count(*)`.mapWith(Number) })
+    .from(postsLikes)
+    .where(eq(postsLikes.postId, postId));
+
+  return result.count;
+}
+async function fetchPostsFeed({ sharedMap }: RequestEventLoader) {
   const user = sharedMap.get("user") as AuthUser | undefined;
   const posts = await db.query.posts.findMany({
     with: {
@@ -71,59 +80,13 @@ async function handlePostFeeds({ sharedMap }: RequestEventLoader) {
       ...post,
       isLiked: await isPostAlreadyLiked(post.id, user?.id),
       createdAt: formatDistanceToNowStrict(post.createdAt),
+      likesCount: await fetchPostsLikes(post.id),
     });
   }
 
   return formattedPosts;
 }
-async function fetchProfilePosts({
-  params,
-  error,
-  sharedMap,
-}: RequestEventLoader) {
-  const currentUser = sharedMap.get("user");
-  const user = await db.query.users.findFirst({
-    where(users, { eq }) {
-      return eq(users.username, params.username);
-    },
-  });
-  if (!user) throw error(404, "User not found");
-  const posts = await db.query.posts.findMany({
-    where(posts, { eq }) {
-      return eq(posts.authorId, user.id);
-    },
-    with: {
-      author: true,
-    },
-    orderBy({ createdAt }, { desc }) {
-      return desc(createdAt);
-    },
-  });
 
-  const formattedPosts = [];
-  for (const post of posts) {
-    formattedPosts.push({
-      ...post,
-      isLiked: await isPostAlreadyLiked(post.id, currentUser?.id),
-      createdAt: formatDistanceToNowStrict(post.createdAt),
-    });
-  }
-  return formattedPosts;
-}
-async function fetchProfilePostsCount({ error, params }: RequestEventLoader) {
-  const user = await db.query.users.findFirst({
-    where(users, { eq }) {
-      return eq(users.username, params.username);
-    },
-  });
-  if (!user) throw error(404, "User not found");
-  const data = await db
-    .select({ count: sql<number>`count(*)`.mapWith(Number) })
-    .from(posts)
-    .where(eq(posts.authorId, user.id));
-
-  return data[0];
-}
 async function toggleLikePosts(
   postId: number,
   { error, redirect, url, sharedMap }: RequestEventAction
@@ -144,50 +107,12 @@ async function toggleLikePosts(
   }
   throw redirect(302, url.pathname);
 }
-async function fetchProfilePostsLikes({
-  error,
-  params,
-  sharedMap,
-}: RequestEventLoader) {
-  const currentUser = sharedMap.get("user");
-  const user = await db.query.users.findFirst({
-    where(users, { eq }) {
-      return eq(users.username, params.username);
-    },
-  });
-  if (!user) throw error(404, "User not found");
-  const postsLikes = await db.query.postsLikes.findMany({
-    where(fields, { eq }) {
-      return eq(fields.userId, user.id);
-    },
-    with: {
-      post: {
-        with: {
-          author: true,
-        },
-      },
-    },
-    orderBy({ createdAt }, { desc }) {
-      return desc(createdAt);
-    },
-  });
 
-  const formattedPosts = [];
-  for (const postLike of postsLikes) {
-    formattedPosts.push({
-      ...postLike.post,
-      isLiked: await isPostAlreadyLiked(postLike.post.id, currentUser?.id),
-      createdAt: formatDistanceToNowStrict(postLike.post.createdAt),
-    });
-  }
-  return formattedPosts;
-}
 export {
   handleCreatePost,
   createPost,
-  handlePostFeeds,
-  fetchProfilePosts,
-  fetchProfilePostsCount,
+  fetchPostsFeed,
   toggleLikePosts,
-  fetchProfilePostsLikes,
+  isPostAlreadyLiked,
+  fetchPostsLikes,
 };

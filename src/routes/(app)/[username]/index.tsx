@@ -1,7 +1,7 @@
 import { component$ } from "@builder.io/qwik";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import { PostCard } from "~/components/post/post-card";
-import { fetchProfilePosts } from "~/utils/posts";
+import { fetchProfilePosts } from "~/utils/profile";
 
 export const usePosts = routeLoader$(async (requestEvent) => {
   return fetchProfilePosts(requestEvent);

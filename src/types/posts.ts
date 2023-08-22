@@ -16,4 +16,5 @@ export type PostWithAuthor = {
     username: string;
   };
   createdAt: string;
+  likesCount: number;
 };

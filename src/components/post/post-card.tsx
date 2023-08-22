@@ -7,7 +7,7 @@ import { Like } from "./like";
 
 export type Props = PostWithAuthor & {};
 export const PostCard = component$((props: Props) => {
-  const { author, media, text, createdAt, id, isLiked } = props;
+  const { author, media, text, createdAt, id, isLiked, likesCount } = props;
   return (
     <article class="card rounded-none">
       <div class="card-body pb-2">
@@ -41,7 +41,7 @@ export const PostCard = component$((props: Props) => {
         )}
         <div class="card-actions justify-between pt-3">
           <Comment />
-          <Like postId={id} isLiked={isLiked} count={10} />
+          <Like postId={id} isLiked={isLiked} count={likesCount} />
           <Stat />
           <Share />
         </div>
