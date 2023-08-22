@@ -1,8 +1,12 @@
-import { type RequestEventAction } from "@builder.io/qwik-city";
+import {
+  type RequestEventLoader,
+  type RequestEventAction,
+} from "@builder.io/qwik-city";
 import { and, eq, sql } from "drizzle-orm";
 import { db } from "~/database/connection";
 import { followers, followings } from "~/database/schema";
 import type { AuthUser } from "~/types";
+import { findUserByUsername } from "./users";
 
 async function alreadyFollow(userId: number, otherUserId: number) {
   const data = await db.query.followings.findFirst({
@@ -89,4 +93,47 @@ async function fetchFollowCount(userId: number) {
   };
 }
 
-export { handleFollowUnfollow, alreadyFollow, fetchFollowCount };
+async function fetchFollowers({
+  params,
+  error,
+  sharedMap,
+}: RequestEventLoader) {
+  const currentUser = sharedMap.get("user");
+  const user = await findUserByUsername(params.username);
+  if (!user) throw error(404, "User not found");
+  const followers = await db.query.followers.findMany({
+    where(fields, { eq }) {
+      return eq(fields.userId, user.id);
+    },
+    with: {
+      user: {
+        columns: {
+          id: true,
+          username: true,
+          name: true,
+          avatar: true,
+        },
+      },
+    },
+  });
+
+  const results = [];
+
+  for (const follower of followers) {
+    const isFollowing = currentUser
+      ? await alreadyFollow(currentUser.id, user.id)
+      : false;
+    results.push({
+      ...follower.user,
+      isFollowing,
+    });
+  }
+  return results;
+}
+
+export {
+  handleFollowUnfollow,
+  alreadyFollow,
+  fetchFollowCount,
+  fetchFollowers,
+};
