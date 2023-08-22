@@ -1,7 +1,4 @@
-import {
-  type RequestEventLoader,
-  type RequestEventAction,
-} from "@builder.io/qwik-city";
+import { type RequestEventLoader } from "@builder.io/qwik-city";
 import { eq, not, or } from "drizzle-orm";
 import { db } from "~/database/connection";
 import { type NewUser, users } from "~/database/schema";
@@ -67,20 +64,7 @@ async function findUserForAuthorization(id: number) {
     },
   });
 }
-async function handleFollowUnfollowUser(
-  { userId }: { userId: number },
-  { redirect, url, sharedMap, error }: RequestEventAction
-) {
-  const user = sharedMap.get("user") as AuthUser | undefined;
-  if (!user) throw error(403, "Unauthorized");
-  const alreadyFollowing = null;
-  if (alreadyFollowing) {
-    // handle unfollow user
-  } else {
-    // follow user
-  }
-  throw redirect(302, url.pathname);
-}
+
 async function getUserSuggestions({ sharedMap }: RequestEventLoader) {
   const user = sharedMap.get("user") as AuthUser | undefined;
   if (!user) return [];
@@ -105,6 +89,5 @@ export {
   updateUser,
   findUserById,
   findUserForAuthorization,
-  handleFollowUnfollowUser,
   getUserSuggestions,
 };
