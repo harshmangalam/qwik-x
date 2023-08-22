@@ -72,7 +72,7 @@ async function findUserForAuthorization(id: number) {
   });
 }
 
-async function getUserSuggestions({ sharedMap }: RequestEventLoader) {
+async function fetchUsersSuggestion({ sharedMap }: RequestEventLoader) {
   const user = sharedMap.get("user") as AuthUser | undefined;
   if (!user) return [];
   const users = await db.query.users.findMany({
@@ -107,6 +107,6 @@ export {
   updateUser,
   findUserById,
   findUserForAuthorization,
-  getUserSuggestions,
+  fetchUsersSuggestion,
   findUserByUsername,
 };

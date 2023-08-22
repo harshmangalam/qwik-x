@@ -1,6 +1,5 @@
 import { component$ } from "@builder.io/qwik";
 import { Logo } from "../shared/logo";
-import { Link } from "@builder.io/qwik-city";
 import { HomeIcon, HomeOutlineIcon } from "~/icons/home";
 import { SearchIcon, SearchOutlineIcon } from "~/icons/search";
 import {
@@ -96,7 +95,7 @@ export const Sidebar = component$(() => {
       </div>
 
       {userSig.value && (
-        <div class="mx-2">
+        <div class="px-2">
           <AccountMenu
             avatar={userSig.value.avatar.url}
             username={userSig.value.username}

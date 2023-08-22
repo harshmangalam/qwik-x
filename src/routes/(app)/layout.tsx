@@ -5,7 +5,7 @@ import { Sidebar } from "~/components/sidebar";
 import type { AuthUser } from "~/types";
 import { handleLogout } from "~/utils/auth";
 import { handleCreatePost, toggleLikePosts } from "~/utils/posts";
-import { getUserSuggestions } from "~/utils/users";
+import { fetchUsersSuggestion } from "~/utils/users";
 import { handleFollowUnfollow } from "~/utils/follow";
 
 export const useCurrentUser = routeLoader$(({ sharedMap }) => {
@@ -46,7 +46,7 @@ export const useTogglePostsLikes = globalAction$(
   })
 );
 export const useUserSuggesions = routeLoader$(async (requestEvent) => {
-  return getUserSuggestions(requestEvent);
+  return fetchUsersSuggestion(requestEvent);
 });
 export default component$(() => {
   return (

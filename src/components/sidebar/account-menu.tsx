@@ -12,10 +12,10 @@ export const AccountMenu = component$<Props>((props) => {
   const logoutSig = useLogout();
 
   return (
-    <div class="dropdown dropdown-top">
+    <div class="dropdown dropdown-top w-full">
       <label
         tabIndex={0}
-        class="flex items-center gap-3  btn btn-lg btn-ghost px-3 py-2 btn-block"
+        class="justify-start btn btn-lg btn-ghost px-3 py-2 btn-block"
       >
         <div class="avatar">
           <div class="w-11 mask mask-squircle">
@@ -24,7 +24,7 @@ export const AccountMenu = component$<Props>((props) => {
         </div>
         <div>
           <div class="font-semibold text-start">{name}</div>
-          <div class="font-normal text-sm text-start">{username}</div>
+          <div class="font-normal text-sm text-start">@{username}</div>
         </div>
       </label>
       <ul

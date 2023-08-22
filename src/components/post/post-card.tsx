@@ -1,6 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import { Comment } from "./comment";
-import { Stat } from "./stat";
+// import { Stat } from "./stat";
 import { Share } from "./share";
 import type { PostWithAuthor } from "~/types";
 import { Like } from "./like";
@@ -42,7 +42,7 @@ export const PostCard = component$((props: Props) => {
         <div class="card-actions justify-between pt-3">
           <Comment />
           <Like postId={id} isLiked={isLiked} count={likesCount} />
-          <Stat />
+          {/* <Stat /> */}
           <Share />
         </div>
       </div>

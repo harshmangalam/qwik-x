@@ -20,7 +20,7 @@ export const Like = component$(
         <Button
           type="submit"
           btnClass={{ "text-error": isLiked }}
-          disabled={actionSig.isRunning}
+          loading={actionSig.isRunning}
           colorScheme="btn-ghost"
         >
           <input type="hidden" name="postId" value={postId} />

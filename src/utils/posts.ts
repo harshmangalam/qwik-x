@@ -92,7 +92,7 @@ async function toggleLikePosts(
   { error, redirect, url, sharedMap }: RequestEventAction
 ) {
   const user = sharedMap.get("user") as AuthUser | undefined;
-  if (!user) throw error(403, "unauthorized");
+  if (!user) throw redirect(308, "/login");
   const post = await findPostById(postId);
   if (!post) throw error(404, "Post not found");
 
