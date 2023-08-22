@@ -7,7 +7,7 @@ import { FollowTabs } from "./follow-tabs";
 import { FollowLinks } from "./follow-links";
 import { ProfileImage } from "./profile-image";
 import { ProfileInfo } from "./profile-info";
-import { fetchUserProfile } from "~/utils/profile";
+import { fetchProfileFollowCount, fetchUserProfile } from "~/utils/profile";
 import { fetchProfilePostsCount } from "~/utils/posts";
 
 export const useProfile = routeLoader$((requestEvent) => {
@@ -15,6 +15,10 @@ export const useProfile = routeLoader$((requestEvent) => {
 });
 export const useProfilePostsCount = routeLoader$((requestEvent) => {
   return fetchProfilePostsCount(requestEvent);
+});
+
+export const useFollowCounts = routeLoader$(async (requestEvent) => {
+  return fetchProfileFollowCount(requestEvent);
 });
 export default component$(() => {
   const location = useLocation();

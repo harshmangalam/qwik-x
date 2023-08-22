@@ -4,7 +4,13 @@ import { db } from "~/database/connection";
 import { type NewUser, users } from "~/database/schema";
 import type { AuthUser } from "~/types";
 import { alreadyFollow } from "./follow";
-
+async function findUserByUsername(username: string) {
+  return db.query.users.findFirst({
+    where(fields, { eq }) {
+      return eq(fields.username, username);
+    },
+  });
+}
 async function createUser(user: NewUser) {
   const data = await db.insert(users).values(user).returning();
   return data[0];
@@ -102,4 +108,5 @@ export {
   findUserById,
   findUserForAuthorization,
   getUserSuggestions,
+  findUserByUsername,
 };

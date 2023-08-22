@@ -1,5 +1,5 @@
 import { type RequestEventAction } from "@builder.io/qwik-city";
-import { and, eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { db } from "~/database/connection";
 import { followers, followings } from "~/database/schema";
 import type { AuthUser } from "~/types";
@@ -73,4 +73,20 @@ async function handleFollowUnfollow(
   throw redirect(302, url.pathname);
 }
 
-export { handleFollowUnfollow, alreadyFollow };
+async function fetchFollowCount(userId: number) {
+  const [followersCount] = await db
+    .select({ count: sql<number>`count(*)`.mapWith(Number) })
+    .from(followers)
+    .where(eq(followers.userId, userId));
+  const [followingsCount] = await db
+    .select({ count: sql<number>`count(*)`.mapWith(Number) })
+    .from(followings)
+    .where(eq(followings.userId, userId));
+
+  return {
+    followersCount: followersCount.count,
+    followingsCount: followingsCount.count,
+  };
+}
+
+export { handleFollowUnfollow, alreadyFollow, fetchFollowCount };

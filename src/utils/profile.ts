@@ -3,6 +3,8 @@ import { format } from "date-fns";
 import { eq } from "drizzle-orm";
 import { db } from "~/database/connection";
 import { profile, type NewProfile } from "~/database/schema";
+import { findUserByUsername } from "./users";
+import { fetchFollowCount } from "./follow";
 
 async function createProfile(values: NewProfile) {
   const data = await db.insert(profile).values(values).returning();
@@ -39,4 +41,16 @@ async function fetchUserProfile({ error, params }: RequestEventLoader) {
   };
 }
 
-export { createProfile, updateProfile, fetchUserProfile };
+async function fetchProfileFollowCount({ params, error }: RequestEventLoader) {
+  const user = await findUserByUsername(params.username);
+  if (!user) throw error(404, "User not found");
+  const data = await fetchFollowCount(user.id);
+  return data;
+}
+
+export {
+  createProfile,
+  updateProfile,
+  fetchUserProfile,
+  fetchProfileFollowCount,
+};
