@@ -44,7 +44,6 @@ async function findUserForLogin(username: string) {
 
   return data;
 }
-
 async function updateUser(id: number, user: Partial<NewUser>) {
   const data = await db
     .update(users)
@@ -71,7 +70,6 @@ async function findUserForAuthorization(id: number) {
     },
   });
 }
-
 async function fetchUsersSuggestion({ sharedMap }: RequestEventLoader) {
   const user = sharedMap.get("user") as AuthUser | undefined;
   if (!user) return [];
@@ -79,6 +77,32 @@ async function fetchUsersSuggestion({ sharedMap }: RequestEventLoader) {
     limit: 6,
     where(fields, { eq }) {
       return not(eq(fields.id, user.id));
+    },
+    columns: {
+      id: true,
+      username: true,
+      name: true,
+      avatar: true,
+    },
+  });
+
+  const results = [];
+
+  for (const otherUser of users) {
+    const isFollowing = await alreadyFollow(user.id, otherUser.id);
+    results.push({
+      ...otherUser,
+      isFollowing,
+    });
+  }
+  return results;
+}
+
+async function fetchAllUserSuggestions({ sharedMap }: RequestEventLoader) {
+  const user = sharedMap.get("user");
+  const users = await db.query.users.findMany({
+    where(fields, { eq }) {
+      return not(eq(fields.id, user?.id));
     },
     columns: {
       id: true,
@@ -109,4 +133,5 @@ export {
   findUserForAuthorization,
   fetchUsersSuggestion,
   findUserByUsername,
+  fetchAllUserSuggestions,
 };
