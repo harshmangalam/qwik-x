@@ -10,7 +10,7 @@ export default component$(() => {
   const postFeedsSig = usePostFeeds();
   return (
     <div>
-      <div class="grid grid-cols-1 gap-4 divide-y">
+      <div class="grid grid-cols-1 divide-y">
         {postFeedsSig.value.map((post) => (
           <PostCard key={post.id} {...post} />
         ))}

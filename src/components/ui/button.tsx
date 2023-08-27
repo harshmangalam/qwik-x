@@ -31,8 +31,7 @@ export const Button = component$((props: Props) => {
       class={["btn", colorScheme, size, btnClass, { "btn-block": fullWidth }]}
       {...rest}
     >
-      {loading && <span class={`loading loading-spinner`}></span>}
-      <Slot />
+      {loading ? <span class={`loading loading-spinner`}></span> : <Slot />}
     </button>
   );
 });

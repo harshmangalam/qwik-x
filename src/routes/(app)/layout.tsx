@@ -42,7 +42,7 @@ export const useTogglePostsLikes = globalAction$(
     return toggleLikePosts(+postId, requestEvent);
   },
   zod$({
-    postId: z.string().nonempty(),
+    postId: z.number(),
   })
 );
 export const useUserSuggesions = routeLoader$(async (requestEvent) => {
