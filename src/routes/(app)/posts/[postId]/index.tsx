@@ -48,10 +48,20 @@ export default component$(() => {
           <span class="opacity-70">Views</span>
         </div>
         <div class="divider my-2"></div>
-        <Link href="" class="text-sm">
-          <span class="font-bold">5 </span>
-          <span class="opacity-70"> Likes</span>
-        </Link>
+        <div class="flex items-center gap-4">
+          <Link href="" class="text-sm group">
+            <span class="font-bold">5 </span>
+            <span class="opacity-70 group-hover:underline"> Reposts</span>
+          </Link>
+          <Link href="" class="text-sm group">
+            <span class="font-bold">100 </span>
+            <span class="opacity-70 group-hover:underline"> Likes</span>
+          </Link>
+          <div class="text-sm">
+            <span class="font-bold">10 </span>
+            <span class="opacity-70"> Bookmarks</span>
+          </div>
+        </div>
         <div class="divider my-2"></div>
         <div class="card-actions justify-between pt-3">
           <Comment postId={1} />
@@ -59,6 +69,7 @@ export default component$(() => {
           <Bookmark postId={1} />
           <Share />
         </div>
+        <div class="divider my-2"></div>
       </section>
     </div>
   );
