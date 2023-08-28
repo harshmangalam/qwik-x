@@ -14,6 +14,7 @@ import { AccountMenu } from "./account-menu";
 import { MenuItem } from "./menu-item";
 import { useCurrentUser } from "~/routes/(app)/layout";
 import { CreatePost } from "../create-post";
+import { BookmarkIcon, BookmarkOutlineIcon } from "~/icons/bookmark";
 
 export const Sidebar = component$(() => {
   const userSig = useCurrentUser();
@@ -38,6 +39,13 @@ export const Sidebar = component$(() => {
       icon: SearchOutlineIcon,
       activeIcon: SearchIcon,
       show: true,
+    },
+    {
+      name: "Bookmarks",
+      href: "/bookmarks/",
+      icon: BookmarkOutlineIcon,
+      activeIcon: BookmarkIcon,
+      show: !!userSig.value,
     },
     {
       name: "Notifications",

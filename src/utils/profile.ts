@@ -5,7 +5,7 @@ import { db } from "~/database/connection";
 import { profile, type NewProfile, posts } from "~/database/schema";
 import { findUserByUsername } from "./users";
 import { fetchFollowCount } from "./follow";
-import { fetchPostsLikes, isPostAlreadyLiked } from "./posts";
+import { fetchPostLikesCount, isPostAlreadyLiked } from "./posts";
 
 async function createProfile(values: NewProfile) {
   const data = await db.insert(profile).values(values).returning();
@@ -93,7 +93,7 @@ async function fetchProfileLikedPosts({
       ...postLike.post,
       isLiked: await isPostAlreadyLiked(postLike.post.id, currentUser?.id),
       createdAt: formatDistanceToNowStrict(postLike.post.createdAt),
-      likesCount: await fetchPostsLikes(postLike.post.id),
+      likesCount: await fetchPostLikesCount(postLike.post.id),
     });
   }
   return formattedPosts;
@@ -128,7 +128,7 @@ async function fetchProfilePosts({
       ...post,
       isLiked: await isPostAlreadyLiked(post.id, currentUser?.id),
       createdAt: formatDistanceToNowStrict(post.createdAt),
-      likesCount: await fetchPostsLikes(post.id),
+      likesCount: await fetchPostLikesCount(post.id),
     });
   }
   return formattedPosts;
