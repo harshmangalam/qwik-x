@@ -1,5 +1,9 @@
 import { component$ } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
+import { Bookmark } from "~/components/post/bookmark";
+import { Comment } from "~/components/post/comment";
+import { Like } from "~/components/post/like";
+import { Share } from "~/components/post/share";
 import { ArrowLeftIcon } from "~/icons/arrow";
 
 export default component$(() => {
@@ -11,6 +15,51 @@ export default component$(() => {
         </Link>
         <h2 class="font-bold text-lg">Posts</h2>
       </header>
+
+      {/* post autor section  */}
+
+      <section class="flex items-center justify-between px-4">
+        <div class="flex items-center gap-3">
+          <div class="avatar">
+            <div class="w-10 h-10 rounded-full">
+              <img
+                width={40}
+                height={40}
+                src="https://avatars.githubusercontent.com/u/57381638?v=4"
+              />
+            </div>
+          </div>
+          <div class="flex flex-col gap-0">
+            <h3 class="font-semibold text-lg">Harsh Mangalam</h3>
+            <span class="opacity-70 leading-4">@harshmangalam</span>
+          </div>
+        </div>
+      </section>
+
+      {/* post info section  */}
+      <section class="mt-4 px-4">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus, id?
+        </p>
+
+        <div class="text-sm mt-4">
+          <span class="opacity-70"> 9:20 PM · Aug 28, 2023 · </span>
+          <span class="font-bold">61</span>
+          <span class="opacity-70">Views</span>
+        </div>
+        <div class="divider my-2"></div>
+        <Link href="" class="text-sm">
+          <span class="font-bold">5 </span>
+          <span class="opacity-70"> Likes</span>
+        </Link>
+        <div class="divider my-2"></div>
+        <div class="card-actions justify-between pt-3">
+          <Comment postId={1} />
+          <Like postId={1} isLiked={true} />
+          <Bookmark postId={1} />
+          <Share />
+        </div>
+      </section>
     </div>
   );
 });
