@@ -11,6 +11,7 @@ import { eq, sql } from "drizzle-orm";
 import { postsLikes } from "~/database/schema";
 import type { AuthUser } from "~/types";
 import { isPostAlreadyLiked } from "~/utils/posts";
+import { fetchBookmarksCount, isAlreadyBookmarked } from "~/utils/bookmarks";
 
 export const usePost = routeLoader$(async ({ params, error, sharedMap }) => {
   const postId = +params.postId;
@@ -24,19 +25,24 @@ export const usePost = routeLoader$(async ({ params, error, sharedMap }) => {
   });
   if (!post) throw error(404, "Post not found");
   const currentUser = sharedMap.get("user") as AuthUser | undefined;
+
   const [postLikes] = await db
     .select({ count: sql<number>`count(*)` })
     .from(postsLikes)
     .where(eq(postsLikes.postId, postId));
+  const isLiked = await isPostAlreadyLiked(postId, currentUser?.id);
 
-  const alreadyLiked = await isPostAlreadyLiked(postId, currentUser?.id);
+  const bookmarksCount = await fetchBookmarksCount(postId);
+  const isBookmarked = await isAlreadyBookmarked(postId, currentUser?.id);
 
   const createdDate = format(post.createdAt, "h:mm a · MMM d, yyyy");
   return {
     ...post,
     likesCount: postLikes.count,
+    isLiked,
+    bookmarksCount,
+    isBookmarked,
     createdAt: createdDate,
-    isLiked: alreadyLiked,
   };
 });
 export default component$(() => {
@@ -89,7 +95,7 @@ export default component$(() => {
             <span class="opacity-70 group-hover:underline"> Likes</span>
           </Link>
           <div class="text-sm">
-            <span class="font-bold">10 </span>
+            <span class="font-bold">{postSig.value.bookmarksCount} </span>
             <span class="opacity-70"> Bookmarks</span>
           </div>
         </div>
@@ -97,7 +103,7 @@ export default component$(() => {
         <div class="card-actions justify-between pt-3">
           <Comment postId={1} />
           <Like postId={postSig.value.id} isLiked={postSig.value.isLiked} />
-          <Bookmark postId={1} />
+          <Bookmark postId={1} isBookmarked={postSig.value.isBookmarked} />
           <Share />
         </div>
         <div class="divider my-2"></div>

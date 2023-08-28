@@ -4,7 +4,7 @@ import { db } from "~/database/connection";
 import { bookmarks } from "~/database/schema";
 import { type AuthUser } from "~/types";
 
-const alreadyBookmarked = async (postId: number, userId?: number) => {
+const isAlreadyBookmarked = async (postId: number, userId?: number) => {
   if (!userId) return false;
   const [result] = await db
     .select({ count: sql<number>`count(*)`.mapWith(Number) })
@@ -36,7 +36,7 @@ const handleBookmark = async (
   const currentUser = sharedMap.get("user") as AuthUser | undefined;
   if (!currentUser) throw redirect(308, "/login");
 
-  const exists = await alreadyBookmarked(postId, currentUser.id);
+  const exists = await isAlreadyBookmarked(postId, currentUser.id);
   if (exists) {
     await deleteBookmark(postId, currentUser.id);
   } else {
@@ -45,4 +45,13 @@ const handleBookmark = async (
   throw redirect(302, url.pathname);
 };
 
-export { handleBookmark };
+const fetchBookmarksCount = async (postId: number) => {
+  const [result] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(bookmarks)
+    .where(eq(bookmarks.postId, postId));
+
+  return result.count;
+};
+
+export { handleBookmark, fetchBookmarksCount, isAlreadyBookmarked };
