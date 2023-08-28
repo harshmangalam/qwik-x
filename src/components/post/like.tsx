@@ -11,7 +11,7 @@ export const Like = component$(
   }: {
     postId: number;
     isLiked: boolean;
-    count: number;
+    count?: number;
   }) => {
     const actionSig = useTogglePostsLikes();
     return (

@@ -1,7 +1,8 @@
 import { $, type QwikMouseEvent, component$ } from "@builder.io/qwik";
 import { CommentOutlineIcon } from "~/icons/comment";
 
-export const Comment = component$(() => {
+type Props = { postId: number; count?: number };
+export const Comment = component$(({ postId, count }: Props) => {
   const handleComment = $((ev: QwikMouseEvent) => {
     ev.stopPropagation();
   });
@@ -12,7 +13,8 @@ export const Comment = component$(() => {
         onClick$={handleComment}
         class="btn btn-ghost"
       >
-        <CommentOutlineIcon />5
+        <CommentOutlineIcon />
+        {count}
       </button>
     </div>
   );
