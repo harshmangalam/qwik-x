@@ -5,7 +5,6 @@ import { Comment } from "~/components/post/comment";
 import { Like } from "~/components/post/like";
 import { Share } from "~/components/post/share";
 import { db } from "~/database/connection";
-import { ArrowLeftIcon } from "~/icons/arrow";
 import { format } from "date-fns";
 import type { AuthUser } from "~/types";
 import { fetchPostLikesCount, isPostAlreadyLiked } from "~/utils/posts";
@@ -43,14 +42,7 @@ export const usePost = routeLoader$(async ({ params, error, sharedMap }) => {
 export default component$(() => {
   const postSig = usePost();
   return (
-    <div>
-      <header class="flex items-center gap-3 px-4 h-14 sticky bg-base-100/80 top-0 backdrop-blur">
-        <Link href="/" class="btn btn-ghost btn-circle btn-sm">
-          <ArrowLeftIcon />
-        </Link>
-        <h2 class="font-bold text-lg">Posts</h2>
-      </header>
-
+    <div class="py-4">
       {/* post autor section  */}
 
       <section class="flex items-center justify-between px-4">
@@ -98,7 +90,10 @@ export default component$(() => {
         <div class="card-actions justify-between pt-3">
           <Comment postId={1} />
           <Like postId={postSig.value.id} isLiked={postSig.value.isLiked} />
-          <Bookmark postId={1} isBookmarked={postSig.value.isBookmarked} />
+          <Bookmark
+            postId={postSig.value.id}
+            isBookmarked={postSig.value.isBookmarked}
+          />
           <Share />
         </div>
         <div class="divider my-2"></div>
