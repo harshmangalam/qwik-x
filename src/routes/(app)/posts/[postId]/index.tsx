@@ -50,10 +50,6 @@ export default component$(() => {
         <div class="divider my-2"></div>
         <div class="flex items-center gap-4">
           <Link href="" class="text-sm group">
-            <span class="font-bold">5 </span>
-            <span class="opacity-70 group-hover:underline"> Reposts</span>
-          </Link>
-          <Link href="" class="text-sm group">
             <span class="font-bold">100 </span>
             <span class="opacity-70 group-hover:underline"> Likes</span>
           </Link>

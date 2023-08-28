@@ -3,7 +3,7 @@ import { ShareOutlineIcon } from "~/icons/share";
 
 export const Share = component$(() => {
   return (
-    <button class="btn btn-ghost btn-circle">
+    <button class="btn btn-ghost">
       <ShareOutlineIcon />
     </button>
   );
