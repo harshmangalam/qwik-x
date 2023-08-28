@@ -53,7 +53,7 @@ async function createPost(values: NewPost) {
   return data[0];
 }
 
-async function fetchPostsLikes(postId: number) {
+async function fetchPostLikesCount(postId: number) {
   const [result] = await db
     .select({ count: sql<number>`count(*)`.mapWith(Number) })
     .from(postsLikes)
@@ -80,7 +80,7 @@ async function fetchPostsFeed({ sharedMap }: RequestEventLoader) {
       ...post,
       isLiked: await isPostAlreadyLiked(post.id, user?.id),
       createdAt: formatDistanceToNowStrict(post.createdAt),
-      likesCount: await fetchPostsLikes(post.id),
+      likesCount: await fetchPostLikesCount(post.id),
     });
   }
 
@@ -114,5 +114,5 @@ export {
   fetchPostsFeed,
   toggleLikePosts,
   isPostAlreadyLiked,
-  fetchPostsLikes,
+  fetchPostLikesCount,
 };

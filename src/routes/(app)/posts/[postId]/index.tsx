@@ -7,10 +7,8 @@ import { Share } from "~/components/post/share";
 import { db } from "~/database/connection";
 import { ArrowLeftIcon } from "~/icons/arrow";
 import { format } from "date-fns";
-import { eq, sql } from "drizzle-orm";
-import { postsLikes } from "~/database/schema";
 import type { AuthUser } from "~/types";
-import { isPostAlreadyLiked } from "~/utils/posts";
+import { fetchPostLikesCount, isPostAlreadyLiked } from "~/utils/posts";
 import { fetchBookmarksCount, isAlreadyBookmarked } from "~/utils/bookmarks";
 
 export const usePost = routeLoader$(async ({ params, error, sharedMap }) => {
@@ -26,10 +24,7 @@ export const usePost = routeLoader$(async ({ params, error, sharedMap }) => {
   if (!post) throw error(404, "Post not found");
   const currentUser = sharedMap.get("user") as AuthUser | undefined;
 
-  const [postLikes] = await db
-    .select({ count: sql<number>`count(*)` })
-    .from(postsLikes)
-    .where(eq(postsLikes.postId, postId));
+  const likesCount = await fetchPostLikesCount(postId);
   const isLiked = await isPostAlreadyLiked(postId, currentUser?.id);
 
   const bookmarksCount = await fetchBookmarksCount(postId);
@@ -38,7 +33,7 @@ export const usePost = routeLoader$(async ({ params, error, sharedMap }) => {
   const createdDate = format(post.createdAt, "h:mm a · MMM d, yyyy");
   return {
     ...post,
-    likesCount: postLikes.count,
+    likesCount,
     isLiked,
     bookmarksCount,
     isBookmarked,
