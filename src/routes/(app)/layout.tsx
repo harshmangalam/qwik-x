@@ -7,6 +7,7 @@ import { handleLogout } from "~/utils/auth";
 import { handleCreatePost, toggleLikePosts } from "~/utils/posts";
 import { fetchUsersSuggestion } from "~/utils/users";
 import { handleFollowUnfollow } from "~/utils/follow";
+import { handleBookmark } from "~/utils/bookmarks";
 
 export const useCurrentUser = routeLoader$(({ sharedMap }) => {
   const user = sharedMap.get("user") as AuthUser | undefined;
@@ -40,6 +41,15 @@ export const useCreatePost = globalAction$(
 export const useTogglePostsLikes = globalAction$(
   ({ postId }, requestEvent) => {
     return toggleLikePosts(+postId, requestEvent);
+  },
+  zod$({
+    postId: z.number(),
+  })
+);
+
+export const useBookmark = globalAction$(
+  async ({ postId }, requestEvent) => {
+    return handleBookmark({ postId }, requestEvent);
   },
   zod$({
     postId: z.number(),

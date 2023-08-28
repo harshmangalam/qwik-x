@@ -3,7 +3,7 @@ import { integer, pgTable, serial, timestamp } from "drizzle-orm/pg-core";
 import { users } from "./users";
 import { posts } from "./posts";
 
-export const bookmarks = pgTable("bookmark", {
+export const bookmarks = pgTable("bookmarks", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull(),
   postId: integer("post_id").notNull(),
