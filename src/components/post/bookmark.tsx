@@ -1,5 +1,5 @@
 import { $, type QwikMouseEvent, component$ } from "@builder.io/qwik";
-import { CommentOutlineIcon } from "~/icons/comment";
+import { BookmarkIcon } from "~/icons/bookmark";
 
 type Props = { postId: number; count?: number };
 export const Bookmark = component$(({ postId, count }: Props) => {
@@ -13,7 +13,7 @@ export const Bookmark = component$(({ postId, count }: Props) => {
         onClick$={handleComment}
         class="btn btn-ghost"
       >
-        <CommentOutlineIcon />
+        <BookmarkIcon />
         {count}
       </button>
     </div>
