@@ -1,8 +1,13 @@
-import { type RequestEventAction } from "@builder.io/qwik-city";
+import {
+  type RequestEventLoader,
+  type RequestEventAction,
+} from "@builder.io/qwik-city";
 import { and, eq, sql } from "drizzle-orm";
 import { db } from "~/database/connection";
 import { bookmarks } from "~/database/schema";
 import { type AuthUser } from "~/types";
+import { fetchPostLikesCount, isPostAlreadyLiked } from "./posts";
+import { formatDistanceToNowStrict } from "date-fns";
 
 const isAlreadyBookmarked = async (postId: number, userId?: number) => {
   if (!userId) return false;
@@ -54,4 +59,43 @@ const fetchBookmarksCount = async (postId: number) => {
   return result.count;
 };
 
-export { handleBookmark, fetchBookmarksCount, isAlreadyBookmarked };
+const fetchBookmarkedPosts = async ({
+  sharedMap,
+  redirect,
+}: RequestEventLoader) => {
+  const currentUser = sharedMap.get("user") as AuthUser | undefined;
+  if (!currentUser) throw redirect(308, "/login");
+  const bookmarks = await db.query.bookmarks.findMany({
+    where(fields, { eq }) {
+      return eq(fields.userId, currentUser.id);
+    },
+    with: {
+      post: {
+        with: {
+          author: true,
+        },
+      },
+    },
+  });
+
+  const formattedPosts = [];
+
+  for (const bookmark of bookmarks) {
+    const post = bookmark.post;
+    formattedPosts.push({
+      ...post,
+      isLiked: await isPostAlreadyLiked(post.id, currentUser.id),
+      createdAt: formatDistanceToNowStrict(post.createdAt),
+      likesCount: await fetchPostLikesCount(post.id),
+    });
+  }
+
+  return formattedPosts;
+};
+
+export {
+  handleBookmark,
+  fetchBookmarksCount,
+  isAlreadyBookmarked,
+  fetchBookmarkedPosts,
+};
