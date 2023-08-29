@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import type { AuthUser } from "~/types";
 import { fetchPostLikesCount, isPostAlreadyLiked } from "~/utils/posts";
 import { fetchBookmarksCount, isAlreadyBookmarked } from "~/utils/bookmarks";
+import { Button } from "~/components/ui/button";
 
 export const usePost = routeLoader$(async ({ params, error, sharedMap }) => {
   const postId = +params.postId;
@@ -98,6 +99,38 @@ export default component$(() => {
         </div>
         <div class="divider my-2"></div>
       </section>
+      <section class="py-4 px-4">
+        <div class="flex gap-4">
+          <div class="avatar flex-none">
+            <div class="w-10 h-10 rounded-full">
+              <img
+                width={40}
+                height={40}
+                src={(postSig.value.author.avatar as any)?.url}
+                alt={postSig.value.author.name}
+              />
+            </div>
+          </div>
+
+          <div class="flex-1 flex flex-col gap-2">
+            <textarea
+              rows={3}
+              class="textarea textarea-bordered w-full placeholder:text-lg text-lg"
+              placeholder="Post your reply!"
+            />
+            <div class="flex items-center justify-end">
+              <Button
+                type="submit"
+                btnClass={"rounded-full"}
+                colorScheme="btn-primary"
+              >
+                Reply
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="divider my-2"></div>
     </div>
   );
 });
