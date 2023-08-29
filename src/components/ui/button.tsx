@@ -3,6 +3,7 @@ import { type QwikIntrinsicElements, component$, Slot } from "@builder.io/qwik";
 type Props = QwikIntrinsicElements["button"] & {
   loading?: boolean;
   fullWidth?: boolean;
+  roundedFull?: boolean;
   size?: "btn-xs" | "btn-sm" | "btn-md" | "btn-lg";
   btnClass?: any;
   colorScheme?:
@@ -22,13 +23,21 @@ export const Button = component$((props: Props) => {
     colorScheme = "",
     size = "btn-md",
     btnClass = null,
+    roundedFull = false,
 
     ...rest
   } = props;
   return (
     <button
       disabled={loading}
-      class={["btn", colorScheme, size, btnClass, { "btn-block": fullWidth }]}
+      class={[
+        "btn",
+        colorScheme,
+        size,
+        { "btn-block": fullWidth },
+        { "rounded-full": roundedFull },
+        btnClass,
+      ]}
       {...rest}
     >
       {loading ? <span class={`loading loading-spinner`}></span> : <Slot />}

@@ -10,6 +10,7 @@ import type { AuthUser } from "~/types";
 import { fetchPostLikesCount, isPostAlreadyLiked } from "~/utils/posts";
 import { fetchBookmarksCount, isAlreadyBookmarked } from "~/utils/bookmarks";
 import { Button } from "~/components/ui/button";
+import { ReplyForm } from "~/components/reply/reply-form";
 
 export const usePost = routeLoader$(async ({ params, error, sharedMap }) => {
   const postId = +params.postId;
@@ -112,22 +113,7 @@ export default component$(() => {
             </div>
           </div>
 
-          <div class="flex-1 flex flex-col gap-2">
-            <textarea
-              rows={3}
-              class="textarea textarea-bordered w-full placeholder:text-lg text-lg"
-              placeholder="Post your reply!"
-            />
-            <div class="flex items-center justify-end">
-              <Button
-                type="submit"
-                btnClass={"rounded-full"}
-                colorScheme="btn-primary"
-              >
-                Reply
-              </Button>
-            </div>
-          </div>
+          <ReplyForm />
         </div>
       </section>
       <div class="divider my-2"></div>

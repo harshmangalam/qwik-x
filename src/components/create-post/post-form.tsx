@@ -1,4 +1,4 @@
-import { type QRL, component$ } from "@builder.io/qwik";
+import { type QRL, component$, noSerialize } from "@builder.io/qwik";
 import { Visibility } from "./visibility";
 import { ReplyPrivacy } from "./reply-privacy";
 import {
@@ -7,21 +7,24 @@ import {
   ImageOutlineIcon,
 } from "~/icons/media";
 import { Form } from "@builder.io/qwik-city";
-import { useCreatePost } from "~/routes/(app)/layout";
+import { useCreatePost, useCurrentUser } from "~/routes/(app)/layout";
 import { Button } from "../ui/button";
 
 type Props = {
-  onComplete$: QRL<() => void>;
+  onComplete$?: QRL<() => void>;
 };
 export const PostForm = component$((props: Props) => {
-  const { onComplete$ } = props;
+  const { onComplete$ = noSerialize(() => {}) } = props;
   const actionSig = useCreatePost();
+  const currentUserSig = useCurrentUser();
   return (
     <Form
       action={actionSig}
       onSubmitCompleted$={(_, form) => {
         form.reset();
-        onComplete$();
+        if (onComplete$) {
+          onComplete$();
+        }
       }}
     >
       <article class="card">
@@ -33,7 +36,7 @@ export const PostForm = component$((props: Props) => {
                   <img
                     width={64}
                     height={64}
-                    src="https://avatars.githubusercontent.com/u/57381638?v=4"
+                    src={currentUserSig.value?.avatar?.url}
                   />
                 </div>
               </div>
