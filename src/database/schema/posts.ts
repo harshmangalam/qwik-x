@@ -26,6 +26,7 @@ export const posts = pgTable("posts", {
   visibility: visibilityEnum("visibility").default("Everyone"),
   replyPrivacy: replyPrivacyEnum("reply_privacy").default("Everyone"),
   authorId: integer("author_id").notNull(),
+  parentPostId: integer("parent_post_id"),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),
@@ -39,6 +40,10 @@ export const postsRelations = relations(posts, ({ one, many }) => ({
     fields: [posts.authorId],
     references: [users.id],
     relationName: "authorToPosts",
+  }),
+  parentPost: one(posts, {
+    fields: [posts.parentPostId],
+    references: [posts.id],
   }),
   postsLikes: many(postsLikes),
 
