@@ -10,9 +10,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { users } from "./users";
 import { postsLikes } from "./posts-likes";
-// import { comments } from "./comments";
 import { bookmarks } from "./bookmarks";
-import { comments } from "./comments";
 
 export const visibilityEnum = pgEnum("post_visibility", ["Everyone", "Circle"]);
 export const replyPrivacyEnum = pgEnum("post_reply_privacy", [
@@ -43,9 +41,7 @@ export const postsRelations = relations(posts, ({ one, many }) => ({
     relationName: "authorToPosts",
   }),
   postsLikes: many(postsLikes),
-  comments: many(comments, {
-    relationName: "postsToComments",
-  }),
+
   bookmarks: many(bookmarks, {
     relationName: "postsToBookmarks",
   }),

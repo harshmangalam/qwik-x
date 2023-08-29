@@ -14,7 +14,6 @@ import { postsLikes } from "./posts-likes";
 import { followers } from "./followers";
 import { followings } from "./followings";
 import { bookmarks } from "./bookmarks";
-import { comments } from "./comments";
 export const usersRole = pgEnum("users_role", ["User", "Admin"]);
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -43,9 +42,6 @@ export const usersRelations = relations(users, ({ one, many }) => ({
   }),
   followings: many(followings, {
     relationName: "usersToFollowings",
-  }),
-  comments: many(comments, {
-    relationName: "usersToComments",
   }),
   bookmarks: many(bookmarks, {
     relationName: "usersToBookmarks",
