@@ -1,9 +1,3 @@
-export type CreatePostSchema = {
-  visibility?: string;
-  replyPrivacy?: string;
-  text?: string;
-};
-
 export type PostWithAuthor = {
   id: number;
   text: string | null;

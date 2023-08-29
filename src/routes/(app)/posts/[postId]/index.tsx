@@ -1,5 +1,11 @@
 import { component$ } from "@builder.io/qwik";
-import { Link, routeLoader$ } from "@builder.io/qwik-city";
+import {
+  Link,
+  routeAction$,
+  routeLoader$,
+  z,
+  zod$,
+} from "@builder.io/qwik-city";
 import { Bookmark } from "~/components/post/bookmark";
 import { Comment } from "~/components/post/comment";
 import { Like } from "~/components/post/like";
@@ -7,10 +13,14 @@ import { Share } from "~/components/post/share";
 import { db } from "~/database/connection";
 import { format } from "date-fns";
 import type { AuthUser } from "~/types";
-import { fetchPostLikesCount, isPostAlreadyLiked } from "~/utils/posts";
+import {
+  fetchPostLikesCount,
+  handleCreatePost,
+  isPostAlreadyLiked,
+} from "~/utils/posts";
 import { fetchBookmarksCount, isAlreadyBookmarked } from "~/utils/bookmarks";
-import { Button } from "~/components/ui/button";
 import { ReplyForm } from "~/components/reply/reply-form";
+import { useCurrentUser } from "../../layout";
 
 export const usePost = routeLoader$(async ({ params, error, sharedMap }) => {
   const postId = +params.postId;
@@ -41,8 +51,22 @@ export const usePost = routeLoader$(async ({ params, error, sharedMap }) => {
     createdAt: createdDate,
   };
 });
+
+export const useCreateReply = routeAction$(
+  async (formData, requestEvent) => {
+    return handleCreatePost(
+      { ...formData, parentPostId: +formData.parentPostId },
+      requestEvent
+    );
+  },
+  zod$({
+    text: z.string().nonempty("Enter value for reply field"),
+    parentPostId: z.string().nonempty(),
+  })
+);
 export default component$(() => {
   const postSig = usePost();
+  const currentUser = useCurrentUser();
   return (
     <div class="py-4">
       {/* post autor section  */}
@@ -107,13 +131,16 @@ export default component$(() => {
               <img
                 width={40}
                 height={40}
-                src={(postSig.value.author.avatar as any)?.url}
-                alt={postSig.value.author.name}
+                src={currentUser.value?.avatar.url}
+                alt={currentUser.value?.name}
               />
             </div>
           </div>
 
-          <ReplyForm />
+          <ReplyForm
+            replyTo={postSig.value.author.username}
+            parentPostId={postSig.value.id}
+          />
         </div>
       </section>
       <div class="divider my-2"></div>

@@ -4,7 +4,7 @@ import {
 } from "@builder.io/qwik-city";
 import { db } from "~/database/connection";
 import { type NewPost, posts } from "~/database/schema/posts";
-import type { AuthUser, CreatePostSchema } from "~/types";
+import type { AuthUser } from "~/types";
 import { formatDistanceToNowStrict } from "date-fns";
 import { and, eq, sql } from "drizzle-orm";
 import { postsLikes } from "~/database/schema/posts-likes";
@@ -35,16 +35,14 @@ async function deletePostsLikes(postId: number, userId: number) {
     .where(and(eq(postsLikes.postId, postId), eq(postsLikes.userId, userId)));
 }
 async function handleCreatePost(
-  { replyPrivacy, text, visibility }: CreatePostSchema,
+  postData: Partial<NewPost>,
   { sharedMap, redirect, error, url }: RequestEventAction
 ) {
   const user = sharedMap.get("user") as AuthUser | undefined;
   if (!user) throw error(403, "Unauthorized");
   await createPost({
+    ...postData,
     authorId: user.id,
-    replyPrivacy: replyPrivacy as any,
-    visibility: visibility as any,
-    text,
   });
   throw redirect(302, url.pathname);
 }
