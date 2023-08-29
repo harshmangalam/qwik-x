@@ -9,6 +9,15 @@ import { formatDistanceToNowStrict } from "date-fns";
 import { and, eq, sql } from "drizzle-orm";
 import { postsLikes } from "~/database/schema/posts-likes";
 
+async function fetchPostRepliesCount(postId?: number | null) {
+  if (!postId) return 0;
+  const [result] = await db
+    .select({ count: sql<number>`count(*)`.mapWith(Number) })
+    .from(posts)
+    .where(eq(posts.parentPostId, postId));
+
+  return result.count;
+}
 async function findPostById(id: number) {
   return db.query.posts.findFirst({
     where(posts, { eq }) {
@@ -79,6 +88,7 @@ async function fetchPostsFeed({ sharedMap }: RequestEventLoader) {
       isLiked: await isPostAlreadyLiked(post.id, user?.id),
       createdAt: formatDistanceToNowStrict(post.createdAt),
       likesCount: await fetchPostLikesCount(post.id),
+      repliesCount: await fetchPostRepliesCount(post.id),
     });
   }
 
@@ -130,6 +140,7 @@ async function fetchPostReplies({ params, sharedMap }: RequestEventAction) {
       isLiked: await isPostAlreadyLiked(post.id, currentUser?.id),
       createdAt: formatDistanceToNowStrict(post.createdAt),
       likesCount: await fetchPostLikesCount(post.id),
+      repliesCount: await fetchPostRepliesCount(post.id),
     });
   }
 
@@ -144,4 +155,5 @@ export {
   isPostAlreadyLiked,
   fetchPostLikesCount,
   fetchPostReplies,
+  fetchPostRepliesCount,
 };

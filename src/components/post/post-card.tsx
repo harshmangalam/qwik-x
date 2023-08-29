@@ -6,9 +6,18 @@ import type { PostWithAuthor } from "~/types";
 import { Like } from "./like";
 import { Link } from "@builder.io/qwik-city";
 
-export type Props = PostWithAuthor & {};
+export type Props = PostWithAuthor;
 export const PostCard = component$((props: Props) => {
-  const { author, media, text, createdAt, id, isLiked, likesCount } = props;
+  const {
+    author,
+    media,
+    text,
+    createdAt,
+    id,
+    isLiked,
+    likesCount,
+    repliesCount,
+  } = props;
   return (
     <Link href={`/posts/${id}`}>
       <article class="card rounded-none hover:bg-base-200">
@@ -42,7 +51,7 @@ export const PostCard = component$((props: Props) => {
             </figure>
           )}
           <div class="card-actions justify-between pt-3">
-            <Comment />
+            <Comment postId={id} count={repliesCount} />
             <Like postId={id} isLiked={isLiked} count={likesCount} />
             {/* <Stat /> */}
             <Share />

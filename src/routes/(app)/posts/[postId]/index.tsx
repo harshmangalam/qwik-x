@@ -16,6 +16,7 @@ import type { AuthUser } from "~/types";
 import {
   fetchPostLikesCount,
   fetchPostReplies,
+  fetchPostRepliesCount,
   handleCreatePost,
   isPostAlreadyLiked,
 } from "~/utils/posts";
@@ -42,6 +43,7 @@ export const usePost = routeLoader$(async ({ params, error, sharedMap }) => {
 
   const bookmarksCount = await fetchBookmarksCount(postId);
   const isBookmarked = await isAlreadyBookmarked(postId, currentUser?.id);
+  const repliesCount = await fetchPostRepliesCount(post.id);
 
   const createdDate = format(post.createdAt, "h:mm a · MMM d, yyyy");
   return {
@@ -51,6 +53,7 @@ export const usePost = routeLoader$(async ({ params, error, sharedMap }) => {
     bookmarksCount,
     isBookmarked,
     createdAt: createdDate,
+    repliesCount,
   };
 });
 
@@ -111,6 +114,10 @@ export default component$(() => {
         <div class="divider my-2"></div>
         <div class="flex items-center gap-4">
           <Link href="" class="text-sm group">
+            <span class="font-bold">{postSig.value.repliesCount} </span>
+            <span class="opacity-70 group-hover:underline"> Replies</span>
+          </Link>
+          <Link href="" class="text-sm group">
             <span class="font-bold">{postSig.value.likesCount} </span>
             <span class="opacity-70 group-hover:underline"> Likes</span>
           </Link>
@@ -121,7 +128,7 @@ export default component$(() => {
         </div>
         <div class="divider my-2"></div>
         <div class="card-actions justify-between pt-3">
-          <Comment postId={1} />
+          <Comment postId={postSig.value.id} />
           <Like postId={postSig.value.id} isLiked={postSig.value.isLiked} />
           <Bookmark
             postId={postSig.value.id}

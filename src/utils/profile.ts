@@ -5,7 +5,11 @@ import { db } from "~/database/connection";
 import { profile, type NewProfile, posts } from "~/database/schema";
 import { findUserByUsername } from "./users";
 import { fetchFollowCount } from "./follow";
-import { fetchPostLikesCount, isPostAlreadyLiked } from "./posts";
+import {
+  fetchPostLikesCount,
+  fetchPostRepliesCount,
+  isPostAlreadyLiked,
+} from "./posts";
 
 async function createProfile(values: NewProfile) {
   const data = await db.insert(profile).values(values).returning();
@@ -94,6 +98,7 @@ async function fetchProfileLikedPosts({
       isLiked: await isPostAlreadyLiked(postLike.post.id, currentUser?.id),
       createdAt: formatDistanceToNowStrict(postLike.post.createdAt),
       likesCount: await fetchPostLikesCount(postLike.post.id),
+      repliesCount: await fetchPostRepliesCount(postLike.post.id),
     });
   }
   return formattedPosts;
@@ -129,6 +134,7 @@ async function fetchProfilePosts({
       isLiked: await isPostAlreadyLiked(post.id, currentUser?.id),
       createdAt: formatDistanceToNowStrict(post.createdAt),
       likesCount: await fetchPostLikesCount(post.id),
+      repliesCount: await fetchPostRepliesCount(post.id),
     });
   }
   return formattedPosts;
