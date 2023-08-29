@@ -34,16 +34,7 @@ export const PostCard = component$((props: Props) => {
               <div class="flex flex-1 flex-col gap-0">
                 <div class="font-bold">{author.name}</div>
                 <div class="leading-4 opacity-70">
-                  <button
-                    preventdefault:click
-                    onClick$={(ev) => {
-                      ev.stopPropagation();
-                      navigate(`/${author.username}`);
-                    }}
-                    class="hover:underline"
-                  >
-                    @{author.username}
-                  </button>
+                  <span>@{author.username}</span>
                   <span> · </span>
                   <span> {createdAt} </span>
                 </div>

@@ -1,6 +1,6 @@
 import { type RequestEventLoader } from "@builder.io/qwik-city";
 import { format, formatDistanceToNowStrict } from "date-fns";
-import { eq, isNull, sql } from "drizzle-orm";
+import { eq, isNotNull, isNull, sql } from "drizzle-orm";
 import { db } from "~/database/connection";
 import { profile, type NewProfile, posts } from "~/database/schema";
 import { findUserByUsername } from "./users";
@@ -125,8 +125,8 @@ async function fetchProfilePostsReplies({
   });
   if (!user) throw error(404, "User not found");
   const postsLikes = await db.query.posts.findMany({
-    where(fields, { eq }) {
-      return eq(fields.authorId, user.id);
+    where(fields, { eq, and }) {
+      return and(eq(fields.authorId, user.id), isNotNull(fields.parentPostId));
     },
     with: {
       author: true,
