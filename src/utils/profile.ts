@@ -112,6 +112,51 @@ async function fetchProfileLikedPosts({
   }
   return formattedPosts;
 }
+async function fetchProfilePostsReplies({
+  error,
+  params,
+  sharedMap,
+}: RequestEventLoader) {
+  const currentUser = sharedMap.get("user");
+  const user = await db.query.users.findFirst({
+    where(users, { eq }) {
+      return eq(users.username, params.username);
+    },
+  });
+  if (!user) throw error(404, "User not found");
+  const postsLikes = await db.query.posts.findMany({
+    where(fields, { eq }) {
+      return eq(fields.authorId, user.id);
+    },
+    with: {
+      author: true,
+      parentPost: {
+        with: {
+          author: {
+            columns: {
+              username: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy({ createdAt }, { desc }) {
+      return desc(createdAt);
+    },
+  });
+
+  const formattedPosts = [];
+  for (const post of postsLikes) {
+    formattedPosts.push({
+      ...post,
+      isLiked: await isPostAlreadyLiked(post.id, currentUser?.id),
+      createdAt: formatDistanceToNowStrict(post.createdAt),
+      likesCount: await fetchPostLikesCount(post.id),
+      repliesCount: await fetchPostRepliesCount(post.id),
+    });
+  }
+  return formattedPosts;
+}
 async function fetchProfilePosts({
   params,
   error,
@@ -156,4 +201,5 @@ export {
   fetchProfilePostsCount,
   fetchProfileLikedPosts,
   fetchProfilePosts,
+  fetchProfilePostsReplies,
 };

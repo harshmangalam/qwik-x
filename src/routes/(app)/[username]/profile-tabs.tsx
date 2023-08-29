@@ -10,9 +10,10 @@ export const ProfileTabs = component$(() => {
       href: `/${profileSig.value.username}/`,
     },
     {
-      name: "Media",
-      href: `/${profileSig.value.username}/media/`,
+      name: "Replies",
+      href: `/${profileSig.value.username}/replies/`,
     },
+
     {
       name: "Likes",
       href: `/${profileSig.value.username}/likes/`,
