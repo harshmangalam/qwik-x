@@ -6,7 +6,7 @@ import { db } from "~/database/connection";
 import { type NewPost, posts } from "~/database/schema/posts";
 import type { AuthUser } from "~/types";
 import { formatDistanceToNowStrict } from "date-fns";
-import { and, eq, sql } from "drizzle-orm";
+import { and, eq, isNull, sql } from "drizzle-orm";
 import { postsLikes } from "~/database/schema/posts-likes";
 
 async function fetchPostRepliesCount(postId?: number | null) {
@@ -71,6 +71,9 @@ async function fetchPostLikesCount(postId: number) {
 async function fetchPostsFeed({ sharedMap }: RequestEventLoader) {
   const user = sharedMap.get("user") as AuthUser | undefined;
   const posts = await db.query.posts.findMany({
+    where(fields) {
+      return isNull(fields.parentPostId);
+    },
     with: {
       author: true,
     },
