@@ -54,8 +54,8 @@ export const PostForm = component$((props: Props) => {
           </div>
           <ReplyPrivacy />
           <div class="divider my-2"></div>
-          <div class="card-actions flex justify-between gap-4 items-center">
-            <div class="flex items-center gap-2">
+          <div class="card-actions flex justify-end">
+            {/* <div class="flex items-center gap-2">
               <button type="button" class="btn btn-sm btn-ghost btn-circle">
                 <ImageOutlineIcon />
               </button>
@@ -65,12 +65,13 @@ export const PostForm = component$((props: Props) => {
               <button type="button" class="btn btn-sm btn-ghost btn-circle">
                 <EmojiOutlineIcon />
               </button>
-            </div>
+            </div> */}
             <div>
               <Button
                 type="submit"
                 colorScheme="btn-primary"
                 loading={actionSig.isRunning}
+                roundedFull
               >
                 Post
               </Button>
