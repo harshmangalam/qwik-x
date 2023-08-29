@@ -106,6 +106,36 @@ async function toggleLikePosts(
   throw redirect(302, url.pathname);
 }
 
+async function fetchPostReplies({ params, sharedMap }: RequestEventAction) {
+  const currentUser = sharedMap.get("user") as AuthUser | undefined;
+  const postId = +params.postId;
+  const posts = await db.query.posts.findMany({
+    where(fields, { eq }) {
+      return eq(fields.parentPostId, postId);
+    },
+    with: {
+      author: true,
+    },
+
+    orderBy({ createdAt }, { desc }) {
+      return desc(createdAt);
+    },
+  });
+
+  const formattedPosts = [];
+
+  for (const post of posts) {
+    formattedPosts.push({
+      ...post,
+      isLiked: await isPostAlreadyLiked(post.id, currentUser?.id),
+      createdAt: formatDistanceToNowStrict(post.createdAt),
+      likesCount: await fetchPostLikesCount(post.id),
+    });
+  }
+
+  return formattedPosts;
+}
+
 export {
   handleCreatePost,
   createPost,
@@ -113,4 +143,5 @@ export {
   toggleLikePosts,
   isPostAlreadyLiked,
   fetchPostLikesCount,
+  fetchPostReplies,
 };

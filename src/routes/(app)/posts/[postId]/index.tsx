@@ -15,12 +15,14 @@ import { format } from "date-fns";
 import type { AuthUser } from "~/types";
 import {
   fetchPostLikesCount,
+  fetchPostReplies,
   handleCreatePost,
   isPostAlreadyLiked,
 } from "~/utils/posts";
 import { fetchBookmarksCount, isAlreadyBookmarked } from "~/utils/bookmarks";
 import { ReplyForm } from "~/components/reply/reply-form";
 import { useCurrentUser } from "../../layout";
+import { PostCard } from "~/components/post/post-card";
 
 export const usePost = routeLoader$(async ({ params, error, sharedMap }) => {
   const postId = +params.postId;
@@ -64,9 +66,14 @@ export const useCreateReply = routeAction$(
     parentPostId: z.string().nonempty(),
   })
 );
+
+export const useFetchPostReply = routeLoader$(async (requestEvent) => {
+  return fetchPostReplies(requestEvent);
+});
 export default component$(() => {
   const postSig = usePost();
   const currentUser = useCurrentUser();
+  const replySig = useFetchPostReply();
   return (
     <div class="py-4">
       {/* post autor section  */}
@@ -143,7 +150,15 @@ export default component$(() => {
           />
         </div>
       </section>
-      <div class="divider my-2"></div>
+      <div class="divider my-0 py-0"></div>
+
+      <section>
+        <div class="grid grid-cols-1 divide-y">
+          {replySig.value.map((post) => (
+            <PostCard key={post.id} {...post} />
+          ))}
+        </div>
+      </section>
     </div>
   );
 });
