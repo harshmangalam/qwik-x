@@ -101,8 +101,8 @@ async function fetchUsersSuggestion({ sharedMap }: RequestEventLoader) {
 async function fetchAllUserSuggestions({ sharedMap }: RequestEventLoader) {
   const user = sharedMap.get("user");
   const users = await db.query.users.findMany({
-    where(fields, { eq, and }) {
-      return and(not(eq(fields.id, user?.id)), not);
+    where(fields, { eq }) {
+      return not(eq(fields.id, user?.id));
     },
     columns: {
       id: true,
