@@ -1,7 +1,7 @@
 import { component$ } from "@builder.io/qwik";
 
 import { Link } from "@builder.io/qwik-city";
-import { User } from "../user";
+import { User } from "../../user";
 import { useCurrentUser, useUserSuggesions } from "~/routes/(app)/layout";
 import { AuthCard } from "./auth-card";
 

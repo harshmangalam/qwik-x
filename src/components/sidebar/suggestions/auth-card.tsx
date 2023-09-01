@@ -11,7 +11,7 @@ export const AuthCard = component$(() => {
         </p>
         <div class="flex flex-col gap-3">
           <Link href="/signup/" class="btn btn-neutral  btn-block">
-            Create ccount
+            Create account
           </Link>
         </div>
       </div>
