@@ -33,7 +33,7 @@ export default component$(() => {
           <ProfileImage />
           <section class="py-3 px-4">
             <div class="flex justify-end">
-              <Link href="/settings/profile" class="btn rounded-full">
+              <Link href="/edit-profile" class="btn rounded-full">
                 Edit Profile
               </Link>
             </div>

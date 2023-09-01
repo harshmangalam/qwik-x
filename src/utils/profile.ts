@@ -227,7 +227,10 @@ async function handleFetchProfileInfo({
     },
   });
 
-  return profile;
+  return {
+    ...profile,
+    dob: profile?.dob && format(profile.dob, "yyyy-MM-dd"),
+  };
 }
 export {
   createProfile,

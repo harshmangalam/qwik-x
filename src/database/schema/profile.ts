@@ -8,7 +8,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import { users } from "./users";
-import { type InferModel } from "drizzle-orm";
+import { relations, type InferModel } from "drizzle-orm";
 
 export const profile = pgTable("profile", {
   id: serial("id").primaryKey(),
@@ -29,5 +29,12 @@ export const profile = pgTable("profile", {
     .notNull(),
 });
 
+export const profileRelations = relations(profile, ({ one }) => ({
+  user: one(users, {
+    fields: [profile.userId],
+    references: [users.id],
+    relationName: "usersToProfile",
+  }),
+}));
 export type Profile = InferModel<typeof profile, "select">;
 export type NewProfile = InferModel<typeof profile, "insert">;
