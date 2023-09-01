@@ -1,6 +1,7 @@
 import { component$ } from "@builder.io/qwik";
 import { Form, routeAction$, routeLoader$, zod$ } from "@builder.io/qwik-city";
 import { Button } from "~/components/ui/button";
+import { Select } from "~/components/ui/select";
 import { TextInput } from "~/components/ui/text-input";
 import { Textarea } from "~/components/ui/textarea";
 import {
@@ -22,12 +23,40 @@ export const useUpdateProfile = routeAction$(
     location: z.string(),
     website: z.string(),
     dob: z.any(),
+    category: z.string(),
   }))
 );
 
 export default component$(() => {
   const profileSig = useFetchProfile();
   const actionSig = useUpdateProfile();
+
+  const cateogries = [
+    "Automotive",
+    "Beauty",
+    "Books and Literature",
+    "Business",
+    "Careers",
+    "Education",
+    "Events",
+    "Family and Parenting",
+    "Food and Drink",
+    "Gaming",
+    "Health",
+    "Home and Garden",
+    "Law, Government, and Politics",
+    "Life Stages",
+    "Movies and Television",
+    "Music and Radio",
+    "Personal Finance",
+    "Pets",
+    "Science",
+    "Society",
+    "Sports",
+    "Style and Fashion",
+    "Technology and Computing",
+    "Travel",
+  ];
   return (
     <Form action={actionSig}>
       <article class="card">
@@ -57,6 +86,16 @@ export default component$(() => {
             label="Birth date"
             id="dob"
             value={profileSig.value.dob}
+          />
+
+          <Select
+            label="Category"
+            name="category"
+            options={cateogries.map((c) => ({
+              label: c,
+              value: c,
+              selected: c === profileSig.value.category,
+            }))}
           />
 
           <div class="card-actions justify-end mt-4">

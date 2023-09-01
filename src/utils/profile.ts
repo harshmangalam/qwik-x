@@ -203,7 +203,7 @@ async function fetchProfilePosts({
   return formattedPosts;
 }
 async function handleUpdateProfileAction(
-  { bio, link, location, dob }: Partial<Profile>,
+  { bio, link, location, dob, category }: Partial<Profile>,
   { sharedMap, redirect }: RequestEventAction
 ) {
   const currentUser = sharedMap.get("user") as AuthUser | undefined;
@@ -215,6 +215,7 @@ async function handleUpdateProfileAction(
       link,
       location,
       dob,
+      category,
     })
     .where(eq(profile.userId, currentUser.id));
   throw redirect(302, `/${currentUser.username}`);
