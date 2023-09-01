@@ -11,7 +11,7 @@ import { useCreatePost, useCurrentUser } from "~/routes/(app)/layout";
 import { Button } from "../ui/button";
 
 type Props = {
-  onComplete$?: QRL<() => void>;
+  onComplete$?: QRL<() => {}>;
 };
 export const PostForm = component$((props: Props) => {
   const { onComplete$ = noSerialize(() => {}) } = props;
@@ -22,9 +22,7 @@ export const PostForm = component$((props: Props) => {
       action={actionSig}
       onSubmitCompleted$={(_, form) => {
         form.reset();
-        if (onComplete$) {
-          onComplete$();
-        }
+        onComplete$?.();
       }}
     >
       <article class="card">
@@ -55,7 +53,7 @@ export const PostForm = component$((props: Props) => {
           <ReplyPrivacy />
           <div class="divider my-2"></div>
           <div class="card-actions flex justify-end">
-            {/* <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2">
               <button type="button" class="btn btn-sm btn-ghost btn-circle">
                 <ImageOutlineIcon />
               </button>
@@ -65,7 +63,7 @@ export const PostForm = component$((props: Props) => {
               <button type="button" class="btn btn-sm btn-ghost btn-circle">
                 <EmojiOutlineIcon />
               </button>
-            </div> */}
+            </div>
             <div>
               <Button
                 type="submit"

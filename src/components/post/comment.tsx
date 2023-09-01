@@ -2,7 +2,7 @@ import { $, type QwikMouseEvent, component$ } from "@builder.io/qwik";
 import { CommentOutlineIcon } from "~/icons/comment";
 
 type Props = { postId: number; count?: number };
-export const Comment = component$(({ postId, count }: Props) => {
+export const Comment = component$(({ count }: Props) => {
   const handleComment = $((ev: QwikMouseEvent) => {
     ev.stopPropagation();
   });

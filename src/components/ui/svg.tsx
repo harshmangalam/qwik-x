@@ -6,7 +6,6 @@ type Props = {
   fill?: string;
   viewBox?: string;
   svgClass?: string;
-  stroke: string;
 } & QwikIntrinsicElements["svg"];
 export const Svg = component$((props: Props) => {
   const {

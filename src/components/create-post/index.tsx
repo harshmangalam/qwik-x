@@ -1,5 +1,4 @@
 import { component$, useSignal } from "@builder.io/qwik";
-import { PostForm } from "./post-form";
 import { Button } from "../ui/button";
 
 export const CreatePost = component$(() => {
@@ -15,9 +14,7 @@ export const CreatePost = component$(() => {
         Post
       </Button>
       <dialog ref={dialogSig} class="modal">
-        <div class="modal-box">
-          <PostForm onComplete$={() => dialogSig.value?.close()} />
-        </div>
+        <div class="modal-box"></div>
         <form method="dialog" class="modal-backdrop">
           <button>close</button>
         </form>
