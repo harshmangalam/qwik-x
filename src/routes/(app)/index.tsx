@@ -9,22 +9,14 @@ export const usePostFeeds = routeLoader$(async (requestEvent) => {
 export default component$(() => {
   const postFeedsSig = usePostFeeds();
   return (
-    <div>
-      <div class="grid grid-cols-1 divide-y">
-        {postFeedsSig.value.map((post) => (
-          <PostCard key={post.id} {...post} />
-        ))}
-      </div>
+    <div class="grid grid-cols-1 divide-y">
+      {postFeedsSig.value.map((post) => (
+        <PostCard key={post.id} {...post} />
+      ))}
     </div>
   );
 });
 
 export const head: DocumentHead = {
-  title: "Welcome to Qwik",
-  meta: [
-    {
-      name: "description",
-      content: "Qwik site description",
-    },
-  ],
+  title: "qwik-x",
 };

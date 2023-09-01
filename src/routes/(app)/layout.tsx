@@ -7,6 +7,7 @@ import { handleCreatePost, toggleLikePosts } from "~/utils/posts";
 import { fetchUsersSuggestion } from "~/utils/users";
 import { handleFollowUnfollow } from "~/utils/follow";
 import { handleBookmark } from "~/utils/bookmarks";
+import { RightSidebar } from "~/components/right-sidebar";
 
 export const useCurrentUser = routeLoader$(({ sharedMap }) => {
   const user = sharedMap.get("user") as AuthUser | undefined;
@@ -27,6 +28,7 @@ export const useFollowUnfollow = globalAction$(
 
 export const useCreatePost = globalAction$(
   async (formData, requestEvent) => {
+    console.log(formData);
     return handleCreatePost(formData as any, requestEvent);
   },
   zod$({
@@ -60,9 +62,15 @@ export default component$(() => {
   return (
     <div class="relative container max-w-7xl mx-auto">
       <Sidebar />
+
       <main class="ml-64">
-        <div>
-          <Slot />
+        <div class="grid grid-cols-12 divide-x min-h-screen h-full">
+          <div class="col-span-7">
+            <Slot />
+          </div>
+          <div class="col-span-5">
+            <RightSidebar />
+          </div>
         </div>
       </main>
     </div>
