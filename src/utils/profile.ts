@@ -1,8 +1,16 @@
-import { type RequestEventLoader } from "@builder.io/qwik-city";
+import {
+  type RequestEventAction,
+  type RequestEventLoader,
+} from "@builder.io/qwik-city";
 import { format, formatDistanceToNowStrict } from "date-fns";
 import { eq, isNotNull, isNull, sql } from "drizzle-orm";
 import { db } from "~/database/connection";
-import { profile, type NewProfile, posts } from "~/database/schema";
+import {
+  profile,
+  type NewProfile,
+  posts,
+  type Profile,
+} from "~/database/schema";
 import { findUserByUsername } from "./users";
 import { fetchFollowCount } from "./follow";
 import {
@@ -10,6 +18,7 @@ import {
   fetchPostRepliesCount,
   isPostAlreadyLiked,
 } from "./posts";
+import type { AuthUser } from "~/types";
 
 async function createProfile(values: NewProfile) {
   const data = await db.insert(profile).values(values).returning();
@@ -193,6 +202,33 @@ async function fetchProfilePosts({
   }
   return formattedPosts;
 }
+async function handleUpdateProfileAction(
+  profile: Partial<Profile>,
+  { sharedMap, redirect }: RequestEventAction
+) {
+  const currentUser = sharedMap.get("user") as AuthUser | undefined;
+  if (!currentUser) throw redirect(308, "/login");
+  await updateProfile(currentUser.id, profile);
+}
+
+async function handleFetchProfileInfo({
+  sharedMap,
+  redirect,
+}: RequestEventLoader) {
+  const currentUser = sharedMap.get("user") as AuthUser | undefined;
+  if (!currentUser) throw redirect(308, "/login");
+
+  const profile = await db.query.profile.findFirst({
+    where(fields, { eq }) {
+      return eq(fields.userId, currentUser.id);
+    },
+    with: {
+      user: true,
+    },
+  });
+
+  return profile;
+}
 export {
   createProfile,
   updateProfile,
@@ -202,4 +238,6 @@ export {
   fetchProfileLikedPosts,
   fetchProfilePosts,
   fetchProfilePostsReplies,
+  handleUpdateProfileAction,
+  handleFetchProfileInfo,
 };
