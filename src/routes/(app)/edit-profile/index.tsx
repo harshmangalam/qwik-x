@@ -1,17 +1,35 @@
 import { component$ } from "@builder.io/qwik";
-import { Form, routeLoader$ } from "@builder.io/qwik-city";
+import { Form, routeAction$, routeLoader$, zod$ } from "@builder.io/qwik-city";
 import { Button } from "~/components/ui/button";
 import { TextInput } from "~/components/ui/text-input";
 import { Textarea } from "~/components/ui/textarea";
-import { handleFetchProfileInfo } from "~/utils/profile";
+import {
+  handleFetchProfileInfo,
+  handleUpdateProfileAction,
+} from "~/utils/profile";
 
-export const useFetchProfile = routeLoader$((requestEvent) => {
+export const useFetchProfile = routeLoader$(async (requestEvent) => {
   return handleFetchProfileInfo(requestEvent);
 });
+
+export const useUpdateProfile = routeAction$(
+  async (formData, requestEvent) => {
+    formData.dob = new Date(formData.dob);
+    return handleUpdateProfileAction(formData, requestEvent);
+  },
+  zod$((z) => ({
+    bio: z.string(),
+    location: z.string(),
+    website: z.string(),
+    dob: z.any(),
+  }))
+);
+
 export default component$(() => {
   const profileSig = useFetchProfile();
+  const actionSig = useUpdateProfile();
   return (
-    <Form>
+    <Form action={actionSig}>
       <article class="card">
         <div class="card-body">
           <div class="card-title">Edit Profile</div>
@@ -42,7 +60,11 @@ export default component$(() => {
           />
 
           <div class="card-actions justify-end mt-4">
-            <Button type="submit" colorScheme="btn-neutral">
+            <Button
+              loading={actionSig.isRunning}
+              type="submit"
+              colorScheme="btn-neutral"
+            >
               Save
             </Button>
           </div>
