@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1693684593427,
+      "tag": "0000_little_shard",
+      "breakpoints": true
+    }
+  ]
+}
