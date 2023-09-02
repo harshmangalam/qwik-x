@@ -9,18 +9,19 @@
     "build": "qwik build",
     "build.client": "vite build",
     "build.preview": "vite build --ssr src/entry.preview.tsx",
+    "build.server": "vite build -c adapters/vercel-edge/vite.config.ts",
     "build.types": "tsc --incremental --noEmit",
-    "deploy": "echo 'Run \"npm run qwik add\" to install a server adapter'",
+    "deploy": "vercel deploy",
     "dev": "vite --mode ssr",
     "dev.debug": "node --inspect-brk ./node_modules/vite/bin/vite.js --mode ssr --force",
     "fmt": "prettier --write .",
     "fmt.check": "prettier --check .",
     "lint": "eslint \"src/**/*.ts*\"",
+    "migration:generate": "drizzle-kit generate:pg",
+    "migration:push": "drizzle-kit push:pg",
     "preview": "qwik build preview && vite preview --open",
     "start": "vite --open --mode ssr",
-    "qwik": "qwik",
-    "migration:push": "drizzle-kit push:pg",
-    "migration:generate": "drizzle-kit generate:pg"
+    "qwik": "qwik"
   },
   "devDependencies": {
     "@builder.io/qwik": "^1.2.6",
@@ -40,17 +41,17 @@
     "tailwindcss": "^3.3.1",
     "typescript": "5.1.6",
     "undici": "5.22.1",
+    "vercel": "^29.1.1",
     "vite": "4.4.0",
     "vite-tsconfig-paths": "4.2.0"
   },
   "dependencies": {
+    "@vercel/postgres": "^0.4.1",
     "crypto-js": "^4.1.1",
     "date-fns": "^2.30.0",
-    "date-fns-tz": "^2.0.0",
     "dotenv": "^16.3.1",
     "drizzle-orm": "^0.28.2",
     "jose": "^4.14.4",
-    "pg": "^8.11.2",
-    "postgres": "^3.3.5"
+    "pg": "^8.11.2"
   }
 }
