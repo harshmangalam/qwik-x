@@ -46,11 +46,10 @@
     "vite-tsconfig-paths": "4.2.0"
   },
   "dependencies": {
-    "@vercel/postgres": "^0.4.1",
+    "@neondatabase/serverless": "^0.6.0",
     "crypto-js": "^4.1.1",
     "date-fns": "^2.30.0",
     "dotenv": "^16.3.1",
-    "dotenv-expand": "^10.0.0",
     "drizzle-orm": "^0.28.2",
     "jose": "^4.14.4",
     "pg": "^8.11.2"
