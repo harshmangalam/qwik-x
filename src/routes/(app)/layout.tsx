@@ -28,7 +28,6 @@ export const useFollowUnfollow = globalAction$(
 
 export const useCreatePost = globalAction$(
   async (formData, requestEvent) => {
-    console.log(formData);
     return handleCreatePost(formData as any, requestEvent);
   },
   zod$({

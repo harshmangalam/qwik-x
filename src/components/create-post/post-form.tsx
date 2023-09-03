@@ -11,7 +11,7 @@ import { useCreatePost, useCurrentUser } from "~/routes/(app)/layout";
 import { Button } from "../ui/button";
 
 type Props = {
-  onComplete$?: QRL<() => {}>;
+  onComplete$?: QRL<() => void>;
 };
 export const PostForm = component$((props: Props) => {
   const { onComplete$ = noSerialize(() => {}) } = props;
