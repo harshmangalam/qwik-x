@@ -1,8 +1,6 @@
 import type { Config } from "drizzle-kit";
 import * as dotenv from "dotenv";
-import dotenvExpand from "dotenv-expand";
-const myEnv = dotenv.config();
-dotenvExpand.expand(myEnv);
+dotenv.config();
 
 export default {
   schema: "./src/database/schema/*",
