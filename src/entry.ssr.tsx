@@ -17,6 +17,11 @@ import {
 import { manifest } from "@qwik-client-manifest";
 import Root from "./root";
 
+import * as dotenv from "dotenv";
+import dotenvExpand from "dotenv-expand";
+const myEnv = dotenv.config();
+dotenvExpand.expand(myEnv);
+
 export default function (opts: RenderToStreamOptions) {
   return renderToStream(<Root />, {
     manifest,
