@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import { LoginWithGithub } from "./login-with-github";
+
 import { LogoIcon } from "~/icons/logo";
 import { Form, Link, routeAction$, z, zod$ } from "@builder.io/qwik-city";
 import { TextInput } from "~/components/ui/text-input";
@@ -56,8 +56,7 @@ export default component$(() => {
               </Button>
             </div>
           </Form>
-          <div class="divider">OR</div>
-          <LoginWithGithub />
+
           <div class="mt-4 text-center">
             <span class="opacity-80">Don’t have an account? </span>
             <Link class="link font-medium opacity-100" href="/signup">
