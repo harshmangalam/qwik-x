@@ -2,12 +2,6 @@ import { component$ } from "@builder.io/qwik";
 import { Logo } from "../shared/logo";
 import { HomeIcon, HomeOutlineIcon } from "~/icons/home";
 import { SearchIcon, SearchOutlineIcon } from "~/icons/search";
-import {
-  NotificationIcon,
-  NotificationOutlineIcon,
-} from "~/icons/notification";
-import { MessageIcon, MessageOutlineIcon } from "~/icons/message";
-import { ListIcon, ListOulineIcon } from "~/icons/list";
 import { CommunityIcon, CommunityOutlineIcon } from "~/icons/community";
 import { ProfileIcon, ProfileOutlineIcon } from "~/icons/profile";
 import { AccountMenu } from "./account-menu";
@@ -47,34 +41,7 @@ export const Sidebar = component$(() => {
       activeIcon: BookmarkIcon,
       show: !!userSig.value,
     },
-    {
-      name: "Notifications",
-      href: "/notifications/",
-      icon: NotificationOutlineIcon,
-      activeIcon: NotificationIcon,
-      show: !!userSig.value,
-    },
-    {
-      name: "Messages",
-      href: "/messages/",
-      icon: MessageOutlineIcon,
-      activeIcon: MessageIcon,
-      show: !!userSig.value,
-    },
-    {
-      name: "Lists",
-      href: "/lists/",
-      icon: ListOulineIcon,
-      activeIcon: ListIcon,
-      show: true,
-    },
-    {
-      name: "Communities",
-      href: "/communities/",
-      icon: CommunityOutlineIcon,
-      activeIcon: CommunityIcon,
-      show: true,
-    },
+
     {
       name: "Profile",
       href: `/${userSig.value?.username}/`,
