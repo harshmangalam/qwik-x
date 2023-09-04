@@ -1,10 +1,13 @@
 import { $, type QwikMouseEvent, component$ } from "@builder.io/qwik";
+import { useNavigate } from "@builder.io/qwik-city";
 import { CommentOutlineIcon } from "~/icons/comment";
 
 type Props = { postId: number; count?: number };
-export const Comment = component$(({ count }: Props) => {
+export const Comment = component$(({ count, postId }: Props) => {
+  const navigate = useNavigate();
   const handleComment = $((ev: QwikMouseEvent) => {
     ev.stopPropagation();
+    navigate(`/posts/${postId}`);
   });
   return (
     <div>
