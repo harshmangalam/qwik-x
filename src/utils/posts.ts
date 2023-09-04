@@ -150,6 +150,36 @@ async function fetchPostReplies({ params, sharedMap }: RequestEventAction) {
   return formattedPosts;
 }
 
+async function fetchExplorePosts({ sharedMap }: RequestEventLoader) {
+  const user = sharedMap.get("user") as AuthUser | undefined;
+  const posts = await db.query.posts.findMany({
+    where(fields) {
+      return isNull(fields.parentPostId);
+    },
+    with: {
+      author: true,
+    },
+
+    orderBy({ createdAt }, { desc }) {
+      return desc(createdAt);
+    },
+  });
+
+  const formattedPosts = [];
+
+  for (const post of posts) {
+    formattedPosts.push({
+      ...post,
+      isLiked: await isPostAlreadyLiked(post.id, user?.id),
+      createdAt: formatDistanceToNowStrict(post.createdAt),
+      likesCount: await fetchPostLikesCount(post.id),
+      repliesCount: await fetchPostRepliesCount(post.id),
+    });
+  }
+
+  return formattedPosts;
+}
+
 export {
   handleCreatePost,
   createPost,
@@ -159,4 +189,5 @@ export {
   fetchPostLikesCount,
   fetchPostReplies,
   fetchPostRepliesCount,
+  fetchExplorePosts,
 };
