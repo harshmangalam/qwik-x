@@ -1,6 +1,18 @@
-import * as schema from "./schema";
-import { drizzle } from "drizzle-orm/neon-serverless";
-import { Pool } from "@neondatabase/serverless";
-const pool = new Pool();
-const client = await pool.connect();
-export const db = drizzle(client, { schema });
+import { drizzle } from "drizzle-orm/postgres-js";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
+import postgres from "postgres";
+
+const DRIZZLE_DATABASE_URL = process.env["DRIZZLE_DATABASE_URL"] as string;
+
+if (!DRIZZLE_DATABASE_URL)
+  throw new Error("DRIZZLE_DATABASE_URL env variable missing");
+
+// for migrations
+const migrationClient = postgres(DRIZZLE_DATABASE_URL, { max: 1 });
+migrate(drizzle(migrationClient), {
+  migrationsFolder: "migrations",
+});
+
+// for query purposes
+const queryClient = postgres(DRIZZLE_DATABASE_URL);
+export const db = drizzle(queryClient);
