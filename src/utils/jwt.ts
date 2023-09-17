@@ -1,7 +1,5 @@
 import * as jose from "jose";
 const secret = new TextEncoder().encode(process.env["JWT_SECRET"]);
-
-console.log(process.env["JWT_SECRET"]);
 const signToken = async (data: any) => {
   const alg = "HS256";
   const jwt = await new jose.SignJWT(data)
