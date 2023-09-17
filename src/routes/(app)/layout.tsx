@@ -60,14 +60,16 @@ export const useUserSuggesions = routeLoader$(async (requestEvent) => {
 export default component$(() => {
   return (
     <div class="relative container max-w-7xl mx-auto">
-      <Sidebar />
+      <div class="hidden md:block">
+        <Sidebar />
+      </div>
 
-      <main class="ml-64">
-        <div class="grid grid-cols-12 divide-x min-h-screen h-full">
-          <div class="col-span-7">
+      <main class="md:ml-64">
+        <div class="grid grid-cols-1 lg:grid-cols-12 divide-x min-h-screen h-full">
+          <div class="lg:col-span-7">
             <Slot />
           </div>
-          <div class="col-span-5">
+          <div class="lg:col-span-5 hidden lg:block">
             <RightSidebar />
           </div>
         </div>
