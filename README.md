@@ -1,7 +1,9 @@
 # Qwik-X ⚡️
+
 Social media web app like Twitter build with Qwikcit
 
 ## Tech Stack
+
 - Qwikcity
 - Typescript
 - Drizzle ORM
@@ -10,16 +12,8 @@ Social media web app like Twitter build with Qwikcit
 - Node/Express server
 - Tailwindcss
 - daisyui
-- 
 
-
-## Add Integrations and deployment
-
-Use the `pnpm qwik add` command to add additional integrations. Some examples of integrations includes: Cloudflare, Netlify or Express Server, and the [Static Site Generator (SSG)](https://qwik.builder.io/qwikcity/guides/static-site-generation/).
-
-```shell
-pnpm qwik add # or `yarn qwik add`
-```
+> Note: copy .env.example inside .env
 
 ## Development
 
