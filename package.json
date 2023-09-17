@@ -45,18 +45,15 @@
     "tailwindcss": "^3.3.1",
     "typescript": "5.1.6",
     "undici": "5.22.1",
-    "vercel": "^29.1.1",
     "vite": "4.4.0",
     "vite-tsconfig-paths": "4.2.0"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^0.6.0",
     "crypto-js": "^4.1.1",
     "date-fns": "^2.30.0",
     "dotenv": "^16.3.1",
     "drizzle-orm": "^0.28.2",
     "jose": "^4.14.4",
-    "pg": "^8.11.2",
     "postgres": "^3.3.5"
   }
 }
