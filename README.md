@@ -1,6 +1,6 @@
 # Qwik-X ⚡️
 
-Social media web app like Twitter build with Qwikcit
+Social media web app like Twitter build with Qwikcity
 
 ## Tech Stack
 
