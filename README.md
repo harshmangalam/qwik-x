@@ -23,6 +23,9 @@ Development mode uses [Vite's development server](https://vitejs.dev/). The `dev
 pnpm run dev
 ```
 
+> Note: If you want to generate random 100 users then open this url inside your browser
+> http://localhost:5173/api/seeding/?entities=users
+
 ## Preview
 
 The preview command will create a production build of the client modules, a production build of `src/entry.preview.tsx`, and run a local server. The preview server is only for convenience to preview a production build locally and should not be used as a production server.
