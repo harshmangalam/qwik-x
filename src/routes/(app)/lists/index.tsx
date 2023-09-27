@@ -1,6 +1,7 @@
 import { component$ } from "@builder.io/qwik";
 import { Link, routeLoader$ } from "@builder.io/qwik-city";
 import { ListItem } from "~/components/lists/list-item";
+import PinnedListItem from "~/components/lists/pinned-list-item";
 import { PageHeader } from "~/components/page-header";
 import { CreateListIcon } from "~/icons/list";
 
@@ -47,7 +48,12 @@ export default component$(() => {
         <h3 class="text-xl font-bold">Pinned Lists</h3>
         <ul class="flex flex-col gap-3">
           {pinnedListsSig.value.map((list) => (
-            <ListItem {...list} key={list.id} />
+            <PinnedListItem
+              id={list.id}
+              isPrivate={list.isPrivate}
+              name={list.name}
+              key={list.id}
+            />
           ))}
         </ul>
       </div>
