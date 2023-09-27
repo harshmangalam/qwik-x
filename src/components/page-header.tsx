@@ -11,7 +11,7 @@ type Props = {
 export const PageHeader = component$((props: Props) => {
   const { backHref = "/", title, end, subtitle } = props;
   return (
-    <header class="px-2 py-2">
+    <header class="px-2 py-2 sticky top-0  bg-opacity-40 z-10 backdrop-blur">
       <div class="flex items-center justify-between gap-4">
         <div class="flex items-center gap-3">
           <Link href={backHref} class="btn btn-ghost btn-circle btn-sm">
