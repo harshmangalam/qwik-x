@@ -2,7 +2,7 @@ import { type QwikIntrinsicElements, component$, Slot } from "@builder.io/qwik";
 
 type Props = QwikIntrinsicElements["div"] & {
   size?: "xs" | "sm" | "md" | "lg" | "xl";
-  placeholder?: boolean;
+  isPlaceholder?: boolean;
   online?: boolean;
   offline?: boolean;
   rounded?:
@@ -21,16 +21,22 @@ type Props = QwikIntrinsicElements["div"] & {
     | "success"
     | "error"
     | "warning";
+  rootClass?: string;
+  imgContainerClass?: string;
+  mask?: string;
 };
 export const Avatar = component$((props: Props) => {
   const {
     size = "md",
-    placeholder = false,
+    isPlaceholder = false,
     online = false,
     offline = false,
     circle = false,
     rounded = "rounded",
     colorSchema = "none",
+    rootClass = "",
+    imgContainerClass = "",
+    mask = "",
     ...rest
   } = props;
 
@@ -50,14 +56,24 @@ export const Avatar = component$((props: Props) => {
     error: "bg-error-focus text-error-content",
   };
   return (
-    <div class={["avatar", { placeholder }, { online }, { offline }]} {...rest}>
+    <div
+      class={[
+        "avatar",
+        { placeholder: isPlaceholder },
+        { online },
+        { offline },
+        rootClass,
+      ]}
+      {...rest}
+    >
       <div
         class={[
-          "mask mask-squircle bg-primary-focus text-primary-content",
           { "rounded-full": circle },
           rounded,
           sizes[size],
           colorSchemas[colorSchema],
+          mask,
+          imgContainerClass,
         ]}
       >
         <Slot />
