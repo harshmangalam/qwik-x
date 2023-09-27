@@ -9,7 +9,7 @@ import { MenuItem } from "./menu-item";
 import { useCurrentUser } from "~/routes/(app)/layout";
 import { CreatePost } from "../create-post";
 import { BookmarkIcon, BookmarkOutlineIcon } from "~/icons/bookmark";
-
+import { ListIcon, ListOulineIcon } from "~/icons/list";
 export const Sidebar = component$(() => {
   const userSig = useCurrentUser();
   const links = [
@@ -39,6 +39,14 @@ export const Sidebar = component$(() => {
       href: "/bookmarks/",
       icon: BookmarkOutlineIcon,
       activeIcon: BookmarkIcon,
+      show: !!userSig.value,
+    },
+
+    {
+      name: "Lists",
+      href: `/lists/?username=${userSig.value?.username}`,
+      icon: ListOulineIcon,
+      activeIcon: ListIcon,
       show: !!userSig.value,
     },
 

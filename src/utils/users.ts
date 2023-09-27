@@ -26,7 +26,8 @@ async function isEmailExists(email: string) {
   if (data) return true;
   return false;
 }
-async function isUsernameExists(username: string) {
+async function isUsernameExists(username: string | null) {
+  if (!username) return false;
   const data = await db.query.users.findFirst({
     where: eq(users.username, username),
     columns: {
