@@ -44,7 +44,7 @@ export const Sidebar = component$(() => {
 
     {
       name: "Lists",
-      href: `/lists/?username=${userSig.value?.username}`,
+      href: "/lists/",
       icon: ListOulineIcon,
       activeIcon: ListIcon,
       show: !!userSig.value,

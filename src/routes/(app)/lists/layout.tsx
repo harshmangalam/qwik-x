@@ -1,13 +1,24 @@
 import { Slot, component$ } from "@builder.io/qwik";
-import { type RequestHandler } from "@builder.io/qwik-city";
-import { isUsernameExists } from "~/utils/users";
+import { Link } from "@builder.io/qwik-city";
+import { PageHeader } from "~/components/page-header";
+import { CreateListIcon } from "~/icons/list";
 
-export const onRequest: RequestHandler = async ({ next, query, error }) => {
-  const username = query.get("username");
-  const exists = await isUsernameExists(username);
-  if (!exists) throw error(404, "Username does not exists");
-  await next();
-};
 export default component$(() => {
-  return <Slot />;
+  return (
+    <div>
+      <PageHeader
+        title="Lists"
+        end={[
+          <Link
+            key={"create-list"}
+            href="/lists/create"
+            class="btn btn-ghost btn-circle btn-sm"
+          >
+            <CreateListIcon />
+          </Link>,
+        ]}
+      />
+      <Slot />
+    </div>
+  );
 });
