@@ -1,7 +1,7 @@
 import { component$ } from "@builder.io/qwik";
 import { ListAvatar } from "./list-avatar";
-import { LockIcon, PinOutlineIcon } from "~/icons";
-import { Button } from "../ui/button";
+import { LockIcon } from "~/icons";
+import { ListPin } from "./list-pin";
 
 type Props = {
   id: number;
@@ -13,7 +13,8 @@ type Props = {
   };
 };
 export const ListItem = component$((props: Props) => {
-  const { name, owner } = props;
+  const { id, name, owner } = props;
+
   return (
     <li class="flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
@@ -34,9 +35,7 @@ export const ListItem = component$((props: Props) => {
           </div>
         </div>
       </div>
-      <Button circle colorScheme="btn-ghost">
-        <PinOutlineIcon />
-      </Button>
+      <ListPin listId={id} />
     </li>
   );
 });

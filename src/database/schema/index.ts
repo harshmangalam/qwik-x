@@ -6,3 +6,4 @@ export * from "./followers";
 export * from "./followings";
 export * from "./bookmarks";
 export * from "./lists";
+export * from "./users-to-lists";
