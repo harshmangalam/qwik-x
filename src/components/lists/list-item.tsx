@@ -37,8 +37,18 @@ export const ListItem = component$((props: Props) => {
           </div>
           <div class="flex items-center gap-1">
             <Avatar src={owner.avatar?.url} size="xs" circle />
-            <div class="font-bold text-sm">{owner.name}</div>
-            <div class="opacity-60 text-sm">@{owner.username}</div>
+            <Link
+              class="font-bold text-sm link link-hover"
+              href={`/${owner.username}/`}
+            >
+              {owner.name}
+            </Link>
+            <Link
+              href={`/${owner.username}/`}
+              class="opacity-60 text-sm link link-hover"
+            >
+              @{owner.username}
+            </Link>
           </div>
         </div>
       </div>
