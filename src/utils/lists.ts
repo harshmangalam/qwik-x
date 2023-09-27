@@ -22,4 +22,22 @@ const fetchMyLists = async (ownerId: number) => {
   });
   return data;
 };
-export { createList, fetchMyLists };
+
+const fetchListsSuggestions = async () => {
+  const data = await db.query.lists.findMany({
+    where(fields, { eq }) {
+      return eq(fields.isPrivate, false);
+    },
+    with: {
+      owner: {
+        columns: {
+          name: true,
+          username: true,
+          avatar: true,
+        },
+      },
+    },
+  });
+  return data;
+};
+export { createList, fetchMyLists, fetchListsSuggestions };
