@@ -15,7 +15,6 @@ export const lists = pgTable("lists", {
   description: varchar("description", { length: 100 }),
   isPrivate: boolean("is_private").default(false).notNull(),
   ownerId: integer("owner_id").notNull(),
-
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),

@@ -2,10 +2,9 @@ import { component$ } from "@builder.io/qwik";
 import { ListAvatar } from "./list-avatar";
 import { LockIcon } from "~/icons";
 import { ListPin } from "./list-pin";
+import { type List } from "~/database/schema";
 
-type Props = {
-  id: number;
-  name: string;
+type Props = List & {
   owner: {
     avatar: any;
     username: string;
@@ -13,7 +12,7 @@ type Props = {
   };
 };
 export const ListItem = component$((props: Props) => {
-  const { id, name, owner } = props;
+  const { id, name, owner, isPrivate } = props;
 
   return (
     <li class="flex items-center justify-between gap-4">
@@ -22,7 +21,7 @@ export const ListItem = component$((props: Props) => {
         <div class="flex flex-col gap-0">
           <div class="flex items-center gap-1">
             <span class="font-bold">{name}</span>
-            <LockIcon size={16} />
+            {isPrivate && <LockIcon size={16} />}
           </div>
           <div class="flex items-center gap-1">
             <div class="avatar">
