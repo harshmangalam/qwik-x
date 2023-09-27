@@ -36,7 +36,7 @@ export default component$(() => {
   const actionSig = useCreateList();
   return (
     <div>
-      <PageHeader title="Create a new List" />
+      <PageHeader backHref="/lists/" title="Create a new List" />
       <div class="px-4 py-4">
         <article class="card shadow">
           <div class="card-body">

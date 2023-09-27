@@ -3,6 +3,7 @@ import { type QwikIntrinsicElements, component$, Slot } from "@builder.io/qwik";
 type Props = QwikIntrinsicElements["button"] & {
   loading?: boolean;
   fullWidth?: boolean;
+  circle?: boolean;
   roundedFull?: boolean;
   size?: "btn-xs" | "btn-sm" | "btn-md" | "btn-lg";
   btnClass?: any;
@@ -24,7 +25,7 @@ export const Button = component$((props: Props) => {
     size = "btn-md",
     btnClass = null,
     roundedFull = false,
-
+    circle = false,
     ...rest
   } = props;
   return (
@@ -36,6 +37,7 @@ export const Button = component$((props: Props) => {
         size,
         { "btn-block": fullWidth },
         { "rounded-full": roundedFull },
+        { "btn-circle": circle },
         btnClass,
       ]}
       {...rest}
