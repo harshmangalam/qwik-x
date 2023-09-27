@@ -1,8 +1,9 @@
 import { component$ } from "@builder.io/qwik";
-import { ListAvatar } from "./list-avatar";
 import { LockIcon } from "~/icons";
 import { ListPin } from "./list-pin";
 import { type List } from "~/database/schema";
+import { Avatar } from "../ui/avatar";
+import { ListOulineIcon } from "~/icons/list";
 
 type Props = List & {
   hasPinned?: boolean;
@@ -18,7 +19,14 @@ export const ListItem = component$((props: Props) => {
   return (
     <li class="flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <ListAvatar />
+        <Avatar
+          size="md"
+          colorSchema="primary"
+          mask="mask mask-squircle"
+          isPlaceholder
+        >
+          <ListOulineIcon />
+        </Avatar>
         <div class="flex flex-col gap-0">
           <div class="flex items-center gap-1">
             <span class="font-bold">{name}</span>
