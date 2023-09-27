@@ -134,4 +134,14 @@ async function handleTokenVerification({
   }
 }
 
-export { handleSignup, handleLogin, handleTokenVerification, handleLogout };
+const fetchCurrentUser = (sharedMap: any) => {
+  return sharedMap.get("user") as AuthUser | null;
+};
+
+export {
+  handleSignup,
+  handleLogin,
+  handleTokenVerification,
+  handleLogout,
+  fetchCurrentUser,
+};
