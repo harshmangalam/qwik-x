@@ -133,6 +133,27 @@ const handleFetchPinnedLists = async (requestEvent: RequestEventLoader) => {
     };
   });
 };
+
+const handleFetchList = async (requestEvent: RequestEventLoader) => {
+  const listId = Number(requestEvent.params.id);
+  if (!listId) throw requestEvent.redirect(307, "/lists/");
+  const user = fetchCurrentUser(requestEvent);
+  const data = await db.query.lists.findFirst({
+    where(fields, { eq }) {
+      return eq(fields.id, listId);
+    },
+    with: {
+      owner: true,
+    },
+  });
+
+  if (!data) throw requestEvent.error(404, "Lists not found");
+
+  return {
+    ...data,
+    hasPinned: await hasPinned(listId, user.id),
+  };
+};
 export {
   createList,
   handleFetchMyLists,
@@ -140,4 +161,5 @@ export {
   handleTogglePinLists,
   fetchListById,
   handleFetchPinnedLists,
+  handleFetchList,
 };
