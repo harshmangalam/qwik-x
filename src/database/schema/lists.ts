@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { InferModel, relations } from "drizzle-orm";
 import {
   boolean,
   integer,
@@ -27,3 +27,6 @@ export const listsRelations = relations(lists, ({ one }) => ({
     relationName: "listsOwner",
   }),
 }));
+
+export type List = InferModel<typeof lists, "select">;
+export type NewList = InferModel<typeof lists, "insert">;
