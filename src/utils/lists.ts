@@ -1,4 +1,7 @@
-import { type RequestEventAction } from "@builder.io/qwik-city";
+import {
+  type RequestEventLoader,
+  type RequestEventAction,
+} from "@builder.io/qwik-city";
 import { and, eq } from "drizzle-orm";
 import { db } from "~/database/connection";
 import { type NewList, lists } from "~/database/schema/lists";
@@ -81,10 +84,9 @@ const fetchListsSuggestions = async () => {
 
 const handleTogglePinLists = async (
   listId: number,
-  { sharedMap, error, redirect }: RequestEventAction
+  requestEvent: RequestEventAction
 ) => {
-  const currentUser = fetchCurrentUser(sharedMap);
-  if (!currentUser) throw error(401, "Unauthenticated");
+  const currentUser = fetchCurrentUser(requestEvent);
   const pinned = await hasPinned(listId, currentUser.id);
   if (pinned) {
     // remove from pin
@@ -94,7 +96,25 @@ const handleTogglePinLists = async (
     await addPin(listId, currentUser.id);
   }
 
-  throw redirect(307, "/lists/");
+  throw requestEvent.redirect(307, "/lists/");
+};
+
+const handleFetchPinnedLists = async (requestEvent: RequestEventLoader) => {
+  const user = fetchCurrentUser(requestEvent);
+  const data = await db.query.usersListsPinned.findMany({
+    where(fields, { eq }) {
+      return eq(fields.userId, user.id);
+    },
+    with: {
+      list: {
+        with: {
+          owner: true,
+        },
+      },
+    },
+  });
+
+  return data.map((d) => d.list);
 };
 export {
   createList,
@@ -102,4 +122,5 @@ export {
   fetchListsSuggestions,
   handleTogglePinLists,
   fetchListById,
+  handleFetchPinnedLists,
 };

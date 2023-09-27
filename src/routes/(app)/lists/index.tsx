@@ -4,11 +4,14 @@ import { ListItem } from "~/components/lists/list-item";
 import { PageHeader } from "~/components/page-header";
 import { CreateListIcon } from "~/icons/list";
 import { fetchCurrentUser } from "~/utils/auth";
-import { fetchListsSuggestions, fetchMyLists } from "~/utils/lists";
+import {
+  fetchListsSuggestions,
+  fetchMyLists,
+  handleFetchPinnedLists,
+} from "~/utils/lists";
 
-export const useMyLists = routeLoader$(async ({ sharedMap, error }) => {
-  const user = fetchCurrentUser(sharedMap);
-  if (!user) throw error(401, "Unauthenticated");
+export const useMyLists = routeLoader$(async (requestEvent) => {
+  const user = fetchCurrentUser(requestEvent);
   const lists = await fetchMyLists(user.id);
   return lists;
 });
@@ -17,9 +20,14 @@ export const useListsSuggestions = routeLoader$(async () => {
   const lists = await fetchListsSuggestions();
   return lists;
 });
+
+export const usePinnedLists = routeLoader$(async (requestEvent) => {
+  return handleFetchPinnedLists(requestEvent);
+});
 export default component$(() => {
   const myListsSig = useMyLists();
   const suggestionsSig = useListsSuggestions();
+  const pinnedListsSig = usePinnedLists();
   return (
     <div>
       <PageHeader
@@ -34,6 +42,17 @@ export default component$(() => {
           </Link>,
         ]}
       />
+
+      {/* pinned lists  */}
+      <div class="flex flex-col gap-4 px-4">
+        <h3 class="text-xl font-bold">Pinned Lists</h3>
+        <ul class="flex flex-col gap-3">
+          {pinnedListsSig.value.map((list) => (
+            <ListItem {...list} key={list.id} />
+          ))}
+        </ul>
+      </div>
+      <div class="divider"></div>
 
       {/* suggestions lists  */}
       <div class="flex flex-col gap-4 px-4">

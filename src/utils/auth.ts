@@ -1,4 +1,5 @@
 import {
+  type RequestEventLoader,
   type RequestEvent,
   type RequestEventAction,
 } from "@builder.io/qwik-city";
@@ -134,8 +135,13 @@ async function handleTokenVerification({
   }
 }
 
-const fetchCurrentUser = (sharedMap: any) => {
-  return sharedMap.get("user") as AuthUser | null;
+const fetchCurrentUser = ({
+  sharedMap,
+  error,
+}: RequestEventLoader | RequestEventAction) => {
+  const currentUser = sharedMap.get("user") as AuthUser | null;
+  if (!currentUser) throw error(401, "Unauthenticated");
+  return currentUser;
 };
 
 export {
