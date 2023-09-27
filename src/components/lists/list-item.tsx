@@ -5,6 +5,7 @@ import { ListPin } from "./list-pin";
 import { type List } from "~/database/schema";
 
 type Props = List & {
+  hasPinned?: boolean;
   owner: {
     avatar: any;
     username: string;
@@ -12,7 +13,7 @@ type Props = List & {
   };
 };
 export const ListItem = component$((props: Props) => {
-  const { id, name, owner, isPrivate } = props;
+  const { id, name, owner, isPrivate, hasPinned } = props;
 
   return (
     <li class="flex items-center justify-between gap-4">
@@ -34,7 +35,7 @@ export const ListItem = component$((props: Props) => {
           </div>
         </div>
       </div>
-      <ListPin listId={id} />
+      <ListPin listId={id} pinned={hasPinned} />
     </li>
   );
 });

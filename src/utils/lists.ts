@@ -2,7 +2,7 @@ import {
   type RequestEventLoader,
   type RequestEventAction,
 } from "@builder.io/qwik-city";
-import { and, eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { db } from "~/database/connection";
 import { type NewList, lists } from "~/database/schema/lists";
 import { fetchCurrentUser } from "./auth";
@@ -23,12 +23,16 @@ const fetchListById = async (listId: number) => {
 };
 
 const hasPinned = async (listId: number, userId: number) => {
-  const data = await db.query.usersListsPinned.findFirst({
-    where(fields, { eq, and }) {
-      return and(eq(fields.listId, listId), eq(fields.userId, userId));
-    },
-  });
-  return data?.listId ? true : false;
+  const data = await db
+    .select({ count: sql<number>`count(*)`.mapWith(Number) })
+    .from(usersListsPinned)
+    .where(
+      and(
+        eq(usersListsPinned.userId, userId),
+        eq(usersListsPinned.listId, listId)
+      )
+    );
+  return data[0]?.count ? true : false;
 };
 
 const deletePin = async (listId: number, userId: number) => {
@@ -48,9 +52,10 @@ const addPin = async (listId: number, userId: number) => {
     userId,
   });
 };
-const fetchMyLists = async (ownerId: number) => {
+const handleFetchMyLists = async (requestEvent: RequestEventLoader) => {
+  const user = fetchCurrentUser(requestEvent);
   const data = await db.query.lists.findMany({
-    where: eq(lists.ownerId, ownerId),
+    where: eq(lists.ownerId, user.id),
     with: {
       owner: {
         columns: {
@@ -61,10 +66,17 @@ const fetchMyLists = async (ownerId: number) => {
       },
     },
   });
-  return data;
+  const results = [];
+  for await (const list of data) {
+    results.push({
+      ...list,
+      hasPinned: await hasPinned(list.id, user.id),
+    });
+  }
+  return results;
 };
 
-const fetchListsSuggestions = async () => {
+const handleFetchListsSuggestions = async () => {
   const data = await db.query.lists.findMany({
     where(fields, { eq }) {
       return eq(fields.isPrivate, false);
@@ -114,12 +126,17 @@ const handleFetchPinnedLists = async (requestEvent: RequestEventLoader) => {
     },
   });
 
-  return data.map((d) => d.list);
+  return data.map((d) => {
+    return {
+      ...d.list,
+      hasPinned: true,
+    };
+  });
 };
 export {
   createList,
-  fetchMyLists,
-  fetchListsSuggestions,
+  handleFetchMyLists,
+  handleFetchListsSuggestions,
   handleTogglePinLists,
   fetchListById,
   handleFetchPinnedLists,

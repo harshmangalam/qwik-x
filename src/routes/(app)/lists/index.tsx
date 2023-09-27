@@ -3,21 +3,20 @@ import { Link, routeLoader$ } from "@builder.io/qwik-city";
 import { ListItem } from "~/components/lists/list-item";
 import { PageHeader } from "~/components/page-header";
 import { CreateListIcon } from "~/icons/list";
-import { fetchCurrentUser } from "~/utils/auth";
+
 import {
-  fetchListsSuggestions,
-  fetchMyLists,
+  handleFetchListsSuggestions,
+  handleFetchMyLists,
   handleFetchPinnedLists,
 } from "~/utils/lists";
 
 export const useMyLists = routeLoader$(async (requestEvent) => {
-  const user = fetchCurrentUser(requestEvent);
-  const lists = await fetchMyLists(user.id);
+  const lists = await handleFetchMyLists(requestEvent);
   return lists;
 });
 
 export const useListsSuggestions = routeLoader$(async () => {
-  const lists = await fetchListsSuggestions();
+  const lists = await handleFetchListsSuggestions();
   return lists;
 });
 
