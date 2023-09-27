@@ -11,7 +11,7 @@ type Props = {
 export default component$((props: Props) => {
   const { isPrivate, name } = props;
   return (
-    <div class="flex flex-col gap-2">
+    <li class="flex flex-col items-center gap-2">
       <Avatar
         size="xl"
         isPlaceholder
@@ -24,6 +24,6 @@ export default component$((props: Props) => {
         <span class="font-bold">{name}</span>
         {isPrivate && <LockIcon size={16} />}
       </div>
-    </div>
+    </li>
   );
 });

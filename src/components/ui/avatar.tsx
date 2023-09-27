@@ -24,6 +24,7 @@ type Props = QwikIntrinsicElements["div"] & {
   rootClass?: string;
   imgContainerClass?: string;
   mask?: string;
+  src?: string;
 };
 export const Avatar = component$((props: Props) => {
   const {
@@ -37,6 +38,8 @@ export const Avatar = component$((props: Props) => {
     rootClass = "",
     imgContainerClass = "",
     mask = "",
+    src = "",
+
     ...rest
   } = props;
 
@@ -55,6 +58,7 @@ export const Avatar = component$((props: Props) => {
     success: "bg-success-focus text-success-content",
     error: "bg-error-focus text-error-content",
   };
+
   return (
     <div
       class={[
@@ -76,7 +80,11 @@ export const Avatar = component$((props: Props) => {
           imgContainerClass,
         ]}
       >
-        <Slot />
+        {src ? (
+          <img src={src} class={[sizes[size]]} width={80} height={80} />
+        ) : (
+          <Slot />
+        )}
       </div>
     </div>
   );

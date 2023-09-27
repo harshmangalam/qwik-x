@@ -46,7 +46,7 @@ export default component$(() => {
       {/* pinned lists  */}
       <div class="flex flex-col gap-4 px-4">
         <h3 class="text-xl font-bold">Pinned Lists</h3>
-        <ul class="flex flex-col gap-3">
+        <ul class="flex flex-wrap gap-3">
           {pinnedListsSig.value.map((list) => (
             <PinnedListItem
               id={list.id}

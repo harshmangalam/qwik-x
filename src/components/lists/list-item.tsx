@@ -33,11 +33,7 @@ export const ListItem = component$((props: Props) => {
             {isPrivate && <LockIcon size={16} />}
           </div>
           <div class="flex items-center gap-1">
-            <div class="avatar">
-              <div class="w-5 h-5 mask mask-squircle">
-                <img width={20} height={20} src={owner.avatar?.url} />
-              </div>
-            </div>
+            <Avatar src={owner.avatar?.url} size="xs" circle />
             <div class="font-bold text-sm">{owner.name}</div>
             <div class="opacity-60 text-sm">@{owner.username}</div>
           </div>
