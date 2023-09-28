@@ -26,7 +26,6 @@
   "devDependencies": {
     "@builder.io/qwik": "^1.2.6",
     "@builder.io/qwik-city": "^1.2.6",
-    "@qwik-ui/headless": "^0.1.16",
     "@types/compression": "^1.7.2",
     "@types/crypto-js": "^4.1.1",
     "@types/eslint": "8.40.2",
