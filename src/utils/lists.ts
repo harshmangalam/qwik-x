@@ -154,12 +154,38 @@ const handleFetchList = async (requestEvent: RequestEventLoader) => {
     hasPinned: await hasPinned(listId, user.id),
   };
 };
+
+const handleFetchMembersSuggestion = async () => {
+  const users = await db.query.users.findMany({
+    columns: {
+      name: true,
+      username: true,
+      avatar: true,
+      id: true,
+    },
+  });
+  return users;
+};
+
+const handleCreateList = async (
+  formData: any,
+  requestEvent: RequestEventAction
+) => {
+  const user = fetchCurrentUser(requestEvent);
+  await createList({
+    ...formData,
+    ownerId: user.id,
+    isPrivate: formData.isPrivate === "on",
+  });
+  throw requestEvent.redirect(307, "/lists");
+};
 export {
-  createList,
+  handleCreateList,
   handleFetchMyLists,
   handleFetchListsSuggestions,
   handleTogglePinLists,
   fetchListById,
   handleFetchPinnedLists,
   handleFetchList,
+  handleFetchMembersSuggestion,
 };

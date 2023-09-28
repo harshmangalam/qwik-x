@@ -1,23 +1,14 @@
 import { component$ } from "@builder.io/qwik";
-import { Form, routeAction$, zod$ } from "@builder.io/qwik-city";
+import { Form, routeAction$, routeLoader$, zod$ } from "@builder.io/qwik-city";
 import { PageHeader } from "~/components/page-header";
 import { Button } from "~/components/ui/button";
 import { TextInput } from "~/components/ui/text-input";
 import { Textarea } from "~/components/ui/textarea";
-import type { AuthUser } from "~/types";
-import { createList } from "~/utils/lists";
+import { handleCreateList, handleFetchMembersSuggestion } from "~/utils/lists";
 
 export const useCreateList = routeAction$(
-  async (formData, { redirect, error, sharedMap }) => {
-    const user = sharedMap.get("user") as AuthUser | null;
-    if (!user) throw error(401, "Unauthorized");
-
-    await createList({
-      ...formData,
-      ownerId: user.id,
-      isPrivate: formData.isPrivate === "on",
-    });
-    throw redirect(307, "/lists");
+  async (formData, requestEvent) => {
+    return handleCreateList(formData, requestEvent);
   },
   zod$((z) => ({
     name: z
@@ -32,6 +23,10 @@ export const useCreateList = routeAction$(
     isPrivate: z.string().optional(),
   }))
 );
+
+export const useMembersSuggestion = routeLoader$(async () => {
+  return handleFetchMembersSuggestion();
+});
 export default component$(() => {
   const actionSig = useCreateList();
   return (
@@ -47,6 +42,7 @@ export default component$(() => {
                 name="name"
                 id="name"
                 label="Name"
+                maxLength={25}
               />
               <Textarea
                 name="description"
@@ -54,7 +50,9 @@ export default component$(() => {
                 label="Description"
                 error={actionSig.value?.fieldErrors?.description}
                 value={(actionSig.formData?.get("description") ?? "") as string}
+                maxLength={100}
               />
+
               <div class="form-control my-2">
                 <label class="label cursor-pointer">
                   <div class="label-text flex flex-col">

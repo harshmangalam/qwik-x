@@ -4,7 +4,7 @@ type Props = QwikIntrinsicElements["select"] & {
   label?: string;
   error?: string | string[];
   bordered?: boolean;
-  options: { label: string; value: string; selected: boolean }[];
+  options: { label: string; value: string; selected?: boolean }[];
   colorScheme?:
     | "select-primary"
     | "select-secondary"
