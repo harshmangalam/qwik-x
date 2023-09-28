@@ -16,7 +16,7 @@ export default component$(() => {
         backHref="/lists/"
         subtitle={`@${listSig.value.owner.username}`}
       />
-      <div class="w-full h-48 bg-primary-content bg-[url(https://images.unsplash.com/photo-1695456527397-0b9e1c79fe96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDExfDZzTVZqVExTa2VRfHxlbnwwfHx8fHw%3D&auto=format&fit=crop&w=800&q=60)] bg-center bg-no-repeat aspect-video"></div>
+      <div class="w-full bg-info h-48  bg-center bg-no-repeat aspect-video"></div>
 
       <div class="flex flex-col gap-2 items-center mt-4">
         <h3 class="font-bold text-xl">{listSig.value.name}</h3>
@@ -34,13 +34,30 @@ export default component$(() => {
             {listSig.value.owner.name}
           </Link>
           <Link
-            class="link link-hover opacity-60"
+            class="link link-hover opacity-70"
             href={`/${listSig.value.owner.username}`}
           >
             @{listSig.value.owner.username}
           </Link>
         </div>
+        <div class="flex items-center gap-4">
+          <Link
+            class="link link-hover"
+            href={`/lists/${listSig.value.id}/members/`}
+          >
+            <span class="font-bold">{listSig.value.membersCount} </span>
+            <span class="opacity-70 text-sm">Members</span>
+          </Link>
+          <Link
+            class="link link-hover"
+            href={`/lists/${listSig.value.id}/followers/`}
+          >
+            <span class="font-bold">{listSig.value.membersCount} </span>
+            <span class="opacity-70 text-sm">Followers</span>
+          </Link>
+        </div>
       </div>
+
       <div class="divider"></div>
     </div>
   );

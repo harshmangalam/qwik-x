@@ -7,17 +7,17 @@ import { CreateListIcon } from "~/icons/list";
 
 import {
   handleFetchListsSuggestions,
-  handleFetchMyLists,
+  handleFetchYourLists,
   handleFetchPinnedLists,
 } from "~/utils/lists";
 
 export const useMyLists = routeLoader$(async (requestEvent) => {
-  const lists = await handleFetchMyLists(requestEvent);
+  const lists = await handleFetchYourLists(requestEvent);
   return lists;
 });
 
-export const useListsSuggestions = routeLoader$(async () => {
-  const lists = await handleFetchListsSuggestions();
+export const useListsSuggestions = routeLoader$(async (requestEvent) => {
+  const lists = await handleFetchListsSuggestions(requestEvent);
   return lists;
 });
 

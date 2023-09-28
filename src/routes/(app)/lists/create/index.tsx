@@ -2,6 +2,7 @@ import { component$ } from "@builder.io/qwik";
 import { Form, routeAction$, routeLoader$, zod$ } from "@builder.io/qwik-city";
 import { PageHeader } from "~/components/page-header";
 import { Button } from "~/components/ui/button";
+import { Select } from "~/components/ui/select";
 import { TextInput } from "~/components/ui/text-input";
 import { Textarea } from "~/components/ui/textarea";
 import { handleCreateList, handleFetchMembersSuggestion } from "~/utils/lists";
@@ -21,6 +22,7 @@ export const useCreateList = routeAction$(
       .optional(),
 
     isPrivate: z.string().optional(),
+    members: z.array(z.string()).optional(),
   }))
 );
 
@@ -29,6 +31,7 @@ export const useMembersSuggestion = routeLoader$(async () => {
 });
 export default component$(() => {
   const actionSig = useCreateList();
+  const membersSig = useMembersSuggestion();
   return (
     <div>
       <PageHeader backHref="/lists/" title="Create a new List" />
@@ -52,6 +55,16 @@ export default component$(() => {
                 value={(actionSig.formData?.get("description") ?? "") as string}
                 maxLength={100}
               />
+              <Select
+                label="Add members"
+                multiple
+                name="members[]"
+                id="members"
+                options={membersSig.value.map(({ id, username }) => ({
+                  label: username,
+                  value: id.toString(),
+                }))}
+              />
 
               <div class="form-control my-2">
                 <label class="label cursor-pointer">
@@ -64,6 +77,7 @@ export default component$(() => {
                   <input name="isPrivate" type="checkbox" class="checkbox" />
                 </label>
               </div>
+
               <div>
                 <Button
                   loading={actionSig.isRunning}
