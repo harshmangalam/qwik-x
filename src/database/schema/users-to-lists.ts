@@ -31,3 +31,32 @@ export const usersListsPinnedRelations = relations(
     }),
   })
 );
+
+export const usersListsMembers = pgTable(
+  "users_lists_members",
+  {
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id),
+    listId: integer("list_id")
+      .notNull()
+      .references(() => lists.id),
+  },
+  (t) => ({
+    pk: primaryKey(t.userId, t.listId),
+  })
+);
+
+export const usersListsMembersRelations = relations(
+  usersListsMembers,
+  ({ one }) => ({
+    list: one(lists, {
+      fields: [usersListsMembers.listId],
+      references: [lists.id],
+    }),
+    user: one(users, {
+      fields: [usersListsMembers.userId],
+      references: [users.id],
+    }),
+  })
+);
