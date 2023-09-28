@@ -20,7 +20,7 @@ export const PageHeader = component$((props: Props) => {
     links = [],
   } = props;
   return (
-    <nav class="sticky top-0 h-10 z-10 backdrop-blur navbar bg-base-100">
+    <nav class="sticky top-0 h-10 z-10 backdrop-blur navbar bg-base-100/70">
       <div class="navbar-start">
         <div class="flex items-center gap-3">
           {showBackArrow && (
