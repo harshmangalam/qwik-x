@@ -7,6 +7,8 @@ import { ListOulineIcon } from "~/icons/list";
 import { Link } from "@builder.io/qwik-city";
 
 type Props = List & {
+  membersCount: number;
+  isMember?: boolean;
   hasPinned?: boolean;
   owner: {
     avatar: any;
@@ -15,7 +17,7 @@ type Props = List & {
   };
 };
 export const ListItem = component$((props: Props) => {
-  const { id, name, owner, isPrivate, hasPinned } = props;
+  const { id, name, owner, isPrivate, hasPinned, membersCount } = props;
 
   return (
     <li class="flex items-center justify-between gap-4">
@@ -34,6 +36,13 @@ export const ListItem = component$((props: Props) => {
               {name}
             </Link>
             {isPrivate && <LockIcon size={16} />}
+            {membersCount > 0 && (
+              <div class="opacity-70 text-sm">
+                <span>· </span>
+                <span>{membersCount} </span>
+                <span> members</span>
+              </div>
+            )}
           </div>
           <div class="flex items-center gap-1">
             <Avatar src={owner.avatar?.url} size="xs" circle />
