@@ -6,7 +6,7 @@ import { and, eq, sql } from "drizzle-orm";
 import { db } from "~/database/connection";
 import { type NewList, lists } from "~/database/schema/lists";
 import { fetchCurrentUser } from "./auth";
-import { usersListsPinned } from "~/database/schema";
+import { usersListsMembers, usersListsPinned } from "~/database/schema";
 
 const createList = async (list: NewList) => {
   const result = await db.insert(lists).values(list).returning();
@@ -52,10 +52,13 @@ const addPin = async (listId: number, userId: number) => {
     userId,
   });
 };
-const handleFetchMyLists = async (requestEvent: RequestEventLoader) => {
+const handleFetchYourLists = async (requestEvent: RequestEventLoader) => {
   const user = fetchCurrentUser(requestEvent);
   const data = await db.query.lists.findMany({
-    where: eq(lists.ownerId, user.id),
+    where(fields, { eq }) {
+      return eq(fields.ownerId, user.id);
+    },
+
     with: {
       owner: {
         columns: {
@@ -71,12 +74,17 @@ const handleFetchMyLists = async (requestEvent: RequestEventLoader) => {
     results.push({
       ...list,
       hasPinned: await hasPinned(list.id, user.id),
+      isMember: true,
+      membersCount: await fetchListsMembersCount(list.id),
     });
   }
   return results;
 };
 
-const handleFetchListsSuggestions = async () => {
+const handleFetchListsSuggestions = async (
+  requestEvent: RequestEventLoader
+) => {
+  const user = fetchCurrentUser(requestEvent);
   const data = await db.query.lists.findMany({
     where(fields, { eq }) {
       return eq(fields.isPrivate, false);
@@ -91,7 +99,17 @@ const handleFetchListsSuggestions = async () => {
       },
     },
   });
-  return data;
+  const results = [];
+  for await (const list of data) {
+    results.push({
+      ...list,
+      hasPinned: false,
+      isMember: await isAlreadyListMembers(list.id, user.id),
+      membersCount: await fetchListsMembersCount(list.id),
+    });
+  }
+
+  return results;
 };
 
 const handleTogglePinLists = async (
@@ -126,12 +144,17 @@ const handleFetchPinnedLists = async (requestEvent: RequestEventLoader) => {
     },
   });
 
-  return data.map((d) => {
-    return {
-      ...d.list,
+  const results = [];
+  for await (const { list } of data) {
+    results.push({
+      ...list,
       hasPinned: true,
-    };
-  });
+      isMember: await isAlreadyListMembers(list.id, user.id),
+      membersCount: await fetchListsMembersCount(list.id),
+    });
+  }
+
+  return results;
 };
 
 const handleFetchList = async (requestEvent: RequestEventLoader) => {
@@ -152,6 +175,8 @@ const handleFetchList = async (requestEvent: RequestEventLoader) => {
   return {
     ...data,
     hasPinned: await hasPinned(listId, user.id),
+    isMember: await isAlreadyListMembers(listId, user.id),
+    membersCount: await fetchListsMembersCount(listId),
   };
 };
 
@@ -168,20 +193,64 @@ const handleFetchMembersSuggestion = async () => {
 };
 
 const handleCreateList = async (
-  formData: any,
+  { name, isPrivate, description, members }: any,
   requestEvent: RequestEventAction
 ) => {
   const user = fetchCurrentUser(requestEvent);
-  await createList({
-    ...formData,
+  const list = await createList({
+    name,
+    description,
+    isPrivate: isPrivate === "on",
     ownerId: user.id,
-    isPrivate: formData.isPrivate === "on",
   });
-  throw requestEvent.redirect(307, "/lists");
+
+  const membersId = members.map(Number);
+  for await (const id of membersId) {
+    const isMember = await isAlreadyListMembers(list.id, id);
+    if (!isMember) {
+      await createUsersListsMembers(list.id, id);
+    }
+  }
+
+  throw requestEvent.redirect(307, "/lists/");
 };
+
+const isAlreadyListMembers = async (listId: number, userId: number) => {
+  const data = await db
+    .select({ count: sql<number>`count(*)`.mapWith(Number) })
+    .from(usersListsMembers)
+    .where(
+      and(
+        eq(usersListsMembers.userId, userId),
+        eq(usersListsMembers.listId, listId)
+      )
+    );
+  return data[0]?.count ? true : false;
+};
+
+const createUsersListsMembers = async (listId: number, userId: number) => {
+  const data = await db
+    .insert(usersListsMembers)
+    .values({
+      listId,
+      userId,
+    })
+    .returning();
+
+  return data[0];
+};
+
+const fetchListsMembersCount = async (listId: number) => {
+  const data = await db
+    .select({ count: sql<number>`count(*)`.mapWith(Number) })
+    .from(usersListsMembers)
+    .where(eq(usersListsMembers.listId, listId));
+  return data[0]?.count;
+};
+
 export {
   handleCreateList,
-  handleFetchMyLists,
+  handleFetchYourLists,
   handleFetchListsSuggestions,
   handleTogglePinLists,
   fetchListById,
