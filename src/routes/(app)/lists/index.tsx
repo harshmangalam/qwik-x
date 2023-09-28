@@ -28,20 +28,16 @@ export default component$(() => {
   const myListsSig = useMyLists();
   const suggestionsSig = useListsSuggestions();
   const pinnedListsSig = usePinnedLists();
+  const headerLinks = [
+    {
+      name: "Create List",
+      icon: <CreateListIcon />,
+      href: "/lists/create/",
+    },
+  ];
   return (
     <div>
-      <PageHeader
-        title="Lists"
-        end={[
-          <Link
-            href="/lists/create/"
-            key={"create-list"}
-            class="btn btn-sm btn-circle btn-ghost"
-          >
-            <CreateListIcon />
-          </Link>,
-        ]}
-      />
+      <PageHeader title="Lists" links={headerLinks} />
 
       {/* pinned lists  */}
       <div class="flex flex-col gap-4 px-4">

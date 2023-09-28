@@ -7,13 +7,21 @@ type Props = {
   backHref?: string;
   title: string;
   subtitle?: string;
-  end?: any[];
+  moreOptions?: any;
+  links?: { name: string; href: string; icon?: any }[];
 };
 export const PageHeader = component$((props: Props) => {
-  const { showBackArrow = true, backHref = "/", title, end, subtitle } = props;
+  const {
+    showBackArrow = true,
+    backHref = "/",
+    title,
+    moreOptions,
+    subtitle,
+    links = [],
+  } = props;
   return (
-    <header class="px-4 py-3 sticky top-0  bg-opacity-40 z-10 backdrop-blur">
-      <div class="flex items-center justify-between gap-4">
+    <nav class="sticky top-0  z-10 backdrop-blur navbar bg-base-100">
+      <div class="flex-1">
         <div class="flex items-center gap-3">
           {showBackArrow && (
             <Link href={backHref} class="btn btn-ghost btn-circle btn-sm">
@@ -25,13 +33,24 @@ export const PageHeader = component$((props: Props) => {
             {subtitle && <p class="opacity-80 text-sm">{subtitle}</p>}
           </div>
         </div>
-        {end?.map((el, i) => (
-          <div key={i} class="flex items-center gap-2">
-            {el}
-          </div>
-        ))}
       </div>
+
+      <div class="flex-none">
+        <ul class="menu menu-horizontal px-1">
+          {links.map(({ href, name, icon }) => (
+            <li key={name}>
+              {icon && (
+                <Link title={name} href={href} class="btn btn-circle btn-ghost">
+                  {icon}
+                </Link>
+              )}
+            </li>
+          ))}
+          {moreOptions}
+        </ul>
+      </div>
+
       <Slot />
-    </header>
+    </nav>
   );
 });
