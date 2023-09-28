@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import { Link, routeLoader$ } from "@builder.io/qwik-city";
+import { routeLoader$ } from "@builder.io/qwik-city";
 import { ListItem } from "~/components/lists/list-item";
 import PinnedListItem from "~/components/lists/pinned-list-item";
 import { PageHeader } from "~/components/page-header";

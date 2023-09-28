@@ -20,8 +20,8 @@ export const PageHeader = component$((props: Props) => {
     links = [],
   } = props;
   return (
-    <nav class="sticky top-0  z-10 backdrop-blur navbar bg-base-100">
-      <div class="flex-1">
+    <nav class="sticky top-0 h-10 z-10 backdrop-blur navbar bg-base-100">
+      <div class="navbar-start">
         <div class="flex items-center gap-3">
           {showBackArrow && (
             <Link href={backHref} class="btn btn-ghost btn-circle btn-sm">
@@ -35,19 +35,18 @@ export const PageHeader = component$((props: Props) => {
         </div>
       </div>
 
-      <div class="flex-none">
-        <ul class="menu menu-horizontal px-1">
-          {links.map(({ href, name, icon }) => (
-            <li key={name}>
-              {icon && (
-                <Link title={name} href={href} class="btn btn-circle btn-ghost">
-                  {icon}
-                </Link>
-              )}
-            </li>
-          ))}
-          {moreOptions}
-        </ul>
+      <div class="navbar-end">
+        {links.map(({ href, name, icon }) => (
+          <Link
+            key={name}
+            title={name}
+            href={href}
+            class="btn btn-circle btn-ghost btn-md"
+          >
+            {icon}
+          </Link>
+        ))}
+        {moreOptions}
       </div>
 
       <Slot />
