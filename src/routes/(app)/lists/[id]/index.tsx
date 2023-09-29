@@ -3,7 +3,7 @@ import { Link, routeLoader$ } from "@builder.io/qwik-city";
 import { PageHeader } from "~/components/page-header";
 import { handleFetchList } from "~/utils/lists";
 import { Avatar } from "~/components/ui/avatar";
-
+import { WrapBalancer } from "qwikjs-wrap-balancer";
 export const useList = routeLoader$(async (requestEvent) => {
   return handleFetchList(requestEvent);
 });
@@ -18,9 +18,11 @@ export default component$(() => {
       />
       <div class="w-full bg-info h-48  bg-center bg-no-repeat aspect-video"></div>
 
-      <div class="flex flex-col gap-2 items-center mt-4">
+      <div class="flex flex-col gap-2 items-center mt-4 px-4">
         <h3 class="font-bold text-xl">{listSig.value.name}</h3>
-        <p class="text-center opacity-80">{listSig.value.description}</p>
+        <WrapBalancer>
+          <p class="text-center opacity-80">{listSig.value.description}</p>
+        </WrapBalancer>
         <div class="flex items-center flex-wrap gap-2">
           <Avatar
             circle

@@ -19,6 +19,9 @@ dependencies:
   postgres:
     specifier: ^3.3.5
     version: 3.3.5
+  qwikjs-wrap-balancer:
+    specifier: ^0.6.0
+    version: 0.6.0
 
 devDependencies:
   '@builder.io/qwik':
@@ -3613,6 +3616,11 @@ packages:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
     dev: true
+
+  /qwikjs-wrap-balancer@0.6.0:
+    resolution: {integrity: sha512-Ts7heJKrIhFc+Zp8WkQraScFPxUNvLjM0numKCKFsu/J2wha2dk3HQn8sQ+bWjQ5MvN6nGimLZPp0iDOlkytgA==}
+    engines: {node: '>=15.0.0'}
+    dev: false
 
   /range-parser@1.2.1:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
