@@ -8,7 +8,11 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import { users } from "./users";
-import { usersListsMembers, usersListsPinned } from "./users-to-lists";
+import {
+  usersListsFollowers,
+  usersListsMembers,
+  usersListsPinned,
+} from "./users-to-lists";
 
 export const lists = pgTable("lists", {
   id: serial("id").primaryKey(),
@@ -29,6 +33,7 @@ export const listsRelations = relations(lists, ({ one, many }) => ({
   }),
   members: many(usersListsMembers),
   pinned: many(usersListsPinned),
+  followers: many(usersListsFollowers),
 }));
 
 export type List = InferModel<typeof lists, "select">;

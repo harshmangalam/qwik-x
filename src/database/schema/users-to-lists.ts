@@ -60,3 +60,32 @@ export const usersListsMembersRelations = relations(
     }),
   })
 );
+
+export const usersListsFollowers = pgTable(
+  "users_lists_followers",
+  {
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id),
+    listId: integer("list_id")
+      .notNull()
+      .references(() => lists.id),
+  },
+  (t) => ({
+    pk: primaryKey(t.userId, t.listId),
+  })
+);
+
+export const usersListsFollowersRelations = relations(
+  usersListsFollowers,
+  ({ one }) => ({
+    list: one(lists, {
+      fields: [usersListsFollowers.listId],
+      references: [lists.id],
+    }),
+    user: one(users, {
+      fields: [usersListsFollowers.userId],
+      references: [users.id],
+    }),
+  })
+);
