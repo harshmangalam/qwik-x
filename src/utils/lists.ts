@@ -7,6 +7,7 @@ import { db } from "~/database/connection";
 import { type NewList, lists } from "~/database/schema/lists";
 import { fetchCurrentUser } from "./auth";
 import { usersListsMembers, usersListsPinned } from "~/database/schema";
+import { alreadyFollow } from "./follow";
 
 const createList = async (list: NewList) => {
   const result = await db.insert(lists).values(list).returning();
@@ -215,6 +216,38 @@ const handleCreateList = async (
   throw requestEvent.redirect(307, "/lists/");
 };
 
+const handleFetchListMembers = async (requestEvent: RequestEventLoader) => {
+  const user = fetchCurrentUser(requestEvent);
+  const listId = Number(requestEvent.params.id);
+
+  const members = await db.query.usersListsMembers.findMany({
+    where(fields, { eq }) {
+      return eq(fields.listId, listId);
+    },
+    with: {
+      user: {
+        with: {
+          profile: {
+            columns: {
+              bio: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const results = [];
+  for await (const data of members) {
+    results.push({
+      ...data.user,
+      isFollowing: await alreadyFollow(user.id, data.userId),
+    });
+  }
+
+  return results;
+};
+
 const isAlreadyListMembers = async (listId: number, userId: number) => {
   const data = await db
     .select({ count: sql<number>`count(*)`.mapWith(Number) })
@@ -257,4 +290,5 @@ export {
   handleFetchPinnedLists,
   handleFetchList,
   handleFetchMembersSuggestion,
+  handleFetchListMembers,
 };
