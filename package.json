@@ -56,6 +56,7 @@
     "drizzle-orm": "^0.28.2",
     "jose": "^4.14.4",
     "postgres": "^3.3.5",
+    "qwik-spin-delay": "^1.1.0",
     "qwikjs-wrap-balancer": "^0.6.0"
   }
 }

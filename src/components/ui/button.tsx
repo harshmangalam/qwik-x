@@ -4,6 +4,7 @@ type Props = QwikIntrinsicElements["button"] & {
   loading?: boolean;
   fullWidth?: boolean;
   circle?: boolean;
+  outline?: boolean;
   roundedFull?: boolean;
   size?: "btn-xs" | "btn-sm" | "btn-md" | "btn-lg";
   btnClass?: any;
@@ -26,23 +27,25 @@ export const Button = component$((props: Props) => {
     btnClass = null,
     roundedFull = false,
     circle = false,
+    outline = false,
     ...rest
   } = props;
   return (
     <button
       disabled={loading}
       class={[
-        "btn",
+        "btn  transition-all duration-500",
         colorScheme,
         size,
         { "btn-block": fullWidth },
         { "rounded-full": roundedFull },
         { "btn-circle": circle },
+        { "btn-outline": outline },
         btnClass,
       ]}
       {...rest}
     >
-      {loading ? <span class={`loading loading-spinner`}></span> : <Slot />}
+      {loading ? <span class={`loading loading-dots`}></span> : <Slot />}
     </button>
   );
 });

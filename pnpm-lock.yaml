@@ -19,6 +19,9 @@ dependencies:
   postgres:
     specifier: ^3.3.5
     version: 3.3.5
+  qwik-spin-delay:
+    specifier: ^1.1.0
+    version: 1.1.0
   qwikjs-wrap-balancer:
     specifier: ^0.6.0
     version: 0.6.0
@@ -3616,6 +3619,11 @@ packages:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
     dev: true
+
+  /qwik-spin-delay@1.1.0:
+    resolution: {integrity: sha512-slr6jChcOQKsdVC2iak1ka4+GaKgvfCUmPMi9sZ77alHP/Iv0uzZEZlKDCOS1S/ER5hT80IHznCymEyIRFwSoA==}
+    engines: {node: '>=15.0.0'}
+    dev: false
 
   /qwikjs-wrap-balancer@0.6.0:
     resolution: {integrity: sha512-Ts7heJKrIhFc+Zp8WkQraScFPxUNvLjM0numKCKFsu/J2wha2dk3HQn8sQ+bWjQ5MvN6nGimLZPp0iDOlkytgA==}
