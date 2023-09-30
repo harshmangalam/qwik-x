@@ -6,7 +6,11 @@ import { and, eq, sql } from "drizzle-orm";
 import { db } from "~/database/connection";
 import { type NewList, lists } from "~/database/schema/lists";
 import { fetchCurrentUser } from "./auth";
-import { usersListsMembers, usersListsPinned } from "~/database/schema";
+import {
+  usersListsFollowers,
+  usersListsMembers,
+  usersListsPinned,
+} from "~/database/schema";
 import { alreadyFollow } from "./follow";
 
 const createList = async (list: NewList) => {
@@ -281,6 +285,55 @@ const fetchListsMembersCount = async (listId: number) => {
   return data[0]?.count;
 };
 
+// lists followers
+const isAlreadyFollowingList = async (listId: number, userId: number) => {
+  const data = await db
+    .select({ count: sql<number>`count(*)`.mapWith(Number) })
+    .from(usersListsFollowers)
+    .where(
+      and(
+        eq(usersListsFollowers.userId, userId),
+        eq(usersListsFollowers.listId, listId)
+      )
+    );
+  return data[0]?.count ? true : false;
+};
+
+const followList = async (listId: number, userId: number) => {
+  const data = await db
+    .insert(usersListsFollowers)
+    .values({ listId, userId })
+    .returning();
+  return data[0];
+};
+const unfollowList = async (listId: number, userId: number) => {
+  const data = await db
+    .delete(usersListsFollowers)
+    .where(
+      and(
+        eq(usersListsFollowers.listId, listId),
+        eq(usersListsFollowers.userId, userId)
+      )
+    )
+    .returning();
+  return data[0];
+};
+const handleFollowUnfollowLists = async (
+  listId: string,
+  requestEvent: RequestEventAction
+) => {
+  if (!listId) throw requestEvent.error(400, "List id is missing");
+  const user = fetchCurrentUser(requestEvent);
+  const isFollowing = await isAlreadyFollowingList(+listId, user.id);
+  if (isFollowing) {
+    // unfollow list
+    await unfollowList(+listId, user.id);
+  } else {
+    // follow list
+    await followList(+listId, user.id);
+  }
+};
+
 export {
   handleCreateList,
   handleFetchYourLists,
@@ -291,4 +344,5 @@ export {
   handleFetchList,
   handleFetchMembersSuggestion,
   handleFetchListMembers,
+  handleFollowUnfollowLists,
 };
