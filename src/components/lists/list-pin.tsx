@@ -13,6 +13,7 @@ export const ListPin = component$(
       <Form action={actionSig}>
         <input type="hidden" name="listId" value={listId} />
         <Button
+          size="btn-sm"
           btnClass={"text-primary"}
           loading={actionSig.isRunning}
           circle

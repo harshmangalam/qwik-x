@@ -74,10 +74,10 @@ export const ListItem = component$((props: Props) => {
           </div>
         </div>
       </div>
-      {currentUser.value?.id !== owner.id || !isFollowing ? (
-        <Following listId={id} isFollowing={isFollowing} />
-      ) : (
+      {currentUser.value?.id !== owner.id && isFollowing ? (
         <ListPin listId={id} pinned={hasPinned} />
+      ) : (
+        <Following listId={id} isFollowing={isFollowing} />
       )}
     </li>
   );

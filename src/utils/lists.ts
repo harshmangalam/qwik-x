@@ -29,23 +29,20 @@ const fetchListById = async (listId: number) => {
 
 const handleFetchYourLists = async (requestEvent: RequestEventLoader) => {
   const user = fetchCurrentUser(requestEvent);
-  const data = await db.query.lists.findMany({
+  const data = await db.query.usersListsFollowers.findMany({
     where(fields, { eq }) {
-      return eq(fields.ownerId, user.id);
+      return eq(fields.userId, user.id);
     },
-
     with: {
-      owner: {
-        columns: {
-          name: true,
-          username: true,
-          avatar: true,
+      list: {
+        with: {
+          owner: true,
         },
       },
     },
   });
   const results = [];
-  for await (const list of data) {
+  for await (const { list } of data) {
     results.push({
       ...list,
       hasPinned: await hasPinned(list.id, user.id),
@@ -66,13 +63,7 @@ const handleFetchListsSuggestions = async (
       return eq(fields.isPrivate, false);
     },
     with: {
-      owner: {
-        columns: {
-          name: true,
-          username: true,
-          avatar: true,
-        },
-      },
+      owner: true,
     },
   });
   const results = [];
