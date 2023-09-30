@@ -5,19 +5,32 @@ import { type List } from "~/database/schema";
 import { Avatar } from "../ui/avatar";
 import { ListOulineIcon } from "~/icons/list";
 import { Link } from "@builder.io/qwik-city";
+import { Following } from "./following";
+import { useCurrentUser } from "~/routes/(app)/layout";
 
 type Props = List & {
   membersCount: number;
   isMember?: boolean;
   hasPinned?: boolean;
+  isFollowing?: boolean;
   owner: {
+    id: number;
     avatar: any;
     username: string;
     name: string;
   };
 };
 export const ListItem = component$((props: Props) => {
-  const { id, name, owner, isPrivate, hasPinned, membersCount } = props;
+  const {
+    id,
+    name,
+    owner,
+    isPrivate,
+    hasPinned,
+    membersCount,
+    isFollowing = false,
+  } = props;
+  const currentUser = useCurrentUser();
 
   return (
     <li class="flex items-center justify-between gap-4">
@@ -61,7 +74,11 @@ export const ListItem = component$((props: Props) => {
           </div>
         </div>
       </div>
-      <ListPin listId={id} pinned={hasPinned} />
+      {currentUser.value?.id !== owner.id || !isFollowing ? (
+        <Following listId={id} isFollowing={isFollowing} />
+      ) : (
+        <ListPin listId={id} pinned={hasPinned} />
+      )}
     </li>
   );
 });

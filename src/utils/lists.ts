@@ -51,6 +51,7 @@ const handleFetchYourLists = async (requestEvent: RequestEventLoader) => {
       hasPinned: await hasPinned(list.id, user.id),
       isMember: true,
       membersCount: await fetchListsMembersCount(list.id),
+      isFollowing: await isAlreadyFollowingList(list.id, user.id),
     });
   }
   return results;
@@ -81,6 +82,7 @@ const handleFetchListsSuggestions = async (
       hasPinned: false,
       isMember: await isAlreadyListMembers(list.id, user.id),
       membersCount: await fetchListsMembersCount(list.id),
+      isFollowing: await isAlreadyFollowingList(list.id, user.id),
     });
   }
 

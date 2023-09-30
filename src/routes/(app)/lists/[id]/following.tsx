@@ -1,6 +1,6 @@
 import { component$, useSignal } from "@builder.io/qwik";
 import { Button } from "~/components/ui/button";
-import { useFollowing } from ".";
+import { useFollowing } from "../layout";
 import { Form } from "@builder.io/qwik-city";
 
 type Props = {

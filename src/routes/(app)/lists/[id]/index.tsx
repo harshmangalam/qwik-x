@@ -1,7 +1,7 @@
 import { component$ } from "@builder.io/qwik";
-import { Link, routeAction$, routeLoader$, zod$ } from "@builder.io/qwik-city";
+import { Link, routeLoader$ } from "@builder.io/qwik-city";
 import { PageHeader } from "~/components/page-header";
-import { handleFetchList, handleFollowUnfollowLists } from "~/utils/lists";
+import { handleFetchList } from "~/utils/lists";
 import { Avatar } from "~/components/ui/avatar";
 import { WrapBalancer } from "qwikjs-wrap-balancer";
 import { Following } from "./following";
@@ -9,14 +9,6 @@ export const useList = routeLoader$(async (requestEvent) => {
   return handleFetchList(requestEvent);
 });
 
-export const useFollowing = routeAction$(
-  async ({ listId }, requestEvent) => {
-    return handleFollowUnfollowLists(listId, requestEvent);
-  },
-  zod$((z) => ({
-    listId: z.string().nonempty(),
-  }))
-);
 export default component$(() => {
   const listSig = useList();
   return (

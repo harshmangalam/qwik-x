@@ -3,10 +3,8 @@ import { Svg } from "~/components/ui/svg";
 
 export const PlusIcon = component$(() => (
   <Svg>
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      d="M12 6v12m6-6H6"
-    ></path>
+    <g>
+      <path d="M11 11V4h2v7h7v2h-7v7h-2v-7H4v-2h7z"></path>
+    </g>
   </Svg>
 ));
