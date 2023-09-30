@@ -64,12 +64,15 @@ export default component$(() => {
             class="link link-hover"
             href={`/lists/${listSig.value.id}/followers/`}
           >
-            <span class="font-bold">{listSig.value.membersCount} </span>
+            <span class="font-bold">{listSig.value.followersCount} </span>
             <span class="opacity-70 text-sm">Followers</span>
           </Link>
         </div>
         <div class="mt-2">
-          <Following isFollowing={true} listId={listSig.value.id} />
+          <Following
+            isFollowing={listSig.value.isFollowing}
+            listId={listSig.value.id}
+          />
         </div>
       </div>
 
