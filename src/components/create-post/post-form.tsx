@@ -52,8 +52,10 @@ export const PostForm = component$((props: Props) => {
           </div>
           <ReplyPrivacy />
           <div class="divider my-2"></div>
-          <div class="card-actions flex justify-end">
-            <div class="flex items-center gap-2">
+          {/* modified the next line by replacing class justify-end by justify-between */}
+          <div class="card-actions flex justify-between">
+            {/* modified next line by replacing items-center by self-center and added flex-wrap to prevent icons    */}
+            <div class="flex self-center gap-2 flex-wrap:nowrap">
               <button type="button" class="btn btn-sm btn-ghost btn-circle">
                 <ImageOutlineIcon />
               </button>
@@ -64,7 +66,7 @@ export const PostForm = component$((props: Props) => {
                 <EmojiOutlineIcon />
               </button>
             </div>
-            <div>
+            <div class="">
               <Button
                 type="submit"
                 colorScheme="btn-primary"
