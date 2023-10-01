@@ -69,5 +69,9 @@ pnpm run dev
 ## Code For Installing Packages 📦
 
 ```shell
+cd analysis
+```
+
+```shell
      pip install -r requirements.txt
 ```
