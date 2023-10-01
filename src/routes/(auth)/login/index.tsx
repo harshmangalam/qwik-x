@@ -1,4 +1,5 @@
 import { component$ } from "@builder.io/qwik";
+import type { DocumentHead } from "@builder.io/qwik-city";
 
 import { LogoIcon } from "~/icons/logo";
 import { Form, Link, routeAction$, z, zod$ } from "@builder.io/qwik-city";
@@ -68,3 +69,7 @@ export default component$(() => {
     </div>
   );
 });
+
+export const head: DocumentHead = {
+  title: "Login | Qwik City 📚 Qwik Documentation"
+};
