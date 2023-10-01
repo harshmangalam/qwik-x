@@ -9,48 +9,51 @@ import { ProfileInfo } from "./profile-info";
 import { fetchProfileFollowCount, fetchUserProfile } from "~/utils/profile";
 import { fetchProfilePostsCount } from "~/utils/profile";
 import { PageHeader } from "~/components/page-header";
+import { Button } from "~/components/ui/button";
 
 export const useProfile = routeLoader$((requestEvent) => {
-  return fetchUserProfile(requestEvent);
+    return fetchUserProfile(requestEvent);
 });
 export const useProfilePostsCount = routeLoader$((requestEvent) => {
-  return fetchProfilePostsCount(requestEvent);
+    return fetchProfilePostsCount(requestEvent);
 });
 
 export const useFollowCounts = routeLoader$(async (requestEvent) => {
-  return fetchProfileFollowCount(requestEvent);
+    return fetchProfileFollowCount(requestEvent);
 });
 export default component$(() => {
-  const location = useLocation();
-  const postsCountSig = useProfilePostsCount();
-  const profileSig = useProfile();
+    const location = useLocation();
+    const postsCountSig = useProfilePostsCount();
+    const profileSig = useProfile();
 
-  const showTopTab =
-    location.url.pathname.includes("followers") ||
-    location.url.pathname.includes("following");
-  return (
-    <div>
-      <PageHeader
-        title={profileSig.value.name}
-        subtitle={`${postsCountSig.value.count} posts`}
-      />
-      {!showTopTab && (
+    const showTopTab =
+        location.url.pathname.includes("followers") ||
+        location.url.pathname.includes("following");
+    return (
         <div>
-          <ProfileImage />
-          <section class="py-3 px-4">
-            <div class="flex justify-end">
-              <Link href="/edit-profile" class="btn rounded-full">
-                Edit Profile
-              </Link>
-            </div>
-            <ProfileInfo />
-            <ProfileMetaInfo />
-            <FollowLinks />
-          </section>
+            <PageHeader
+                title={profileSig.value.name}
+                subtitle={`${postsCountSig.value.count} posts`}
+            />
+            {!showTopTab && (
+                <div>
+                    <ProfileImage />
+                    <section class="py-3 px-4">
+                        <div class="flex justify-end">
+                            <Link href="/edit-profile" class="btn rounded-full">
+                                <Button roundedFull={true} class="btn" outline={true}>
+                                    Edit Profile
+                                </Button>
+                            </Link>
+                        </div>
+                        <ProfileInfo />
+                        <ProfileMetaInfo />
+                        <FollowLinks />
+                    </section>
+                </div>
+            )}
+            {showTopTab ? <FollowTabs /> : <ProfileTabs />}
+            <Slot />
         </div>
-      )}
-      {showTopTab ? <FollowTabs /> : <ProfileTabs />}
-      <Slot />
-    </div>
-  );
+    );
 });

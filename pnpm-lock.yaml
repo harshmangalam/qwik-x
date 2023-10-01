@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   crypto-js:
     specifier: ^4.1.1
@@ -11,8 +15,8 @@ dependencies:
     specifier: ^16.3.1
     version: 16.3.1
   drizzle-orm:
-    specifier: ^0.28.2
-    version: 0.28.2(pg@8.11.3)(postgres@3.3.5)
+    specifier: ^0.28.6
+    version: 0.28.6(pg@8.11.3)(postgres@3.3.5)
   jose:
     specifier: ^4.14.4
     version: 4.14.4
@@ -1489,8 +1493,8 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.28.2(pg@8.11.3)(postgres@3.3.5):
-    resolution: {integrity: sha512-QRyuzvpJr7GE6LpvZ/sg2nAKNg2if1uGGkgFTiXn4auuYId//vVJe6HBsDTktfKfcaDGzIYos+/f+PS5EkBmrg==}
+  /drizzle-orm@0.28.6(pg@8.11.3)(postgres@3.3.5):
+    resolution: {integrity: sha512-yBe+F9htrlYER7uXgDJUQsTHFoIrI5yMm5A0bg0GiZ/kY5jNXTWoEy4KQtg35cE27sw1VbgzoMWHAgCckUUUww==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
