@@ -44,7 +44,6 @@ export default component$(() => {
         />
         <meta name="twitter:image" content="Image URL Here" />
 
-        <title>qwik-x | Social Media web app</title>
         <meta
           name="description"
           content="Social media web app like Twitter build with Qwikcity"

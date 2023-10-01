@@ -5,6 +5,7 @@ import { TextInput } from "~/components/ui/text-input";
 import { Button } from "~/components/ui/button";
 import { handleSignup } from "~/utils/auth";
 import { Alert } from "~/components/ui/alert";
+import type { DocumentHead } from "@builder.io/qwik-city";
 
 export const useSignup = routeAction$(
   async (formData, requestEvent) => {
@@ -87,3 +88,7 @@ export default component$(() => {
     </div>
   );
 });
+
+export const head: DocumentHead = {
+    title: "Sign up | Qwik City 📚 Qwik Documentation",
+};
