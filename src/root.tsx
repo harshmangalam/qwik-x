@@ -21,6 +21,26 @@ export default component$(() => {
       <head>
         <meta charSet="utf-8" />
         <link rel="manifest" href="/manifest.json" />
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <meta property="og:url" content="https://qwik-x.onrender.com/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="qwik-x | Social Media web app" />
+        <meta property="og:description" content="Social media web app like Twitter build with Qwikcity" />
+        <meta property="og:image" content="Image URL Here" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="qwik-x.onrender.com" />
+        <meta property="twitter:url" content="https://qwik-x.onrender.com/" />
+        <meta name="twitter:title" content="qwik-x | Social Media web app">
+        <meta name="twitter:description" content="Social media web app like Twitter build with Qwikcity" />
+        <meta name="twitter:image" content="Image URL Here" />
+
+        <title>qwik-x | Social Media web app</title>
+        <meta name="description" content="Social media web app like Twitter build with Qwikcity" />
+
         <RouterHead />
       </head>
       <body lang="en">
