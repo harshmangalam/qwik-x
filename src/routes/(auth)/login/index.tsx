@@ -71,5 +71,5 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-  title: "Login | Qwik City 📚 Qwik Documentation"
+  title: "Login",
 };
