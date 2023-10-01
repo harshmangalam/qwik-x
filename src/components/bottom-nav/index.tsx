@@ -50,7 +50,7 @@ export const BottomNav = component$(() => {
     },
   ];
   return (
-    <div class="bg-white fixed bottom-0 w-full py-5 px-5 shadow-[0px_-3px_22px_8px_#00000024]">
+    <nav class="bg-base-100 fixed bottom-0 w-full h-12 px-4 grid place-items-center">
       <ul class="flex flex-row justify-between w-full gap-y-1">
         {links.map(
           (link) => link.show && <MenuItem key={link.name} {...link} />
@@ -70,6 +70,6 @@ export const BottomNav = component$(() => {
           </li>
         )}
       </ul>
-    </div>
+    </nav>
   );
 });

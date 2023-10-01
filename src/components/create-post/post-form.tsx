@@ -73,7 +73,7 @@ export const PostForm = component$((props: Props) => {
                 loading={actionSig.isRunning}
                 roundedFull
               >
-                Post
+                Create Post
               </Button>
             </div>
           </div>

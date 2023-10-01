@@ -7,21 +7,17 @@ type Props = {
   name: string;
 };
 export const Profile = component$<Props>((props) => {
-  const { avatar, name} = props;
+  const { avatar, name } = props;
   const logoutSig = useLogout();
 
   return (
     <div class="dropdown dropdown-top dropdown-end">
-      <label
-        tabIndex={0}
-        class="flex flex-col items-center gap-1"
-      >
+      <label tabIndex={0} class="flex flex-col items-center gap-1">
         <div class="avatar">
           <div class="w-6 mask mask-squircle">
             <img src={avatar} width={24} height={24} alt={name} />
           </div>
         </div>
-        <span class="text-xs">{name}</span>
       </label>
       <ul
         tabIndex={0}
@@ -36,7 +32,8 @@ export const Profile = component$<Props>((props) => {
               type="submit"
               loading={logoutSig.isRunning}
             >
-              Log out</Button>
+              Log out
+            </Button>
           </li>
         </Form>
       </ul>

@@ -9,7 +9,7 @@ type Props = {
 };
 export const MenuItem = component$<Props>((props) => {
   const location = useLocation();
-  const { activeIcon: ActiveIcon, href, icon: Icon, name } = props;
+  const { activeIcon: ActiveIcon, href, icon: Icon } = props;
   return (
     <li>
       <Link
@@ -23,12 +23,6 @@ export const MenuItem = component$<Props>((props) => {
       >
         {location.url.pathname === href ? <ActiveIcon /> : <Icon />}
       </Link>
-      <span class={[
-          "text-xs text-slate-500",
-          {
-            "text-black": location.url.pathname === href,
-          },
-        ]}>{name}</span>
     </li>
   );
 });
