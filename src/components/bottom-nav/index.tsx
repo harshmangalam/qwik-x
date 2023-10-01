@@ -56,19 +56,19 @@ export const BottomNav = component$(() => {
           (link) => link.show && <MenuItem key={link.name} {...link} />
         )}
 
-      {!!userSig.value && (
-        <div class="px-2 absolute -top-14 right-1">
-          <CreatePost small/>
-        </div>
-      )}
-      {userSig.value && (
-        <li class="">
-          <Profile
-            avatar={userSig.value.avatar.url}
-            name={userSig.value.name}
-          />
-        </li>
-      )}
+        {!!userSig.value && (
+          <div class="px-2 absolute -top-14 right-1">
+            <CreatePost small showText={false} />
+          </div>
+        )}
+        {userSig.value && (
+          <li class="">
+            <Profile
+              avatar={userSig.value.avatar.url}
+              name={userSig.value.name}
+            />
+          </li>
+        )}
       </ul>
     </div>
   );

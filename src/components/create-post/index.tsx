@@ -1,22 +1,29 @@
 import { component$, useSignal } from "@builder.io/qwik";
 import { Button } from "../ui/button";
 import { PostForm } from "./post-form";
+import { PlusIcon } from "~/icons";
 
 type Props = {
-  small?: boolean
+  small?: boolean;
+  showText?: boolean;
 };
 
-export const CreatePost = component$<Props>((props) => {
+export const CreatePost = component$((props: Props) => {
+  const { showText = true, small = false } = props;
   const dialogSig = useSignal<HTMLDialogElement | undefined>();
   return (
     <>
       <Button
-        fullWidth={!props.small}
+        fullWidth={!small}
         roundedFull
+        circle={!showText}
         colorScheme="btn-primary"
         onClick$={() => dialogSig.value?.showModal()}
       >
-        Post
+        <span class="md:hidden">
+          <PlusIcon />
+        </span>
+        {showText && <span>Post</span>}
       </Button>
       <dialog ref={dialogSig} class="modal">
         <div class="modal-box">
