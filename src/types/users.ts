@@ -6,11 +6,13 @@ export type AuthUser = {
   avatar: any;
 };
 
-export type UserSuggestionType = {
+export type UserType = {
   id: number;
   name: string;
   username: string;
   avatar: any;
-  bio?: string;
+  profile?: {
+    bio?: string | null;
+  };
   isFollowing: boolean;
 };

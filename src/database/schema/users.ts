@@ -14,6 +14,12 @@ import { postsLikes } from "./posts-likes";
 import { followers } from "./followers";
 import { followings } from "./followings";
 import { bookmarks } from "./bookmarks";
+import { lists } from "./lists";
+import {
+  usersListsFollowers,
+  usersListsMembers,
+  usersListsPinned,
+} from "./users-to-lists";
 export const usersRole = pgEnum("users_role", ["User", "Admin"]);
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -46,6 +52,12 @@ export const usersRelations = relations(users, ({ one, many }) => ({
   bookmarks: many(bookmarks, {
     relationName: "usersToBookmarks",
   }),
+  lists: many(lists, {
+    relationName: "listsOwner",
+  }),
+  pinnedLists: many(usersListsPinned),
+  listsMembers: many(usersListsMembers),
+  followingLists: many(usersListsFollowers),
 }));
 
 export type User = InferModel<typeof users, "select">;

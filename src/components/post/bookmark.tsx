@@ -3,9 +3,14 @@ import { BookmarkIcon, BookmarkOutlineIcon } from "~/icons/bookmark";
 import { Button } from "../ui/button";
 import { useBookmark } from "~/routes/(app)/layout";
 
-type Props = { postId: number; count?: number; isBookmarked?: boolean };
+type Props = {
+  postId: number;
+  count?: number;
+  isBookmarked?: boolean;
+  isLarge?: boolean;
+};
 export const Bookmark = component$(
-  ({ postId, count, isBookmarked = false }: Props) => {
+  ({ postId, count, isBookmarked = false, isLarge = false }: Props) => {
     const actionSig = useBookmark();
     const handleComment = $((ev: QwikMouseEvent) => {
       ev.stopPropagation();
@@ -17,13 +22,19 @@ export const Bookmark = component$(
         <Button
           preventdefault:click
           onClick$={handleComment}
-          colorScheme="btn-ghost"
-          btnClass={{ "text-info": isBookmarked }}
+          colorScheme={isBookmarked ? "btn-primary" : "btn-ghost"}
+          btnClass="group-hover:text-primary"
           loading={actionSig.isRunning}
+          size={isLarge ? "btn-md" : "btn-sm"}
+          circle
         >
           {isBookmarked ? <BookmarkIcon /> : <BookmarkOutlineIcon />}
-          {count}
         </Button>
+        <div
+          class={["group-hover:text-primary", { "text-primary": isBookmarked }]}
+        >
+          {count}
+        </div>
       </div>
     );
   }

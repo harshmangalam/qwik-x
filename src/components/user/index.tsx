@@ -1,30 +1,45 @@
 import { component$ } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
 import { FollowUnfollow } from "./follow";
-import type { UserSuggestionType } from "~/types";
+import type { UserType } from "~/types";
+import { Avatar } from "../ui/avatar";
 
-export const User = component$((props: UserSuggestionType) => {
-  const { avatar, name, username, bio, isFollowing, id } = props;
+type Props = UserType & { showBio?: boolean };
+export const User = component$((props: Props) => {
+  const {
+    avatar,
+    name,
+    username,
+    profile,
+    isFollowing,
+    id,
+    showBio = false,
+  } = props;
   return (
     <div class="flex gap-4 rounded-none">
       <div class="flex-none">
-        <div class="avatar flex-none">
-          <div class="w-11 h-11 rounded-full">
-            <img src={avatar.url} width={44} height={44} />
-          </div>
-        </div>
+        <Link href={`/${username}/`}>
+          <Avatar src={avatar.url} circle />
+        </Link>
       </div>
       <div class="flex-1">
         <div class="flex justify-between">
           <div>
             <div class="font-bold">
-              <Link href={`/${username}/`}>{name}</Link>
+              <Link class="link link-hover" href={`/${username}/`}>
+                {name}
+              </Link>
             </div>
-            <div class="leading-4 text-sm opacity-60">@{username}</div>
+            <Link
+              class="link link-hover leading-4 text-sm opacity-80"
+              href={`/${username}/`}
+            >
+              @{username}
+            </Link>
           </div>
           <FollowUnfollow otherUserId={id} isFollowing={isFollowing} />
         </div>
-        {bio && <p class="mt-2">{bio}</p>}
+        {showBio && <p class="mt-2">{profile?.bio}</p>}
       </div>
     </div>
   );

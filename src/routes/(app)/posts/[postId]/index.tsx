@@ -7,7 +7,6 @@ import {
   zod$,
 } from "@builder.io/qwik-city";
 import { Bookmark } from "~/components/post/bookmark";
-import { Comment } from "~/components/post/comment";
 import { Like } from "~/components/post/like";
 import { Share } from "~/components/post/share";
 import { db } from "~/database/connection";
@@ -126,13 +125,17 @@ export default component$(() => {
         </div>
         <div class="divider my-2"></div>
         <div class="card-actions justify-between pt-3">
-          <Comment postId={postSig.value.id} />
-          <Like postId={postSig.value.id} isLiked={postSig.value.isLiked} />
+          <Like
+            isLarge
+            postId={postSig.value.id}
+            isLiked={postSig.value.isLiked}
+          />
           <Bookmark
+            isLarge
             postId={postSig.value.id}
             isBookmarked={postSig.value.isBookmarked}
           />
-          <Share />
+          <Share isLarge />
         </div>
         <div class="divider my-2"></div>
       </section>
