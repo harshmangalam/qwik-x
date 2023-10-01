@@ -8,6 +8,7 @@ import { fetchUsersSuggestion } from "~/utils/users";
 import { handleFollowUnfollow } from "~/utils/follow";
 import { handleBookmark } from "~/utils/bookmarks";
 import { RightSidebar } from "~/components/right-sidebar";
+import { BottomNav } from "~/components/bottom-nav";
 
 export const useCurrentUser = routeLoader$(({ sharedMap }) => {
   const user = sharedMap.get("user") as AuthUser | undefined;
@@ -72,6 +73,9 @@ export default component$(() => {
           <div class="lg:col-span-5 hidden lg:block">
             <RightSidebar />
           </div>
+        </div>
+        <div class="md:hidden mt-24">
+          <BottomNav />
         </div>
       </main>
     </div>
