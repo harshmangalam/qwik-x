@@ -1,4 +1,5 @@
 import { component$ } from "@builder.io/qwik";
+import type { DocumentHead } from "@builder.io/qwik-city";
 import {
   Link,
   routeAction$,
@@ -72,6 +73,17 @@ export const useCreateReply = routeAction$(
 export const useFetchPostReply = routeLoader$(async (requestEvent) => {
   return fetchPostReplies(requestEvent);
 });
+
+export const head: DocumentHead = ({ resolveValue }) => {
+  const post = resolveValue(usePost);
+
+  return {
+    title: post.text
+      ? `${post.author.username}: ${post.text.slice(0, 20)}`
+      : `Post by ${post.author.username}`,
+  };
+};
+
 export default component$(() => {
   const postSig = usePost();
   const currentUser = useCurrentUser();
