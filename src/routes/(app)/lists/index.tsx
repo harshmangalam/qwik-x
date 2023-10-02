@@ -1,4 +1,5 @@
 import { component$ } from "@builder.io/qwik";
+import type { DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import { ListItem } from "~/components/lists/list-item";
 import PinnedListItem from "~/components/lists/pinned-list-item";
@@ -80,3 +81,7 @@ export default component$(() => {
     </div>
   );
 });
+
+export const head: DocumentHead = {
+  title: "Lists",
+};
