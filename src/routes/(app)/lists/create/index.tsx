@@ -1,4 +1,5 @@
 import { component$ } from "@builder.io/qwik";
+import type { DocumentHead } from "@builder.io/qwik-city";
 import { Form, routeAction$, routeLoader$, zod$ } from "@builder.io/qwik-city";
 import { PageHeader } from "~/components/page-header";
 import { Button } from "~/components/ui/button";
@@ -94,3 +95,7 @@ export default component$(() => {
     </div>
   );
 });
+
+export const head: DocumentHead = {
+  title: "Create a new list",
+};

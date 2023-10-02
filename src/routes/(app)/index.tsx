@@ -22,5 +22,5 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-  title: "qwik-x",
+  title: "Home",
 };

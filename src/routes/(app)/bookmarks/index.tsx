@@ -1,4 +1,5 @@
 import { component$ } from "@builder.io/qwik";
+import type { DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import { PostCard } from "~/components/post/post-card";
 import { fetchBookmarkedPosts } from "~/utils/bookmarks";
@@ -18,3 +19,7 @@ export default component$(() => {
     </div>
   );
 });
+
+export const head: DocumentHead = {
+  title: "Bookmarks",
+};
