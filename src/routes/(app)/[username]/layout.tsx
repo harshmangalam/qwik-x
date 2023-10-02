@@ -9,6 +9,7 @@ import { ProfileInfo } from "./profile-info";
 import { fetchProfileFollowCount, fetchUserProfile } from "~/utils/profile";
 import { fetchProfilePostsCount } from "~/utils/profile";
 import { PageHeader } from "~/components/page-header";
+import { fetchCurrentUser } from "~/utils/auth";
 
 export const useProfile = routeLoader$((requestEvent) => {
   return fetchUserProfile(requestEvent);
@@ -16,7 +17,9 @@ export const useProfile = routeLoader$((requestEvent) => {
 export const useProfilePostsCount = routeLoader$((requestEvent) => {
   return fetchProfilePostsCount(requestEvent);
 });
-
+export const useCurrentUser = routeLoader$((requestEvent) => {
+  return fetchCurrentUser(requestEvent);
+});
 export const useFollowCounts = routeLoader$(async (requestEvent) => {
   return fetchProfileFollowCount(requestEvent);
 });
@@ -24,10 +27,14 @@ export default component$(() => {
   const location = useLocation();
   const postsCountSig = useProfilePostsCount();
   const profileSig = useProfile();
+  const currentUser = useCurrentUser();
 
   const showTopTab =
     location.url.pathname.includes("followers") ||
     location.url.pathname.includes("following");
+
+  const isSelfView = currentUser.value.username === profileSig.value.username;
+
   return (
     <div>
       <PageHeader
@@ -38,14 +45,16 @@ export default component$(() => {
         <div>
           <ProfileImage />
           <section class="py-3 px-4">
-            <div class="flex justify-end">
-              <Link
-                href="/edit-profile"
-                class="btn rounded-full btn-outline btn-sm"
-              >
-                Edit Profile
-              </Link>
-            </div>
+            {isSelfView ? (
+              <div class="flex justify-end">
+                <Link
+                  href="/edit-profile"
+                  class="btn rounded-full btn-outline btn-sm"
+                >
+                  Edit Profile
+                </Link>
+              </div>
+            ): <div class="h-[32px]" />}
             <ProfileInfo />
             <ProfileMetaInfo />
             <FollowLinks />
