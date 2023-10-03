@@ -8,8 +8,8 @@ export default component$(() => {
         <div class="hero-content text-center">
           <div class="max-w-md flex flex-col gap-2">
             <h1 class="text-9xl font-bold">OOPs!</h1>
-            <h2 class="text-3xl"> Page not Found</h2>
-            <p class="py-6">
+            <h2 class="text-3xl opacity-80"> Page not Found</h2>
+            <p class="py-6 opacity-60">
               Sorry, the page you are trying to access does not exist. Try the
               ones below.
             </p>
