@@ -56,15 +56,21 @@ export const PostForm = component$((props: Props) => {
           <div class="card-actions flex justify-between">
             {/* modified next line by replacing items-center by self-center and added flex-wrap to prevent icons    */}
             <div class="flex self-center gap-2 flex-wrap:nowrap">
-              <button type="button" class="btn btn-sm btn-ghost btn-circle">
-                <ImageOutlineIcon />
-              </button>
-              <button type="button" class="btn btn-sm btn-ghost btn-circle">
-                <GifOutlineIcon />
-              </button>
-              <button type="button" class="btn btn-sm btn-ghost btn-circle">
-                <EmojiOutlineIcon />
-              </button>
+              <div class="tooltip" data-tip="Image">
+                <button type="button" class="btn btn-sm btn-ghost btn-circle">
+                  <ImageOutlineIcon />
+                </button>
+              </div>
+              <div class="tooltip" data-tip="GIF">
+                <button type="button" class="btn btn-sm btn-ghost btn-circle">
+                  <GifOutlineIcon />
+                </button>
+              </div>
+              <div class="tooltip" data-tip="Emoji">
+                <button type="button" class="btn btn-sm btn-ghost btn-circle">
+                  <EmojiOutlineIcon />
+                </button>
+              </div>
             </div>
             <div class="">
               <Button
