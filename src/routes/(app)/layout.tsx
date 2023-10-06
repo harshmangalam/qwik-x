@@ -43,7 +43,7 @@ export const useTogglePostsLikes = globalAction$(
     return toggleLikePosts(+postId, requestEvent);
   },
   zod$({
-    postId: z.number(),
+    postId: z.string().nonempty(),
   })
 );
 

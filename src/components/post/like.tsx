@@ -2,6 +2,7 @@ import { component$ } from "@builder.io/qwik";
 import { LikeIcon, LikeOutlineIcon } from "~/icons/like";
 import { useTogglePostsLikes } from "~/routes/(app)/layout";
 import { Button } from "../ui/button";
+import { Form } from "@builder.io/qwik-city";
 
 export const Like = component$(
   ({
@@ -17,19 +18,19 @@ export const Like = component$(
   }) => {
     const actionSig = useTogglePostsLikes();
     return (
-      <div class="flex items-center group gap-1">
+      <Form action={actionSig} class="flex items-center group gap-1">
+        <input type="hidden" name="postId" value={postId} />
         <Button
           title={isLiked ? "Unlike" : "Like"}
           size={isLarge ? "btn-md" : "btn-sm"}
           circle
+          type="submit"
           btnClass={"group-hover:btn-secondary"}
           loading={actionSig.isRunning}
           colorScheme={isLiked ? "btn-secondary" : "btn-ghost"}
           onClick$={(ev) => {
             ev.stopPropagation();
-            actionSig.submit({ postId });
           }}
-          preventdefault:click
         >
           {isLiked ? <LikeIcon /> : <LikeOutlineIcon />}
         </Button>
@@ -38,7 +39,7 @@ export const Like = component$(
         >
           {count}
         </div>
-      </div>
+      </Form>
     );
   }
 );
