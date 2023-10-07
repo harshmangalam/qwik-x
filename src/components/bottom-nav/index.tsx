@@ -8,6 +8,8 @@ import { MenuItem } from "./menu-item";
 import { useCurrentUser } from "~/routes/(app)/layout";
 import { CreatePost } from "../create-post";
 import { BookmarkIcon, BookmarkOutlineIcon } from "~/icons/bookmark";
+import { SuggestionIcon, SuggestionOutlineIcon } from "~/icons/suggestion";
+
 
 export const BottomNav = component$(() => {
   const userSig = useCurrentUser();
@@ -46,6 +48,13 @@ export const BottomNav = component$(() => {
       href: `/${userSig.value?.username}/`,
       icon: ProfileOutlineIcon,
       activeIcon: ProfileIcon,
+      show: !!userSig.value,
+    },
+    {
+      name: "Suggestions",
+      href: "/suggestions/",
+      icon: SuggestionOutlineIcon,
+      activeIcon: SuggestionIcon,
       show: !!userSig.value,
     },
   ];
