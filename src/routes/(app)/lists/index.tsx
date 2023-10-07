@@ -53,6 +53,7 @@ export default component$(() => {
             />
           ))}
         </ul>
+        {pinnedListsSig.value.length == 0 && <span>Nothing to see here yet -- pin your favorite Lists to access them quickly.</span>}
       </div>
       <div class="divider"></div>
 
@@ -64,6 +65,7 @@ export default component$(() => {
             <ListItem {...list} key={list.id} />
           ))}
         </ul>
+        {suggestionsSig.value.length == 0 && <span>Nothing to show up here.</span>}
       </div>
       <div class="divider"></div>
 
@@ -75,6 +77,7 @@ export default component$(() => {
             <ListItem {...list} key={list.id} />
           ))}
         </ul>
+        {myListsSig.value.length == 0 && <span>You haven't created or followed any Lists. When you do, they'll show up here.</span>}
       </div>
 
       <div class="divider"></div>
