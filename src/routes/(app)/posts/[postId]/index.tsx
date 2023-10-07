@@ -94,7 +94,7 @@ export default component$(() => {
 
       <section class="flex items-center justify-between px-4">
         <div class="flex items-center gap-3">
-          <div class="avatar">
+          <Link class="avatar" href={`/${postSig.value.author.username}/`}>
             <div class="w-10 h-10 rounded-full">
               <img
                 width={40}
@@ -103,12 +103,14 @@ export default component$(() => {
                 alt={postSig.value.author.name}
               />
             </div>
-          </div>
+          </Link>
           <div class="flex flex-col gap-0">
-            <h3 class="font-semibold text-lg">{postSig.value.author.name}</h3>
-            <span class="opacity-70 leading-4">
+            <Link href={`/${postSig.value.author.username}/`}>
+              <h3 class="font-semibold text-lg">{postSig.value.author.name}</h3>
+            </Link>
+            <Link class="opacity-70 leading-4" href={`/${postSig.value.author.username}/`}>
               @{postSig.value.author.username}
-            </span>
+            </Link>
           </div>
         </div>
       </section>
