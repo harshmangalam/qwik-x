@@ -34,10 +34,11 @@ export const Select = component$((props: Props) => {
       <select
         id={id}
         class={["select w-full", { "select-bordered": bordered }, colorScheme]}
+        aria-label={label}
         {...rest}
       >
         {options.map(({ label, value, selected }) => (
-          <option selected={selected} key={value} value={value}>
+          <option selected={selected} key={value} value={value} aria-selected={selected ? "true" : "false"}>
             {label}
           </option>
         ))}
