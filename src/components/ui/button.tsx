@@ -44,6 +44,9 @@ export const Button = component$((props: Props) => {
         btnClass,
       ]}
       {...rest}
+        role="button"
+        aria-disabled={loading ? "true" : "false"}
+        aria-busy={loading ? "true" : "false"}
     >
       {loading ? <span class={`loading loading-dots`}></span> : <Slot />}
     </button>
