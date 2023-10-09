@@ -78,16 +78,14 @@ export const Sidebar = component$(() => {
         )}
       </div>
 
-      <div>
+      <div class="px-2 flex flex-col gap-2">
         <ThemesDialog />
         {userSig.value && (
-          <div class="px-2">
-            <AccountMenu
-              avatar={userSig.value.avatar.url}
-              username={userSig.value.username}
-              name={userSig.value.name}
-            />
-          </div>
+          <AccountMenu
+            avatar={userSig.value.avatar.url}
+            username={userSig.value.username}
+            name={userSig.value.name}
+          />
         )}
       </div>
     </aside>

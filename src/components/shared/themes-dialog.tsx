@@ -3,47 +3,18 @@ import { Button } from "../ui/button";
 import { ThemeIcon } from "~/icons";
 import { Form } from "@builder.io/qwik-city";
 import { PostCard } from "../post/post-card";
-
+import { useThemes } from "~/hooks/useThemes";
+import { themeVariants } from "~/config";
 type Props = {
   small?: boolean;
   showText?: boolean;
 };
 
 export const ThemesDialog = component$((props: Props) => {
-  const themeVariants = [
-    "light",
-    "dark",
-    "cupcake",
-    "bumblebee",
-    "emerald",
-    "corporate",
-    "synthwave",
-    "retro",
-    "cyberpunk",
-    "valentine",
-    "halloween",
-    "garden",
-    "forest",
-    "aqua",
-    "lofi",
-    "pastel",
-    "fantasy",
-    "wireframe",
-    "black",
-    "luxury",
-    "dracula",
-    "cmyk",
-    "autumn",
-    "business",
-    "acid",
-    "lemonade",
-    "night",
-    "coffee",
-    "winter",
-  ];
+  const { theme } = useThemes();
   const { showText = true, small = false } = props;
   const dialogSig = useSignal<HTMLDialogElement | undefined>();
-  const theme = useSignal("");
+
   return (
     <>
       <Button
@@ -66,7 +37,7 @@ export const ThemesDialog = component$((props: Props) => {
             <p class="opacity-80 max-w-sm text-center w-full mx-auto">
               These settings affect all the qwik-X accounts on this browser.
             </p>
-            {/* <PostCard
+            <PostCard
               compact
               disabled
               author={{
@@ -82,7 +53,7 @@ export const ThemesDialog = component$((props: Props) => {
               text={
                 "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid totam architecto rem aut veritatis tene"
               }
-            /> */}
+            />
           </div>
 
           <Form
@@ -105,6 +76,7 @@ export const ThemesDialog = component$((props: Props) => {
                       class="radio"
                       checked={theme.value === t}
                       value={t}
+                      onChange$={(e) => (theme.value = e.target.value)}
                     />
                   </label>
                 </div>
