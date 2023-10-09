@@ -6,9 +6,14 @@ import type { PostWithAuthor } from "~/types";
 import { Like } from "./like";
 import { Link, useNavigate } from "@builder.io/qwik-city";
 
-export type Props = PostWithAuthor;
+export type Props = PostWithAuthor & {
+  disabled?: boolean;
+  compact?: boolean;
+};
 export const PostCard = component$((props: Props) => {
   const {
+    compact = false,
+    disabled = false,
     author,
     media,
     text,
@@ -21,9 +26,16 @@ export const PostCard = component$((props: Props) => {
   } = props;
   const navigate = useNavigate();
   return (
-    <Link href={`/posts/${id}`}>
-      <article class="card rounded-none hover:bg-base-200">
-        <div class="card-body pb-2">
+    <Link href={disabled ? `#` : `/posts/${id}`}>
+      <article
+        class={[
+          "w-full card rounded-none",
+          { "card-compact ": compact },
+          { "hover:bg-base-200": !disabled },
+          { "border border-base-300 rounded-xl": disabled },
+        ]}
+      >
+        <div class={["card-body", { "pb-2": !disabled }]}>
           <div class="flex gap-3">
             <div class="avatar flex-none">
               <div class="w-11 h-11 rounded-full">
@@ -46,6 +58,7 @@ export const PostCard = component$((props: Props) => {
                   <button
                     preventdefault:click
                     onClick$={(ev) => {
+                      if (disabled) return;
                       ev.stopPropagation();
                       navigate(`/${parentPost.author.username}`);
                     }}
@@ -70,7 +83,12 @@ export const PostCard = component$((props: Props) => {
                 </figure>
               )}
 
-              <div class="card-actions justify-between pt-3">
+              <div
+                class={[
+                  "card-actions justify-between pt-3",
+                  { hidden: disabled },
+                ]}
+              >
                 <Comment postId={id} count={repliesCount} />
                 <Like postId={id} isLiked={isLiked} count={likesCount} />
                 {/* <Stat /> */}
