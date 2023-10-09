@@ -25,12 +25,12 @@ export const ThemesDialog = component$((props: Props) => {
         circle={!showText}
         colorScheme="btn-ghost"
         onClick$={() => dialogSig.value?.showModal()}
-        btnClass={"justify-start"}
+        btnClass={"md:justify-start"}
       >
         <span>
           <ThemeIcon />
         </span>
-        {showText && <span>Customize Themes</span>}
+        {showText && <span class="hidden md:block">Customize Themes</span>}
       </Button>
       <dialog ref={dialogSig} class="modal">
         <div class="modal-box">

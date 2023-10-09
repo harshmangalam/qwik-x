@@ -10,7 +10,6 @@ import { CreatePost } from "../create-post";
 import { BookmarkIcon, BookmarkOutlineIcon } from "~/icons/bookmark";
 import { SuggestionIcon, SuggestionOutlineIcon } from "~/icons/suggestion";
 
-
 export const BottomNav = component$(() => {
   const userSig = useCurrentUser();
   const links = [
@@ -71,7 +70,7 @@ export const BottomNav = component$(() => {
           </div>
         )}
         {userSig.value && (
-          <li class="">
+          <li>
             <Profile
               avatar={userSig.value.avatar.url}
               name={userSig.value.name}
