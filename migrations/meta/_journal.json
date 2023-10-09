@@ -15,6 +15,13 @@
       "when": 1696145264927,
       "tag": "0001_talented_expediter",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1696868082485,
+      "tag": "0002_long_the_call",
+      "breakpoints": true
     }
   ]
 }

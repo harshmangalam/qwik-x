@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "theme" json DEFAULT '{"variant":"light"}'::json NOT NULL;
