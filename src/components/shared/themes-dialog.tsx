@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const ThemesDialog = component$((props: Props) => {
-  const { theme } = useThemes();
+  const { theme, updateTheme } = useThemes();
   const { showText = true, small = false } = props;
   const dialogSig = useSignal<HTMLDialogElement | undefined>();
 
@@ -76,7 +76,7 @@ export const ThemesDialog = component$((props: Props) => {
                       class="radio"
                       checked={theme.value === t}
                       value={t}
-                      onChange$={(e) => (theme.value = e.target.value)}
+                      onChange$={(e) => updateTheme(e.target.value)}
                     />
                   </label>
                 </div>
