@@ -31,6 +31,7 @@ export const users = pgTable("users", {
   role: usersRole("role").default("User").notNull(),
   online: boolean("online").default(false).notNull(),
   lastSeen: timestamp("last_seen").defaultNow(),
+  theme: json("theme").notNull().default({ variant: "light" }),
 });
 
 export const usersRelations = relations(users, ({ one, many }) => ({
