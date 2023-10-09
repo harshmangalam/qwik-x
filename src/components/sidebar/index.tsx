@@ -10,6 +10,7 @@ import { useCurrentUser } from "~/routes/(app)/layout";
 import { CreatePost } from "../create-post";
 import { BookmarkIcon, BookmarkOutlineIcon } from "~/icons/bookmark";
 import { ListIcon, ListOulineIcon } from "~/icons/list";
+import { ThemesDialog } from "../shared/themes-dialog";
 export const Sidebar = component$(() => {
   const userSig = useCurrentUser();
   const links = [
@@ -77,15 +78,18 @@ export const Sidebar = component$(() => {
         )}
       </div>
 
-      {userSig.value && (
-        <div class="px-2">
-          <AccountMenu
-            avatar={userSig.value.avatar.url}
-            username={userSig.value.username}
-            name={userSig.value.name}
-          />
-        </div>
-      )}
+      <div>
+        <ThemesDialog />
+        {userSig.value && (
+          <div class="px-2">
+            <AccountMenu
+              avatar={userSig.value.avatar.url}
+              username={userSig.value.username}
+              name={userSig.value.name}
+            />
+          </div>
+        )}
+      </div>
     </aside>
   );
 });
