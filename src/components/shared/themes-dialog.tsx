@@ -5,6 +5,7 @@ import { Form } from "@builder.io/qwik-city";
 import { PostCard } from "../post/post-card";
 import { useThemes } from "~/hooks/useThemes";
 import { themeVariants } from "~/config";
+import { useThemeAction } from "~/routes/layout";
 type Props = {
   small?: boolean;
   showText?: boolean;
@@ -14,6 +15,7 @@ export const ThemesDialog = component$((props: Props) => {
   const { theme, updateTheme } = useThemes();
   const { showText = true, small = false } = props;
   const dialogSig = useSignal<HTMLDialogElement | undefined>();
+  const actionSig = useThemeAction();
 
   return (
     <>
@@ -57,6 +59,7 @@ export const ThemesDialog = component$((props: Props) => {
           </div>
 
           <Form
+            action={actionSig}
             onSubmitCompleted$={() => {
               dialogSig.value?.close();
             }}
@@ -88,6 +91,7 @@ export const ThemesDialog = component$((props: Props) => {
                 size="btn-sm"
                 type="submit"
                 colorScheme="btn-primary"
+                loading={actionSig.isRunning}
               >
                 Done
               </Button>
