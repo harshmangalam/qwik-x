@@ -1,9 +1,13 @@
-import { type RequestEventLoader } from "@builder.io/qwik-city";
+import {
+  RequestEventAction,
+  type RequestEventLoader,
+} from "@builder.io/qwik-city";
 import { eq, not, or } from "drizzle-orm";
 import { db } from "~/database/connection";
 import { type NewUser, users } from "~/database/schema";
 import type { AuthUser } from "~/types";
 import { alreadyFollow } from "./follow";
+import { fetchCurrentUser } from "./auth";
 async function findUserByUsername(username: string) {
   return db.query.users.findFirst({
     where(fields, { eq }) {
@@ -68,6 +72,7 @@ async function findUserForAuthorization(id: number) {
       id: true,
       role: true,
       avatar: true,
+      theme: true,
     },
   });
 }
@@ -124,6 +129,19 @@ async function fetchAllUserSuggestions({ sharedMap }: RequestEventLoader) {
   }
   return results;
 }
+
+async function handleUpdateUserTheme(
+  theme: string,
+  requestEvent: RequestEventAction
+) {
+  const user = fetchCurrentUser(requestEvent);
+  await updateUser(user.id, {
+    theme: {
+      colorScheme: theme,
+    },
+  });
+  throw requestEvent.redirect(307, requestEvent.url.pathname);
+}
 export {
   createUser,
   isEmailExists,
@@ -135,4 +153,5 @@ export {
   fetchUsersSuggestion,
   findUserByUsername,
   fetchAllUserSuggestions,
+  handleUpdateUserTheme,
 };

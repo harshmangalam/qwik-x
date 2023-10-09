@@ -1,8 +1,8 @@
 export type PostWithAuthor = {
   id: number;
-  text: string | null;
-  media: any;
-  isLiked: boolean;
+  text?: string | null;
+  media?: any;
+  isLiked?: boolean;
   author: {
     avatar: any;
     id: number;
@@ -10,7 +10,7 @@ export type PostWithAuthor = {
     username: string;
   };
   createdAt: string;
-  likesCount: number;
+  likesCount?: number;
   repliesCount?: number;
   parentPost?: {
     author: {

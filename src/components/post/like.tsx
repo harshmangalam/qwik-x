@@ -12,7 +12,7 @@ export const Like = component$(
     isLarge = false,
   }: {
     postId: number;
-    isLiked: boolean;
+    isLiked?: boolean;
     count?: number;
     isLarge?: boolean;
   }) => {

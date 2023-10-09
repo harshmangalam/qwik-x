@@ -4,6 +4,7 @@ export type AuthUser = {
   username: string;
   role: "User" | "Admin";
   avatar: any;
+  theme: Record<string, any>;
 };
 
 export type UserType = {

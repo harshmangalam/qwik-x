@@ -1,6 +1,7 @@
 import { Slot, component$ } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
 import { ArrowLeftIcon } from "~/icons/arrow";
+import { ThemesDialog } from "./shared/themes-dialog";
 
 type Props = {
   showBackArrow?: boolean;
@@ -47,6 +48,9 @@ export const PageHeader = component$((props: Props) => {
           </Link>
         ))}
         {moreOptions}
+        <div class="md:hidden">
+          <ThemesDialog small showText={false} />
+        </div>
       </div>
 
       <Slot />
