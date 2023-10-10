@@ -71,23 +71,23 @@ export const Sidebar = component$(() => {
           )}
         </ul>
 
-        {!!userSig.value && (
+        {userSig.value && (
           <div class="w-full px-2">
             <CreatePost />
           </div>
         )}
       </div>
 
-      <div class="px-2 flex flex-col gap-2">
-        <ThemesDialog />
-        {userSig.value && (
+      {userSig.value && (
+        <div class="px-2 flex flex-col gap-2">
+          <ThemesDialog />
           <AccountMenu
             avatar={userSig.value.avatar.url}
             username={userSig.value.username}
             name={userSig.value.name}
           />
-        )}
-      </div>
+        </div>
+      )}
     </aside>
   );
 });
