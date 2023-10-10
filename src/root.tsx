@@ -32,7 +32,7 @@ export default component$(() => {
           property="og:description"
           content="Social media web app like Twitter build with Qwikcity"
         />
-        <meta property="og:image" content="Image URL Here" />
+        <meta property="og:image" content="/qwik.png" />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="twitter:domain" content="qwik-x.onrender.com" />
@@ -42,7 +42,7 @@ export default component$(() => {
           name="twitter:description"
           content="Social media web app like Twitter build with Qwikcity"
         />
-        <meta name="twitter:image" content="Image URL Here" />
+        <meta name="twitter:image" content="/qwik.png" />
 
         <meta
           name="description"
