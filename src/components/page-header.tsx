@@ -2,6 +2,7 @@ import { Slot, component$ } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
 import { ArrowLeftIcon } from "~/icons/arrow";
 import { ThemesDialog } from "./shared/themes-dialog";
+import { useCurrentUser } from "~/routes/(app)/layout";
 
 type Props = {
   showBackArrow?: boolean;
@@ -20,6 +21,8 @@ export const PageHeader = component$((props: Props) => {
     subtitle,
     links = [],
   } = props;
+
+  const currentUser = useCurrentUser();
   return (
     <nav class="sticky top-0 h-10 z-10 backdrop-blur navbar bg-base-100/70">
       <div class="navbar-start">
@@ -49,7 +52,7 @@ export const PageHeader = component$((props: Props) => {
         ))}
         {moreOptions}
         <div class="md:hidden">
-          <ThemesDialog small showText={false} />
+          {currentUser.value && <ThemesDialog small showText={false} />}
         </div>
       </div>
 
