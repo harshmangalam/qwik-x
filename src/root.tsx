@@ -30,7 +30,7 @@ export default component$(() => {
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <meta property="og:url" content="https://qwik-x.onrender.com/" />
+        <meta property="og:url" content="https://x-qwik.vercel.app/" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="qwik-x | Social Media web app" />
         <meta
@@ -41,7 +41,7 @@ export default component$(() => {
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="twitter:domain" content="qwik-x.onrender.com" />
-        <meta property="twitter:url" content="https://qwik-x.onrender.com/" />
+        <meta property="twitter:url" content="https://x-qwik.vercel.app/" />
         <meta name="twitter:title" content="qwik-x | Social Media web app" />
         <meta
           name="twitter:description"
