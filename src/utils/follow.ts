@@ -22,41 +22,34 @@ async function alreadyFollow(userId: number, otherUserId: number) {
 }
 
 async function unfollowUser(userId: number, otherUserId: number) {
-  return db.transaction(async (tx) => {
-    // delete from following table of current user
-    await tx
-      .delete(followings)
-      .where(
-        and(
-          eq(followings.userId, userId),
-          eq(followings.otherUserId, otherUserId)
-        )
-      );
+  // delete from following table of current user
+  await db
+    .delete(followings)
+    .where(
+      and(
+        eq(followings.userId, userId),
+        eq(followings.otherUserId, otherUserId)
+      )
+    );
 
-    // delete from followers table of other user
-    await tx
-      .delete(followers)
-      .where(
-        and(
-          eq(followers.userId, otherUserId),
-          eq(followers.otherUserId, userId)
-        )
-      );
-  });
+  // delete from followers table of other user
+  await db
+    .delete(followers)
+    .where(
+      and(eq(followers.userId, otherUserId), eq(followers.otherUserId, userId))
+    );
 }
 
 async function followUser(userId: number, otherUserId: number) {
-  return db.transaction(async (tx) => {
-    // add data in followings table of current user
-    await tx.insert(followings).values({
-      userId,
-      otherUserId,
-    });
-    // add data in followers table of other user
-    await tx.insert(followers).values({
-      userId: otherUserId,
-      otherUserId: userId,
-    });
+  // add data in followings table of current user
+  await db.insert(followings).values({
+    userId,
+    otherUserId,
+  });
+  // add data in followers table of other user
+  await db.insert(followers).values({
+    userId: otherUserId,
+    otherUserId: userId,
   });
 }
 
