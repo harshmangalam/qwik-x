@@ -1,7 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+[data-theme="wireframe"] *{
+    font-family: 'Space Mono', monospace;  
+}
 
 .btn {
     @apply normal-case no-animation
