@@ -26,37 +26,40 @@ export const PostCard = component$((props: Props) => {
   } = props;
   const navigate = useNavigate();
   return (
-    <Link href={disabled ? `#` : `/posts/${id}`}>
-      <article
-        class={[
-          "w-full card rounded-none",
-          { "card-compact ": compact },
-          { "hover:bg-base-200": !disabled },
-          { "border border-base-300 rounded-xl": disabled },
-        ]}
-      >
-        <div class={["card-body", { "pb-2": !disabled }]}>
-          <div class="flex gap-3">
-            <div class="avatar flex-none">
-              <div class="w-11 h-11 rounded-full">
+    <article
+      class={[
+        "w-full card rounded-none",
+        { "card-compact ": compact },
+        { "hover:bg-base-200": !disabled },
+        { "border border-base-300 rounded-xl": disabled },
+      ]}
+    >
+      <div class={["card-body", { "pb-2": !disabled }]}>
+        <div class="flex gap-3">
+          <div class="avatar flex-none">
+            <div class="w-11 h-11 rounded-full">
+              <Link href={`/${author.username}/`}>
                 <img src={author.avatar.url} width={44} height={44} />
-              </div>
+              </Link>
             </div>
+          </div>
+          <div class="flex flex-1 flex-col gap-0">
             <div class="flex flex-1 flex-col gap-0">
-              <div class="flex flex-1 flex-col gap-0">
+              <Link href={`/${author.username}/`}>
                 <div class="font-bold">{author.name}</div>
                 <div class="leading-4 opacity-70">
                   <span>@{author.username}</span>
                   <span> · </span>
                   <span> {createdAt} </span>
                 </div>
-              </div>
-
+              </Link>
+            </div>
+            <Link href={disabled ? `#` : `/posts/${id}`}>
               {parentPost && (
                 <div>
                   <span class="opacity-70">Replying to </span>
                   <button
-                    preventdefault:click
+                    preventdefault: click
                     onClick$={(ev) => {
                       if (disabled) return;
                       ev.stopPropagation();
@@ -94,10 +97,10 @@ export const PostCard = component$((props: Props) => {
                 {/* <Stat /> */}
                 <Share />
               </div>
-            </div>
+            </Link>
           </div>
         </div>
-      </article>
-    </Link>
+      </div>
+    </article>
   );
 });
