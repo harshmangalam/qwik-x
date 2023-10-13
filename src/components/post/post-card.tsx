@@ -45,21 +45,28 @@ export const PostCard = component$((props: Props) => {
           </div>
           <div class="flex flex-1 flex-col gap-0">
             <div class="flex flex-1 flex-col gap-0">
-              <Link href={`/${author.username}/`}>
-                <div class="font-bold">{author.name}</div>
-                <div class="leading-4 opacity-70">
-                  <span>@{author.username}</span>
-                  <span> · </span>
-                  <span> {createdAt} </span>
-                </div>
-              </Link>
+              <div>
+                <Link
+                  href={`/${author.username}/`}
+                  class="font-bold link link-hover"
+                >
+                  {author.name}
+                </Link>
+              </div>
+              <div class="leading-4 opacity-70">
+                <Link class="link link-hover" href={`/${author.username}/`}>
+                  @{author.username}
+                </Link>
+                <span> · </span>
+                <span> {createdAt} </span>
+              </div>
             </div>
             <Link href={disabled ? `#` : `/posts/${id}`}>
               {parentPost && (
                 <div>
                   <span class="opacity-70">Replying to </span>
                   <button
-                    preventdefault: click
+                    preventdefault:click
                     onClick$={(ev) => {
                       if (disabled) return;
                       ev.stopPropagation();
