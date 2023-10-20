@@ -5,12 +5,14 @@ import { handleFetchList } from "~/utils/lists";
 import { Avatar } from "~/components/ui/avatar";
 import { WrapBalancer } from "qwikjs-wrap-balancer";
 import { Following } from "./following";
+import { useCurrentUser } from "~/routes/(app)/layout";
 export const useList = routeLoader$(async (requestEvent) => {
   return handleFetchList(requestEvent);
 });
 
 export default component$(() => {
   const listSig = useList();
+  const currentUser = useCurrentUser();
   return (
     <div>
       <PageHeader
@@ -61,10 +63,12 @@ export default component$(() => {
           </Link>
         </div>
         <div class="mt-2">
-          <Following
-            isFollowing={listSig.value.isFollowing}
-            listId={listSig.value.id}
-          />
+          {(currentUser.value?.id !== listSig.value.owner.id) && (
+            <Following
+              isFollowing={listSig.value.isFollowing}
+              listId={listSig.value.id}
+            />
+          )}
         </div>
       </div>
 
