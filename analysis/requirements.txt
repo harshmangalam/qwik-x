@@ -23,7 +23,7 @@ pandas==2.1.1
 Pillow==10.0.1
 plotly==5.17.0
 protobuf==4.24.3
-pyarrow==13.0.0
+pyarrow==14.0.1
 pycountry==22.3.5
 pydeck==0.8.1b0
 Pygments==2.16.1
