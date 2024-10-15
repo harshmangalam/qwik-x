@@ -41,10 +41,10 @@ Step 4 - Copy .env.example to .env
 cp .env.example .env
 ```
 
-Step 5 - Update .env variables value
-provide `DRIZZLE_DATABASE_URL` value. make sure your postgres is setup in local.
+# Configure Neon for serverless postgresql db
 
-Step 6 - Create postgres database with the same name provided in `DRIZZLE_DATABASE_URL` i.e `qwikx`
+Create free tier account https://neon.tech/
+and use the db url in DRIZZLE_DATABASE_URL
 
 Step 7 - Create and sync schema in your database
 
