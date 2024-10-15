@@ -62,15 +62,17 @@ pnpm dev
 
 - Always raise PR for base branch `dev`
 
-## Interaction Analysis 🌏
+## Optional Setup
 
-### Teck Stack Used🔥
+### Interaction Analysis 🌏
+
+#### Teck Stack Used🔥
 
 - Python
 - Streamlit
 - Plotly
 
-### Code For Installing Packages 📦
+#### Code For Installing Packages 📦
 
 ```shell
 cd analysis
