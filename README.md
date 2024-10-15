@@ -58,6 +58,10 @@ Step 7 - Now start your dev server
 pnpm dev
 ```
 
+# PRs
+
+- Always raise PR for base branch `dev`
+
 # Interaction Analysis 🌏
 
 ## Teck Stack Used🔥
