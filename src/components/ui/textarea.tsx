@@ -23,24 +23,29 @@ export const Textarea = component$((props: Props) => {
     colorScheme = "",
     ...rest
   } = props;
+
+  const textareaId = id || `textarea-${Math.random().toString(36).substr(2, 9)}`;
+
   return (
     <div class="form-control w-full">
       {label && (
-        <label for={id} class="label">
+        <label for={textareaId} class="label">
           <span class="label-text">{label}</span>
         </label>
       )}
       <textarea
-        id={id}
+        id={textareaId}
         class={[
           "textarea w-full",
           { "textarea-bordered": bordered },
           colorScheme,
         ]}
+        aria-label={!label ? "Textarea input" : undefined}
+        aria-describedby={error ? `${textareaId}-error` : undefined}
         {...rest}
       />
       {error && (
-        <label class="label">
+        <label id={`${textareaId}-error`} class="label">
           <span class="label-text-alt text-error">{error}</span>
         </label>
       )}
