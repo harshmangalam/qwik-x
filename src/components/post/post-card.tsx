@@ -1,15 +1,16 @@
 import { component$ } from "@builder.io/qwik";
 import { Comment } from "./comment";
 // import { Stat } from "./stat";
-import { Share } from "./share";
+import { Link, useNavigate } from "@builder.io/qwik-city";
 import type { PostWithAuthor } from "~/types";
 import { Like } from "./like";
-import { Link, useNavigate } from "@builder.io/qwik-city";
+import { Share } from "./share";
 
 export type Props = PostWithAuthor & {
   disabled?: boolean;
   compact?: boolean;
 };
+
 export const PostCard = component$((props: Props) => {
   const {
     compact = false,
@@ -25,61 +26,60 @@ export const PostCard = component$((props: Props) => {
     parentPost,
   } = props;
   const navigate = useNavigate();
+
   return (
     <article
       class={[
-        "w-full card rounded-none",
-        { "card-compact ": compact },
-        { "hover:bg-base-200": !disabled },
+        "w-full card rounded-lg shadow-md transition-shadow duration-300",
+        { "card-compact": compact },
+        { "hover:bg-base-200 cursor-pointer": !disabled },
         { "border border-base-300 rounded-xl": disabled },
       ]}
     >
       <div class={["card-body", { "pb-2": !disabled }]}>
-        <div class="flex gap-3">
+        <div class="flex gap-4 items-start">
           <div class="avatar flex-none">
             <div class="w-11 h-11 rounded-full">
               <Link href={`/${author.username}/`}>
-                <img src={author.avatar.url} width={44} height={44} />
+                <img
+                  src={author.avatar.url}
+                  width={44}
+                  height={44}
+                  alt={`${author.name}'s avatar`}
+                  class="rounded-full"
+                />
               </Link>
             </div>
           </div>
-          <div class="flex flex-1 flex-col gap-0">
-            <div class="flex flex-1 flex-col gap-0">
-              <div>
-                <Link
-                  href={`/${author.username}/`}
-                  class="font-bold link link-hover"
-                >
-                  {author.name}
-                </Link>
-              </div>
-              <div class="leading-4 opacity-70">
-                <Link class="link link-hover" href={`/${author.username}/`}>
-                  @{author.username}
-                </Link>
-                <span> · </span>
-                <span> {createdAt} </span>
-              </div>
-            </div>
-            <Link href={disabled ? `#` : `/posts/${id}`}>
-              {parentPost && (
-                <div>
-                  <span class="opacity-70">Replying to </span>
-                  <button
-                    preventdefault:click
-                    onClick$={(ev) => {
-                      if (disabled) return;
-                      ev.stopPropagation();
-                      navigate(`/${parentPost.author.username}`);
-                    }}
-                    class="text-info hover:underline"
-                  >
-                    @{parentPost.author.username}
-                  </button>
-                </div>
-              )}
 
-              <div class="mt-3">{text}</div>
+          <div class="flex flex-1 flex-col gap-1">
+            <div class="flex items-baseline">
+              <Link href={`/${author.username}/`} class="font-bold link link-hover">
+                {author.name}
+              </Link>
+              <span class="leading-4 opacity-70 ml-2">@{author.username} · {createdAt}</span>
+            </div>
+
+            {parentPost && (
+              <div class="text-sm text-gray-500 mt-1">
+                <span class="opacity-70">Replying to </span>
+                <button
+                  preventdefault:click
+                  onClick$={(ev) => {
+                    if (disabled) return;
+                    ev.stopPropagation();
+                    navigate(`/${parentPost.author.username}`);
+                  }}
+                  class="text-info hover:underline"
+                  aria-label={`Replying to ${parentPost.author.username}`}
+                >
+                  @{parentPost.author.username}
+                </button>
+              </div>
+            )}
+
+            <Link href={disabled ? `#` : `/posts/${id}`}>
+              <p class="mt-2 text-lg leading-5">{text}</p>
 
               {media && (
                 <figure class="mt-3">
@@ -88,26 +88,24 @@ export const PostCard = component$((props: Props) => {
                     alt="Post image"
                     width={600}
                     height={400}
-                    class="w-full rounded-2xl"
+                    class="w-full rounded-2xl object-cover transition-transform duration-300 hover:scale-105"
+                    loading="lazy"
                   />
                 </figure>
               )}
+            </Link>
 
-              <div
-                class={[
-                  "card-actions justify-between pt-3",
-                  { hidden: disabled },
-                ]}
-              >
+            {!disabled && (
+              <div class="card-actions justify-between pt-3">
                 <Comment postId={id} count={repliesCount} />
                 <Like postId={id} isLiked={isLiked} count={likesCount} />
-                {/* <Stat /> */}
                 <Share />
               </div>
-            </Link>
+            )}
           </div>
         </div>
       </div>
     </article>
   );
 });
+
