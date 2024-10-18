@@ -40,7 +40,7 @@ export const PageHeader = component$((props: Props) => {
         </div>
       </div>
       <div>
-        <Logo height="h-10" width="w-10"/>
+        <Logo height="h-10" width="w-10" />
       </div>
       <div class="navbar-end">
         {links.map(({ href, name, icon }) => (

@@ -30,7 +30,7 @@ export const PostCard = component$((props: Props) => {
   return (
     <article
       class={[
-        "w-full card rounded-lg shadow-md transition-shadow duration-300",
+        "w-full card rounded-none shadow-xs transition-shadow duration-300",
         { "card-compact": compact },
         { "hover:bg-base-200 cursor-pointer": !disabled },
         { "border border-base-300 rounded-xl": disabled },
@@ -54,10 +54,15 @@ export const PostCard = component$((props: Props) => {
 
           <div class="flex flex-1 flex-col gap-1">
             <div class="flex items-baseline">
-              <Link href={`/${author.username}/`} class="font-bold link link-hover">
+              <Link
+                href={`/${author.username}/`}
+                class="font-bold link link-hover"
+              >
                 {author.name}
               </Link>
-              <span class="leading-4 opacity-70 ml-2">@{author.username} · {createdAt}</span>
+              <span class="leading-4 opacity-70 ml-2">
+                @{author.username} · {createdAt}
+              </span>
             </div>
 
             {parentPost && (
@@ -108,4 +113,3 @@ export const PostCard = component$((props: Props) => {
     </article>
   );
 });
-
