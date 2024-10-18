@@ -1,5 +1,6 @@
 import { Slot, component$ } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
+import { Logo } from "../components/shared/logo";
 import { ArrowLeftIcon } from "~/icons/arrow";
 import { ThemesDialog } from "./shared/themes-dialog";
 import { useCurrentUser } from "~/routes/(app)/layout";
@@ -24,7 +25,7 @@ export const PageHeader = component$((props: Props) => {
 
   const currentUser = useCurrentUser();
   return (
-    <nav class="sticky top-0 h-10 z-10 backdrop-blur navbar bg-base-100/70">
+    <nav class="sticky top-0 h-10 z-10 backdrop-blur navbar bg-base-100/70 border-b-2 border-b-gray-600">
       <div class="navbar-start">
         <div class="flex items-center gap-3">
           {showBackArrow && (
@@ -38,7 +39,9 @@ export const PageHeader = component$((props: Props) => {
           </div>
         </div>
       </div>
-
+      <div>
+        <Logo height="h-10" width="w-10"/>
+      </div>
       <div class="navbar-end">
         {links.map(({ href, name, icon }) => (
           <Link
