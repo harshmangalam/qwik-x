@@ -120,7 +120,7 @@ export default component$(() => {
         <p>{postSig.value.text}</p>
 
         <div class="text-sm mt-4">
-          <span class="opacity-70"> {postSig.value.createdAt} </span>
+          <span class="opacity-70 text-xs "> {postSig.value.createdAt} </span>
         </div>
         <div class="divider my-2"></div>
         <div class="flex items-center gap-4">
