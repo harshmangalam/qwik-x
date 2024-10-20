@@ -18,9 +18,13 @@ export const useSignup = routeAction$(
       .nonempty("Enter value for email field")
       .email("Enter valid email address"),
     username: z.string().nonempty("Enter value for username field"),
-    password: z.string().nonempty("Enter value for password field"),
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters long")
+      .nonempty("Enter value for password field"),
   })
 );
+
 export default component$(() => {
   const actionSig = useSignup();
   return (
