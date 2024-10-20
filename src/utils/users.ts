@@ -104,7 +104,10 @@ async function fetchUsersSuggestion({ sharedMap }: RequestEventLoader) {
   return results;
 }
 
-async function fetchAllUserSuggestions({ sharedMap }: RequestEventLoader, page: number = 1, limit: number = 10) {
+async function fetchAllUserSuggestions({ sharedMap, url }: RequestEventLoader) {
+  const urlParams = new URLSearchParams(url.search);
+  const page = Number(urlParams.get("page")) || 1;
+  const limit = Number(urlParams.get("limit")) || 10;
   const user = sharedMap.get("user");
   const users = await db.query.users.findMany({
     where(fields, { eq }) {
@@ -116,7 +119,7 @@ async function fetchAllUserSuggestions({ sharedMap }: RequestEventLoader, page: 
       name: true,
       avatar: true,
     },
-    offset: (page - 1) * limit , // initial page is 1, so we need to subtract 1
+    offset: (page - 1) * limit, // initial page is 1, so we need to subtract 1
     limit: limit, // default: 10 users per page as asked in the requirements
   });
 

@@ -5,11 +5,7 @@ import { User } from "~/components/user";
 import { fetchAllUserSuggestions } from "~/utils/users";
 
 export const useSuggestions = routeLoader$(async (requestEvent) => {
-  const urlParams = new URLSearchParams(requestEvent.url.search);
-  const page = Number(urlParams.get("page")) || 1;
-  const limit = Number(urlParams.get("limit")) || 10;
-
-  return fetchAllUserSuggestions(requestEvent, page, limit);
+  return fetchAllUserSuggestions(requestEvent);
 });
 
 export default component$(() => {
@@ -22,7 +18,7 @@ export default component$(() => {
 
   useVisibleTask$(({ track }) => {
     // eslint-disable-next-line qwik/valid-lexical-scope
-    track(() => usersSig.value); 
+    track(() => usersSig.value);
     // Assuming API provides total items to calculate pages
     // eslint-disable-next-line qwik/valid-lexical-scope
     totalPagesSig.value = Math.ceil(usersSig.value.length / limit); // Assuming API gives total count
@@ -50,17 +46,19 @@ export default component$(() => {
 
       {/* Pagination controls */}
       <div class="mt-4 flex justify-center space-x-2">
-        <button 
-          disabled={currentPageSig.value === 1} 
-          onClick$={() => goToPage$(currentPageSig.value - 1)} 
+        <button
+          disabled={currentPageSig.value === 1}
+          onClick$={() => goToPage$(currentPageSig.value - 1)}
           class="btn"
         >
           Previous
         </button>
-        <span>Page {currentPageSig.value} of {totalPagesSig.value}</span>
-        <button 
-          disabled={currentPageSig.value === totalPagesSig.value} 
-          onClick$={() => goToPage$(currentPageSig.value + 1)} 
+        <span>
+          Page {currentPageSig.value} of {totalPagesSig.value}
+        </span>
+        <button
+          disabled={currentPageSig.value === totalPagesSig.value}
+          onClick$={() => goToPage$(currentPageSig.value + 1)}
           class="btn"
         >
           Next
@@ -69,7 +67,6 @@ export default component$(() => {
     </div>
   );
 });
-
 
 // Keeping old codes for reference
 
@@ -85,7 +82,6 @@ export default component$(() => {
 //           </li>
 //         ))}
 //       </ul>
-
 
 //     </div>
 //   );
