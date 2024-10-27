@@ -68,8 +68,15 @@ async function fetchPostLikesCount(postId: number) {
 
   return result.count;
 }
-async function fetchPostsFeed({ sharedMap }: RequestEventLoader) {
+
+async function fetchPostsFeed(
+  { sharedMap }: RequestEventLoader,
+  page: number,
+  limit: number
+) {
   const user = sharedMap.get("user") as AuthUser | undefined;
+  const offset = (page - 1) * limit; // Calculate offset for pagination
+
   const posts = await db.query.posts.findMany({
     where(fields) {
       return isNull(fields.parentPostId);
@@ -77,10 +84,11 @@ async function fetchPostsFeed({ sharedMap }: RequestEventLoader) {
     with: {
       author: true,
     },
-
     orderBy({ createdAt }, { desc }) {
       return desc(createdAt);
     },
+    limit,
+    offset,
   });
 
   const formattedPosts = [];
