@@ -4,6 +4,7 @@ import { useCurrentUser } from "~/routes/(app)/layout";
 export const useThemes = () => {
   const currentUser = useCurrentUser();
   const theme = useSignal("");
+
   useVisibleTask$(({ track }) => {
     track(() => theme.value);
     const html = document.querySelector("html");
@@ -16,10 +17,16 @@ export const useThemes = () => {
   useVisibleTask$(({ track }) => {
     track(() => currentUser.value);
     const html = document.querySelector("html");
-    const value = currentUser.value?.theme as any;
-    const colorScheme = value?.colorScheme;
-    html?.setAttribute("data-theme", colorScheme);
-    theme.value = colorScheme;
+    
+    if (!currentUser.value) {
+      html?.setAttribute("data-theme", "light");
+      theme.value = "light";
+    } else {
+      const value = currentUser.value?.theme as any;
+      const colorScheme = value?.colorScheme;
+      html?.setAttribute("data-theme", colorScheme);
+      theme.value = colorScheme;
+    }
   });
 
   const updateTheme = $((value: string) => {
@@ -27,6 +34,7 @@ export const useThemes = () => {
     html?.setAttribute("data-theme", value);
     theme.value = value;
   });
+
   return {
     theme,
     updateTheme,
